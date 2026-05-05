@@ -8,74 +8,65 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
     <style>
-        /* STILI GENERALI */
-        body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
+        body { margin: 0; padding: 0; font-family: 'Segoe UI', sans-serif; touch-action: manipulation; }
         
-        /* STILI HOST */
+        /* HOST */
         #host-view { display: none; overflow: hidden; background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #7CFC00 60%, #228B22 100%); height: 100vh; position: relative; }
-        #header { text-align: center; padding: 15px; background: rgba(255, 255, 255, 0.9); border-bottom: 3px solid #333; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        #qr-container { position: absolute; top: 20px; right: 20px; background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10; max-width: 180px; }
-        #qrcode-img { margin: 0 auto; width: 150px; height: 150px; display: block; background-color: #f0f0f0; border-radius: 5px; } 
-        #room-link-text { font-size: 11px; color: #555; word-break: break-all; margin-top: 10px; font-family: monospace; font-weight: bold; }
-        #start-btn { background-color: #e74c3c; color: white; font-size: 24px; font-weight: bold; padding: 15px 30px; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; }
-        #start-btn:active { transform: scale(0.95); }
+        #header { text-align: center; padding: 15px; background: rgba(255, 255, 255, 0.9); border-bottom: 3px solid #333; }
+        #qr-container { position: absolute; top: 20px; right: 20px; background: white; padding: 10px; border-radius: 10px; text-align: center; z-index: 10; box-shadow: 0 4px 8px rgba(0,0,0,0.2); }
+        #qrcode-img { width: 130px; height: 130px; }
         .track { position: relative; height: 60px; border-bottom: 2px dashed rgba(255, 255, 255, 0.5); margin-top: 10px; }
-        .snail { position: absolute; top: 10px; left: 0; width: 50px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; transition: left 0.2s linear; z-index: 2; font-size: 20px; }
-        .finish-line { position: absolute; right: 50px; top: 0; bottom: 0; width: 10px; background: repeating-linear-gradient(45deg, white, white 10px, black 10px, black 20px); z-index: 1; }
+        .snail { position: absolute; top: 10px; left: 0; width: 50px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; transition: left 0.2s linear; font-size: 20px; }
 
-        /* STILI CLIENT (GIOCATORI) */
+        /* CLIENT */
         #client-view { display: none; text-align: center; background-color: #f4f4f9; min-height: 100vh; padding: 20px; box-sizing: border-box; }
         input, button { padding: 15px; margin: 10px 0; width: 90%; font-size: 18px; border-radius: 8px; border: 1px solid #ccc; }
-        .btn-join { background-color: #28a745; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
-        .btn-join:active { transform: scale(0.98); }
         
-        /* STILI SELETTORE COLORE POTENZIATI */
-        .color-picker { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
-        .color-option { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; border: 4px solid transparent; transition: all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2); user-select: none; -webkit-tap-highlight-color: transparent; }
-        .color-option.selected { border: 4px solid white; box-shadow: 0 0 0 4px #27ae60; transform: scale(1.15); }
-        
-        .progress-bar-container { width: 100%; height: 30px; background-color: #ddd; border-radius: 15px; overflow: hidden; margin-top: 20px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
+        .color-picker { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-bottom: 20px; }
+        .color-option { width: 55px; height: 55px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 24px; cursor: pointer; border: 3px solid transparent; transition: all 0.2s; background-color: #ddd; }
+        .color-option.selected { border-color: #27ae60; transform: scale(1.1); box-shadow: 0 0 10px rgba(0,0,0,0.3); }
+
+        .btn-join { background-color: #28a745; color: white; font-weight: bold; border: none; }
+        .btn-edit { background-color: #7f8c8d; color: white; font-size: 14px; width: auto; padding: 10px 20px; }
+
+        .progress-bar-container { width: 100%; height: 25px; background-color: #ddd; border-radius: 12px; overflow: hidden; margin: 20px 0; }
         .progress-bar { height: 100%; width: 0%; background-color: #ff9800; transition: width 0.2s; }
-        
-        /* LA TUA LUMACA SCHERMO CLIENT */
-        #my-snail { font-size: 60px; margin: 20px auto; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 12px rgba(0,0,0,0.2); transition: transform 0.1s; background-color: #ccc; }
-        #game-status-text { color: #d35400; font-size: 22px; font-weight: bold; margin-top: 20px;}
+        #my-snail { font-size: 60px; margin: 20px auto; width: 100px; height: 100px; border-radius: 50%; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
 
     <div id="host-view">
         <div id="header">
-            <h1>🐌 Gara di Lumache! 🐌</h1>
-            <h2 id="winner-text">In attesa dei giocatori...</h2>
+            <h1 id="winner-text">🐌 Gara di Lumache!</h1>
             <button id="start-btn" onclick="startRaceHost()">🚀 INIZIA LA GARA! 🚀</button>
         </div>
-
         <div id="qr-container">
-            <p style="margin-top: 0;"><strong>Inquadrami!</strong></p>
-            <img id="qrcode-img" src="" alt="QR Code">
-            <p id="room-link-text"></p>
+            <img id="qrcode-img" src="" alt="QR">
+            <p id="room-link-text" style="font-size: 10px;"></p>
         </div>
-
-        <div id="race-track" style="margin-top: 20px; position: relative; height: calc(100vh - 200px);"></div>
+        <div id="race-track"></div>
     </div>
 
     <div id="client-view">
         <div id="login-screen">
-            <h2>Prepara la tua Lumaca!</h2>
-            <input type="text" id="playerName" placeholder="Il tuo nome..." maxlength="10">
-            <h3>Tocca il colore che vuoi:</h3>
+            <h2>Personalizza Lumaca</h2>
+            
+            <p>1. Scegli il colore:</p>
             <div class="color-picker" id="color-container"></div>
-            <button class="btn-join" onclick="joinGameClient()">Entra in Gara!</button>
-            <p><small>Verrà richiesto l'accesso al microfono per far muovere la lumaca urlando.</small></p>
+            
+            <p>2. Inserisci il nome:</p>
+            <input type="text" id="playerName" placeholder="Tuo Nome..." maxlength="10">
+            
+            <button class="btn-join" onclick="joinGameClient()">ENTRA IN GARA! 🏁</button>
         </div>
 
         <div id="game-screen" style="display: none;">
             <h2 id="rank-display">Posizione: --</h2>
             <div id="my-snail">🐌</div>
-            <p id="game-status-text">In attesa che l'Host avvii la gara...</p>
+            <p id="game-status-text">In attesa dell'Host...</p>
             <div class="progress-bar-container"><div id="progress" class="progress-bar"></div></div>
-            <p id="distance-text">Strada percorsa: 0%</p>
+            <button class="btn-edit" id="btn-edit" onclick="editProfile()">⚙️ Modifica Colore/Nome</button>
         </div>
     </div>
 
@@ -84,229 +75,126 @@
         const roomIdParam = urlParams.get('room');
         let globalHostRoomId = null;
 
+        // Configurazione Firebase
+        const firebaseConfig = {
+            apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
+            authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
+            databaseURL: "https://corsa-delle-lumache-c7898-default-rtdb.europe-west1.firebasedatabase.app",
+            projectId: "corsa-delle-lumache-c7898",
+            storageBucket: "corsa-delle-lumache-c7898.firebasestorage.app",
+            messagingSenderId: "13626588351",
+            appId: "1:13626588351:web:027604fd9ad659b4855a0a"
+        };
+        firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
+
         if (roomIdParam) {
-            // Sono il giocatore
             document.getElementById('client-view').style.display = 'block';
+            initClient(roomIdParam);
         } else {
-            // Sono l'host
             document.getElementById('host-view').style.display = 'block';
-            
-            // Genero il codice della stanza SUBITO
             globalHostRoomId = Math.random().toString(36).substring(2, 8);
-            const currentUrl = window.location.href.split('?')[0]; 
-            const clientLink = currentUrl + "?room=" + globalHostRoomId;
-            
-            // Mostro il link e il QR Code usando il servizio API di QRServer (molto più affidabile)
+            const clientLink = window.location.href.split('?')[0] + "?room=" + globalHostRoomId;
             document.getElementById('room-link-text').innerText = clientLink;
             document.getElementById('qrcode-img').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(clientLink);
+            initHost(globalHostRoomId);
         }
-    </script>
 
-    <script>
-        try {
-            // CONFIGURAZIONE FIREBASE
-            const firebaseConfig = {
-                apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
-                authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
-                databaseURL: "https://corsa-delle-lumache-c7898-default-rtdb.europe-west1.firebasedatabase.app",
-                projectId: "corsa-delle-lumache-c7898",
-                storageBucket: "corsa-delle-lumache-c7898.firebasestorage.app",
-                messagingSenderId: "13626588351",
-                appId: "1:13626588351:web:027604fd9ad659b4855a0a"
-            };
-            firebase.initializeApp(firebaseConfig);
-            const db = firebase.database();
-            const maxScore = 15000;
-
-            if (roomIdParam) {
-                initClient(roomIdParam);
-            } else if (globalHostRoomId) {
-                initHost(globalHostRoomId);
-            }
-
-            // ================= FUNZIONI HOST =================
-            function initHost(hostRoomId) {
-                db.ref('rooms/' + hostRoomId + '/status').set('waiting');
-                const raceTrack = document.getElementById('race-track');
-                let raceFinished = false;
-
-                const finishLine = document.createElement('div');
-                finishLine.className = 'finish-line';
-                raceTrack.appendChild(finishLine);
-
-                db.ref('rooms/' + hostRoomId + '/players').on('value', (snapshot) => {
-                    const players = snapshot.val();
-                    if (!players) return;
-
-                    const tracks = document.querySelectorAll('.track');
-                    tracks.forEach(t => t.remove());
-
-                    Object.keys(players).forEach(playerId => {
-                        const p = players[playerId];
-                        const track = document.createElement('div');
-                        track.className = 'track';
-
-                        const snail = document.createElement('div');
-                        snail.className = 'snail';
-                        snail.style.backgroundColor = p.color;
-                        snail.innerText = '🐌'; 
-                        
-                        const nameTag = document.createElement('span');
-                        nameTag.style.position = 'absolute';
-                        nameTag.style.top = '-20px';
-                        nameTag.style.fontSize = '14px';
-                        nameTag.style.color = 'black';
-                        nameTag.style.textShadow = 'none';
-                        nameTag.innerText = p.name;
-                        snail.appendChild(nameTag);
-
-                        let progressPercent = (p.score / maxScore) * 100;
-                        if (progressPercent > 90) progressPercent = 90; 
-                        snail.style.left = `calc(${progressPercent}% - 50px)`;
-                        
-                        track.appendChild(snail);
-                        raceTrack.appendChild(track);
-
-                        if (p.score >= maxScore && !raceFinished) {
-                            raceFinished = true;
-                            db.ref('rooms/' + hostRoomId + '/status').set('finished');
-                            document.getElementById('winner-text').innerText = `🏆 HA VINTO ${p.name.toUpperCase()}! 🏆`;
-                            document.getElementById('start-btn').style.display = 'none';
-                        }
-                    });
+        // --- LOGICA HOST ---
+        function initHost(rid) {
+            db.ref('rooms/' + rid + '/status').set('waiting');
+            db.ref('rooms/' + rid + '/players').on('value', snap => {
+                const players = snap.val();
+                const trackDiv = document.getElementById('race-track');
+                trackDiv.innerHTML = '';
+                if(!players) return;
+                Object.keys(players).forEach(id => {
+                    const p = players[id];
+                    const tr = document.createElement('div');
+                    tr.className = 'track';
+                    const s = document.createElement('div');
+                    s.className = 'snail';
+                    s.style.backgroundColor = p.color;
+                    s.style.left = (p.score / 15000 * 90) + '%';
+                    s.innerHTML = `🐌<br><small style="color:black; background:white; padding:2px;">${p.name}</small>`;
+                    tr.appendChild(s);
+                    trackDiv.appendChild(tr);
+                    if(p.score >= 15000) {
+                        document.getElementById('winner-text').innerText = "🏆 VINCE " + p.name + "!";
+                        db.ref('rooms/' + rid + '/status').set('finished');
+                    }
                 });
+            });
+        }
+        function startRaceHost() { db.ref('rooms/' + globalHostRoomId + '/status').set('playing'); document.getElementById('start-btn').style.display='none'; }
 
-                window.onbeforeunload = function() {
-                    db.ref('rooms/' + hostRoomId).remove();
+        // --- LOGICA CLIENT ---
+        let pId = 'p_' + Math.random().toString(36).substr(2, 5);
+        let selCol = '#ff0000';
+        let score = 0;
+        let rStatus = 'waiting';
+
+        function initClient(rid) {
+            const colors = ['#ff0000', '#0000ff', '#ff69b4', '#800080', '#ffa500', '#333333', '#00cc00', '#00cccc'];
+            const container = document.getElementById('color-container');
+            colors.forEach(c => {
+                const d = document.createElement('div');
+                d.className = 'color-option' + (c==='#ff0000'?' selected':'');
+                d.style.backgroundColor = c;
+                d.innerText = '🐌';
+                d.onclick = () => {
+                    document.querySelectorAll('.color-option').forEach(e => { e.classList.remove('selected'); e.innerText='🐌'; });
+                    d.classList.add('selected');
+                    d.innerText = '✅';
+                    selCol = c;
+                    document.activeElement.blur(); // Chiude tastiera se aperta
                 };
-            }
+                container.appendChild(d);
+            });
 
-            window.startRaceHost = function() {
-                db.ref('rooms/' + globalHostRoomId + '/status').set('playing');
-                document.getElementById('start-btn').style.display = 'none';
-                document.getElementById('winner-text').innerText = "GARA IN CORSO!";
-            }
+            db.ref(`rooms/${rid}/status`).on('value', snap => {
+                rStatus = snap.val();
+                document.getElementById('game-status-text').innerText = rStatus === 'playing' ? "URRAAAAAAA! 📢" : (rStatus === 'finished' ? "Fine gara!" : "In attesa dell'Host...");
+                document.getElementById('btn-edit').style.display = rStatus === 'waiting' ? 'inline-block' : 'none';
+            });
+        }
 
-            // ================= FUNZIONI CLIENT =================
-            let clientRoomId, playerId, selectedColor = '#ff0000', myScore = 0, raceStatus = 'waiting';
+        async function joinGameClient() {
+            const name = document.getElementById('playerName').value;
+            if(!name) return alert("Inserisci un nome!");
+            document.activeElement.blur(); // Chiude tastiera
 
-            function initClient(roomStr) {
-                clientRoomId = roomStr;
-                playerId = 'player_' + Math.random().toString(36).substr(2, 9);
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                document.getElementById('login-screen').style.display = 'none';
+                document.getElementById('game-screen').style.display = 'block';
+                document.getElementById('my-snail').style.backgroundColor = selCol;
                 
-                const colors = ['#ff0000', '#0000ff', '#ff69b4', '#800080', '#ffa500', '#333333', '#00cc00', '#00cccc'];
-                const container = document.getElementById('color-container');
-                
-                colors.forEach(c => {
-                    const div = document.createElement('div');
-                    div.className = 'color-option';
-                    div.style.backgroundColor = c;
-                    
-                    // Se è il colore di default (rosso), metti la spunta verde
-                    if (c === '#ff0000') {
-                        div.classList.add('selected');
-                        div.innerText = '✅';
-                    } else {
-                        div.innerText = '🐌';
-                    }
-                    
-                    // Al click, aggiorna la spunta e rimuovila dagli altri
-                    div.onclick = function() {
-                        document.querySelectorAll('.color-option').forEach(el => {
-                            el.classList.remove('selected');
-                            el.innerText = '🐌';
-                        });
-                        div.classList.add('selected');
-                        div.innerText = '✅';
-                        selectedColor = c;
-                    };
-                    
-                    container.appendChild(div);
-                });
+                db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
+                startMic(stream);
+            } catch (e) { alert("Attiva il microfono!"); }
+        }
 
-                db.ref(`rooms/${clientRoomId}/status`).on('value', (snap) => {
-                    raceStatus = snap.val();
-                    const statusText = document.getElementById('game-status-text');
-                    if (raceStatus === 'waiting') {
-                        statusText.innerText = "In attesa che l'Host avvii la gara...";
-                        statusText.style.color = "#d35400";
-                    } else if (raceStatus === 'playing') {
-                        statusText.innerText = "🔥 VIA!!! URLA PIÙ FORTE CHE PUOI! 🔥";
-                        statusText.style.color = "#27ae60";
-                    } else if (raceStatus === 'finished') {
-                        statusText.innerText = "🏁 GARA FINITA! Guarda lo schermo principale! 🏁";
-                        statusText.style.color = "#c0392b";
-                    }
-                });
-            }
+        function editProfile() {
+            document.getElementById('login-screen').style.display = 'block';
+            document.getElementById('game-screen').style.display = 'none';
+        }
 
-            window.joinGameClient = async function() {
-                const name = document.getElementById('playerName').value;
-                if (!name) return alert("Per favore, inserisci un nome per la tua lumaca!");
-
-                try {
-                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                    document.getElementById('login-screen').style.display = 'none';
-                    document.getElementById('game-screen').style.display = 'block';
-
-                    // Colora la lumaca del giocatore sul suo telefono
-                    document.getElementById('my-snail').style.backgroundColor = selectedColor;
-
-                    db.ref(`rooms/${clientRoomId}/players/${playerId}`).set({ name: name, color: selectedColor, score: 0 });
-                    startListening(stream);
-                    trackRankings();
-                } catch (err) {
-                    alert("Attenzione: devi consentire l'accesso al microfono per poter gareggiare!");
+        function startMic(stream) {
+            const ctx = new AudioContext();
+            const ana = ctx.createAnalyser();
+            ctx.createMediaStreamSource(stream).connect(ana);
+            setInterval(() => {
+                const data = new Uint8Array(ana.frequencyBinCount);
+                ana.getByteFrequencyData(data);
+                let vol = data.reduce((a,b) => a+b) / data.length;
+                if(vol > 25 && rStatus === 'playing') {
+                    score += vol/2;
+                    db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: score });
+                    document.getElementById('progress').style.width = (score/15000*100) + '%';
+                    document.getElementById('my-snail').style.transform = `scale(${1+vol/100})`;
                 }
-            }
-
-            function startListening(stream) {
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const analyser = audioContext.createAnalyser();
-                const microphone = audioContext.createMediaStreamSource(stream);
-                
-                microphone.connect(analyser);
-                analyser.fftSize = 256;
-                const bufferLength = analyser.frequencyBinCount;
-                const dataArray = new Uint8Array(bufferLength);
-                const snailEmoji = document.getElementById('my-snail');
-
-                setInterval(() => {
-                    analyser.getByteFrequencyData(dataArray);
-                    let sum = 0;
-                    for(let i = 0; i < bufferLength; i++) { sum += dataArray[i]; }
-                    let volume = sum / bufferLength;
-
-                    if (volume > 20 && raceStatus === 'playing') {
-                        myScore += (volume / 2); 
-                        if (myScore > maxScore) myScore = maxScore;
-                        db.ref(`rooms/${clientRoomId}/players/${playerId}/score`).set(myScore);
-                        let progressPercent = (myScore / maxScore) * 100;
-                        document.getElementById('progress').style.width = progressPercent + '%';
-                        document.getElementById('distance-text').innerText = `Strada percorsa: ${Math.floor(progressPercent)}%`;
-                        
-                        // Fa vibrare e ingrandire la lumaca sul telefono mentre urli
-                        snailEmoji.style.transform = `scale(${1 + (volume/100)}) rotate(${(Math.random() * 10) - 5}deg)`;
-                    } else {
-                        snailEmoji.style.transform = "scale(1) rotate(0deg)";
-                    }
-                }, 100);
-            }
-
-            function trackRankings() {
-                db.ref(`rooms/${clientRoomId}/players`).on('value', (snapshot) => {
-                    const players = snapshot.val();
-                    if (!players) return;
-                    let leaderboard = [];
-                    for (let key in players) { leaderboard.push({ id: key, score: players[key].score }); }
-                    leaderboard.sort((a, b) => b.score - a.score);
-                    const myRank = leaderboard.findIndex(p => p.id === playerId) + 1;
-                    document.getElementById('rank-display').innerText = `Posizione: ${myRank}°`;
-                });
-            }
-        } catch (errore) {
-            console.error(errore);
-            document.getElementById('winner-text').innerText = "ERRORE DI CONNESSIONE AL DATABASE";
+            }, 100);
         }
     </script>
 </body>
