@@ -6,6 +6,7 @@
     <title>Gara di Lumache</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
     <style>
         /* STILI GENERALI */
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -30,11 +31,16 @@
             top: 20px;
             right: 20px;
             background: white;
-            padding: 10px;
+            padding: 15px;
             border-radius: 10px;
             text-align: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             z-index: 10;
+        }
+        #qrcode {
+            margin: 0 auto;
+            width: 150px;
+            height: 150px;
         }
         #start-btn {
             background-color: #e74c3c;
@@ -169,8 +175,8 @@
         </div>
 
         <div id="qr-container">
-            <img id="qrcode" src="" alt="Caricamento QR...">
-            <p><strong>Inquadrami<br>per giocare!</strong></p>
+            <div id="qrcode"></div>
+            <p style="margin-bottom: 0;"><strong>Inquadrami<br>per giocare!</strong></p>
         </div>
 
         <div id="race-track" style="margin-top: 20px; position: relative; height: calc(100vh - 200px);">
@@ -239,11 +245,20 @@
             // Imposta lo stato iniziale
             db.ref('rooms/' + hostRoomId + '/status').set('waiting');
 
-            const currentUrl = window.location.href.split('?')[0]; // Prende url base
+            const currentUrl = window.location.href.split('?')[0]; 
             const clientLink = `${currentUrl}?room=${hostRoomId}`;
             
-            // UTILIZZO IL NUOVO GENERATORE DI QR CODE (QuickChart)
-            document.getElementById('qrcode').src = `https://quickchart.io/qr?size=150&text=${encodeURIComponent(clientLink)}`;
+            // CREAZIONE DEL QR CODE IN LOCALE (infallibile!)
+            const qrcodeDiv = document.getElementById("qrcode");
+            qrcodeDiv.innerHTML = ""; // Pulisce prima di creare
+            new QRCode(qrcodeDiv, {
+                text: clientLink,
+                width: 150,
+                height: 150,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.L
+            });
 
             const raceTrack = document.getElementById('race-track');
             let raceFinished = false;
@@ -327,11 +342,10 @@
             colors.forEach(c => {
                 const div = document.createElement('div');
                 div.className = 'color-option';
-                if (c === '#ff0000') div.classList.add('selected'); // Rosso selezionato di base
+                if (c === '#ff0000') div.classList.add('selected'); 
                 div.style.backgroundColor = c;
                 div.innerText = '🐌';
                 div.onclick = function() {
-                    // Rimuove la selezione dagli altri
                     document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
                     div.classList.add('selected');
                     selectedColor = c;
@@ -398,7 +412,6 @@
                 for(let i = 0; i < bufferLength; i++) { sum += dataArray[i]; }
                 let volume = sum / bufferLength;
 
-                // SI MUOVE SOLO SE LA GARA È IN CORSO ("playing")
                 if (volume > 20 && raceStatus === 'playing') {
                     myScore += (volume / 2); 
                     if (myScore > maxScore) myScore = maxScore;
