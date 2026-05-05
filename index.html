@@ -6,7 +6,7 @@
     <title>Gara di Lumache</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
+    
     <style>
         /* STILI GENERALI */
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -36,11 +36,13 @@
             text-align: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             z-index: 10;
-            max-width: 200px;
+            max-width: 180px;
         }
-        #qr-canvas {
+        #qrcode-img {
             margin: 0 auto;
-            display: block;
+            width: 150px;
+            height: 150px;
+            display: none; /* Nascosto finché non si carica il link */
         }
         #room-link-text {
             font-size: 11px;
@@ -48,6 +50,7 @@
             word-break: break-all;
             margin-top: 10px;
             font-family: monospace;
+            font-weight: bold;
         }
         #start-btn {
             background-color: #e74c3c;
@@ -183,7 +186,7 @@
 
         <div id="qr-container">
             <p style="margin-top: 0;"><strong>Inquadrami!</strong></p>
-            <canvas id="qr-canvas"></canvas>
+            <img id="qrcode-img" src="" alt="QR Code per giocare">
             <p id="room-link-text"></p>
         </div>
 
@@ -253,14 +256,12 @@
             const currentUrl = window.location.href.split('?')[0]; 
             const clientLink = `${currentUrl}?room=${hostRoomId}`;
             
-            // CREA IL QR CODE SUL CANVAS E MOSTRA IL LINK TESTUALE
-            new QRious({
-                element: document.getElementById('qr-canvas'),
-                value: clientLink,
-                size: 150,
-                background: 'white',
-                foreground: 'black'
-            });
+            // IL RITORNO AL METODO FUNZIONANTE: GENERATORE QR ESTERNO
+            const qrImage = document.getElementById('qrcode-img');
+            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(clientLink)}`;
+            qrImage.style.display = 'block';
+            
+            // Link testuale di sicurezza
             document.getElementById('room-link-text').innerText = clientLink;
 
             const raceTrack = document.getElementById('race-track');
