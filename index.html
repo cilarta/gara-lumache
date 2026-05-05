@@ -7,173 +7,33 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
-    
     <style>
         /* STILI GENERALI */
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
         
         /* STILI HOST */
-        #host-view {
-            display: none;
-            overflow: hidden;
-            background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #7CFC00 60%, #228B22 100%);
-            height: 100vh;
-            position: relative;
-        }
-        #header {
-            text-align: center;
-            padding: 15px;
-            background: rgba(255, 255, 255, 0.9);
-            border-bottom: 3px solid #333;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        #qr-container {
-            position: absolute;
-            top: 20px;
-            right: 20px;
-            background: white;
-            padding: 15px;
-            border-radius: 10px;
-            text-align: center;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.2);
-            z-index: 10;
-            max-width: 180px;
-        }
-        #qrcode {
-            margin: 0 auto;
-            display: flex;
-            justify-content: center;
-        }
-        #room-link-text {
-            font-size: 11px;
-            color: #555;
-            word-break: break-all;
-            margin-top: 10px;
-            font-family: monospace;
-            font-weight: bold;
-        }
-        #start-btn {
-            background-color: #e74c3c;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            padding: 15px 30px;
-            border: none;
-            border-radius: 10px;
-            cursor: pointer;
-            margin-top: 10px;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
-            transition: transform 0.1s;
-        }
+        #host-view { display: none; overflow: hidden; background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #7CFC00 60%, #228B22 100%); height: 100vh; position: relative; }
+        #header { text-align: center; padding: 15px; background: rgba(255, 255, 255, 0.9); border-bottom: 3px solid #333; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        #qr-container { position: absolute; top: 20px; right: 20px; background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10; max-width: 180px; }
+        #qrcode-img { margin: 0 auto; width: 150px; height: 150px; display: block; background-color: #f0f0f0; } /* Grigio di default se non carica */
+        #room-link-text { font-size: 11px; color: #555; word-break: break-all; margin-top: 10px; font-family: monospace; font-weight: bold; }
+        #start-btn { background-color: #e74c3c; color: white; font-size: 24px; font-weight: bold; padding: 15px 30px; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; }
         #start-btn:active { transform: scale(0.95); }
-        .track {
-            position: relative;
-            height: 60px;
-            border-bottom: 2px dashed rgba(255, 255, 255, 0.5);
-            margin-top: 10px;
-        }
-        .snail {
-            position: absolute;
-            top: 10px;
-            left: 0;
-            width: 50px;
-            height: 40px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-weight: bold;
-            color: white;
-            text-shadow: 1px 1px 2px black;
-            transition: left 0.2s linear;
-            z-index: 2;
-            font-size: 20px;
-        }
-        .finish-line {
-            position: absolute;
-            right: 50px;
-            top: 0;
-            bottom: 0;
-            width: 10px;
-            background: repeating-linear-gradient(45deg, white, white 10px, black 10px, black 20px);
-            z-index: 1;
-        }
+        .track { position: relative; height: 60px; border-bottom: 2px dashed rgba(255, 255, 255, 0.5); margin-top: 10px; }
+        .snail { position: absolute; top: 10px; left: 0; width: 50px; height: 40px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-weight: bold; color: white; text-shadow: 1px 1px 2px black; transition: left 0.2s linear; z-index: 2; font-size: 20px; }
+        .finish-line { position: absolute; right: 50px; top: 0; bottom: 0; width: 10px; background: repeating-linear-gradient(45deg, white, white 10px, black 10px, black 20px); z-index: 1; }
 
         /* STILI CLIENT (GIOCATORI) */
-        #client-view {
-            display: none;
-            text-align: center;
-            background-color: #f4f4f9;
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
-        input, button {
-            padding: 15px;
-            margin: 10px 0;
-            width: 90%;
-            font-size: 18px;
-            border-radius: 8px;
-            border: 1px solid #ccc;
-        }
-        .btn-join {
-            background-color: #28a745;
-            color: white;
-            font-weight: bold;
-            border: none;
-            cursor: pointer;
-            margin-top: 20px;
-        }
-        .color-picker {
-            display: flex;
-            justify-content: center;
-            gap: 15px;
-            flex-wrap: wrap;
-            margin: 20px 0;
-        }
-        .color-option {
-            width: 60px;
-            height: 60px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 30px;
-            cursor: pointer;
-            border: 4px solid transparent;
-            transition: transform 0.2s;
-            box-shadow: 0 4px 6px rgba(0,0,0,0.1);
-        }
-        .color-option.selected {
-            border-color: #333;
-            transform: scale(1.15);
-        }
-        .progress-bar-container {
-            width: 100%;
-            height: 30px;
-            background-color: #ddd;
-            border-radius: 15px;
-            overflow: hidden;
-            margin-top: 20px;
-        }
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #ff9800;
-            transition: width 0.2s;
-        }
-        #my-snail {
-            font-size: 70px;
-            margin: 20px;
-            display: inline-block;
-            transition: transform 0.1s;
-        }
-        #game-status-text {
-            color: #d35400;
-            font-size: 22px;
-            font-weight: bold;
-        }
+        #client-view { display: none; text-align: center; background-color: #f4f4f9; min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        input, button { padding: 15px; margin: 10px 0; width: 90%; font-size: 18px; border-radius: 8px; border: 1px solid #ccc; }
+        .btn-join { background-color: #28a745; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 20px; }
+        .color-picker { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
+        .color-option { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; border: 4px solid transparent; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
+        .color-option.selected { border-color: #333; transform: scale(1.15); }
+        .progress-bar-container { width: 100%; height: 30px; background-color: #ddd; border-radius: 15px; overflow: hidden; margin-top: 20px; }
+        .progress-bar { height: 100%; width: 0%; background-color: #ff9800; transition: width 0.2s; }
+        #my-snail { font-size: 70px; margin: 20px; display: inline-block; transition: transform 0.1s; }
+        #game-status-text { color: #d35400; font-size: 22px; font-weight: bold; }
     </style>
 </head>
 <body>
@@ -187,23 +47,19 @@
 
         <div id="qr-container">
             <p style="margin-top: 0;"><strong>Inquadrami!</strong></p>
-            <div id="qrcode"></div>
+            <img id="qrcode-img" src="" alt="QR Code">
             <p id="room-link-text"></p>
         </div>
 
-        <div id="race-track" style="margin-top: 20px; position: relative; height: calc(100vh - 200px);">
-            </div>
+        <div id="race-track" style="margin-top: 20px; position: relative; height: calc(100vh - 200px);"></div>
     </div>
 
     <div id="client-view">
         <div id="login-screen">
             <h2>Prepara la tua Lumaca!</h2>
             <input type="text" id="playerName" placeholder="Nome (max 10 lett.)" maxlength="10">
-            
             <h3>Scegli il colore:</h3>
-            <div class="color-picker" id="color-container">
-                </div>
-
+            <div class="color-picker" id="color-container"></div>
             <button class="btn-join" onclick="joinGameClient()">Entra in Gara!</button>
             <p><small>Verrà richiesto l'accesso al microfono.</small></p>
         </div>
@@ -212,70 +68,59 @@
             <h2 id="rank-display">Posizione: --</h2>
             <div id="my-snail">🐌</div>
             <p id="game-status-text">In attesa che l'Host avvii la gara...</p>
-            
-            <div class="progress-bar-container">
-                <div id="progress" class="progress-bar"></div>
-            </div>
+            <div class="progress-bar-container"><div id="progress" class="progress-bar"></div></div>
             <p id="distance-text">Strada percorsa: 0%</p>
         </div>
     </div>
 
     <script>
-        // CONFIGURAZIONE FIREBASE
-        const firebaseConfig = {
-            apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
-            authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
-            databaseURL: "https://corsa-delle-lumache-c7898-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "corsa-delle-lumache-c7898",
-            storageBucket: "corsa-delle-lumache-c7898.firebasestorage.app",
-            messagingSenderId: "13626588351",
-            appId: "1:13626588351:web:027604fd9ad659b4855a0a"
-        };
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-
-        // CONTROLLO URL: Host o Client?
         const urlParams = new URLSearchParams(window.location.search);
         const roomIdParam = urlParams.get('room');
-        const maxScore = 15000; 
+        let globalHostRoomId = null;
 
         if (roomIdParam) {
+            // Sono il giocatore
             document.getElementById('client-view').style.display = 'block';
-            initClient(roomIdParam);
         } else {
+            // Sono l'host
             document.getElementById('host-view').style.display = 'block';
-            initHost();
-        }
-
-        // ================= FUNZIONI HOST =================
-        let hostRoomId;
-        function initHost() {
-            // ==========================================
-            // NOVITÀ: DISEGNAMO SUBITO IL QR CODE!
-            // ==========================================
-            hostRoomId = Math.random().toString(36).substring(2, 8);
+            
+            // Genero il codice della stanza SUBITO
+            globalHostRoomId = Math.random().toString(36).substring(2, 8);
             const currentUrl = window.location.href.split('?')[0]; 
-            const clientLink = `${currentUrl}?room=${hostRoomId}`;
+            const clientLink = currentUrl + "?room=" + globalHostRoomId;
             
-            // Creiamo il link visibile
+            // Mostro il link e il QR Code (Uso l'API di Google)
             document.getElementById('room-link-text').innerText = clientLink;
-            
-            // Generiamo il QR Code nel div #qrcode
-            new QRCode(document.getElementById("qrcode"), {
-                text: clientLink,
-                width: 150,
-                height: 150,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.L
-            });
+            document.getElementById('qrcode-img').src = "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + encodeURIComponent(clientLink);
+        }
+    </script>
 
-            // ==========================================
-            // SOLO DOPO INIZIAMO A PARLARE CON FIREBASE
-            // ==========================================
-            try {
+    <script>
+        try {
+            // CONFIGURAZIONE FIREBASE
+            const firebaseConfig = {
+                apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
+                authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
+                databaseURL: "https://corsa-delle-lumache-c7898-default-rtdb.europe-west1.firebasedatabase.app",
+                projectId: "corsa-delle-lumache-c7898",
+                storageBucket: "corsa-delle-lumache-c7898.firebasestorage.app",
+                messagingSenderId: "13626588351",
+                appId: "1:13626588351:web:027604fd9ad659b4855a0a"
+            };
+            firebase.initializeApp(firebaseConfig);
+            const db = firebase.database();
+            const maxScore = 15000;
+
+            if (roomIdParam) {
+                initClient(roomIdParam);
+            } else if (globalHostRoomId) {
+                initHost(globalHostRoomId);
+            }
+
+            // FUNZIONI HOST
+            function initHost(hostRoomId) {
                 db.ref('rooms/' + hostRoomId + '/status').set('waiting');
-
                 const raceTrack = document.getElementById('race-track');
                 let raceFinished = false;
 
@@ -292,7 +137,6 @@
 
                     Object.keys(players).forEach(playerId => {
                         const p = players[playerId];
-                        
                         const track = document.createElement('div');
                         track.className = 'track';
 
@@ -312,7 +156,6 @@
 
                         let progressPercent = (p.score / maxScore) * 100;
                         if (progressPercent > 90) progressPercent = 90; 
-                        
                         snail.style.left = `calc(${progressPercent}% - 50px)`;
                         
                         track.appendChild(snail);
@@ -330,134 +173,118 @@
                 window.onbeforeunload = function() {
                     db.ref('rooms/' + hostRoomId).remove();
                 };
-            } catch(e) {
-                console.error("Errore di connessione a Firebase: ", e);
             }
-        }
 
-        function startRaceHost() {
-            db.ref('rooms/' + hostRoomId + '/status').set('playing');
-            document.getElementById('start-btn').style.display = 'none';
-            document.getElementById('winner-text').innerText = "GARA IN CORSO!";
-        }
+            function startRaceHost() {
+                db.ref('rooms/' + globalHostRoomId + '/status').set('playing');
+                document.getElementById('start-btn').style.display = 'none';
+                document.getElementById('winner-text').innerText = "GARA IN CORSO!";
+            }
 
-        // ================= FUNZIONI CLIENT =================
-        let clientRoomId;
-        let playerId;
-        let selectedColor = '#ff0000'; 
-        let myScore = 0;
-        let raceStatus = 'waiting';
+            // FUNZIONI CLIENT
+            let clientRoomId, playerId, selectedColor = '#ff0000', myScore = 0, raceStatus = 'waiting';
 
-        function initClient(roomStr) {
-            clientRoomId = roomStr;
-            playerId = 'player_' + Math.random().toString(36).substr(2, 9);
-            
-            const colors = ['#ff0000', '#0000ff', '#ff69b4', '#800080', '#ffa500', '#000000', '#00cc00', '#00cccc'];
-            const container = document.getElementById('color-container');
-            
-            colors.forEach(c => {
-                const div = document.createElement('div');
-                div.className = 'color-option';
-                if (c === '#ff0000') div.classList.add('selected'); 
-                div.style.backgroundColor = c;
-                div.innerText = '🐌';
-                div.onclick = function() {
-                    document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
-                    div.classList.add('selected');
-                    selectedColor = c;
-                };
-                container.appendChild(div);
-            });
-
-            db.ref(`rooms/${clientRoomId}/status`).on('value', (snap) => {
-                raceStatus = snap.val();
-                const statusText = document.getElementById('game-status-text');
-                if (raceStatus === 'waiting') {
-                    statusText.innerText = "In attesa che l'Host avvii la gara...";
-                    statusText.style.color = "#d35400";
-                } else if (raceStatus === 'playing') {
-                    statusText.innerText = "🔥 VIA!!! URLA PIÙ FORTE CHE PUOI! 🔥";
-                    statusText.style.color = "#27ae60";
-                } else if (raceStatus === 'finished') {
-                    statusText.innerText = "🏁 GARA FINITA! Guarda lo schermo! 🏁";
-                    statusText.style.color = "#c0392b";
-                }
-            });
-        }
-
-        async function joinGameClient() {
-            const name = document.getElementById('playerName').value;
-            if (!name) return alert("Inserisci un nome per la tua lumaca!");
-
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            function initClient(roomStr) {
+                clientRoomId = roomStr;
+                playerId = 'player_' + Math.random().toString(36).substr(2, 9);
                 
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('game-screen').style.display = 'block';
-
-                db.ref(`rooms/${clientRoomId}/players/${playerId}`).set({
-                    name: name,
-                    color: selectedColor,
-                    score: 0
+                const colors = ['#ff0000', '#0000ff', '#ff69b4', '#800080', '#ffa500', '#000000', '#00cc00', '#00cccc'];
+                const container = document.getElementById('color-container');
+                
+                colors.forEach(c => {
+                    const div = document.createElement('div');
+                    div.className = 'color-option';
+                    if (c === '#ff0000') div.classList.add('selected'); 
+                    div.style.backgroundColor = c;
+                    div.innerText = '🐌';
+                    div.onclick = function() {
+                        document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+                        div.classList.add('selected');
+                        selectedColor = c;
+                    };
+                    container.appendChild(div);
                 });
 
-                startListening(stream);
-                trackRankings();
-
-            } catch (err) {
-                alert("Devi consentire l'accesso al microfono per giocare!");
+                db.ref(`rooms/${clientRoomId}/status`).on('value', (snap) => {
+                    raceStatus = snap.val();
+                    const statusText = document.getElementById('game-status-text');
+                    if (raceStatus === 'waiting') {
+                        statusText.innerText = "In attesa che l'Host avvii la gara...";
+                        statusText.style.color = "#d35400";
+                    } else if (raceStatus === 'playing') {
+                        statusText.innerText = "🔥 VIA!!! URLA PIÙ FORTE CHE PUOI! 🔥";
+                        statusText.style.color = "#27ae60";
+                    } else if (raceStatus === 'finished') {
+                        statusText.innerText = "🏁 GARA FINITA! Guarda lo schermo! 🏁";
+                        statusText.style.color = "#c0392b";
+                    }
+                });
             }
-        }
 
-        function startListening(stream) {
-            const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-            const analyser = audioContext.createAnalyser();
-            const microphone = audioContext.createMediaStreamSource(stream);
-            
-            microphone.connect(analyser);
-            analyser.fftSize = 256;
-            const bufferLength = analyser.frequencyBinCount;
-            const dataArray = new Uint8Array(bufferLength);
-            
-            const snailEmoji = document.getElementById('my-snail');
+            window.joinGameClient = async function() {
+                const name = document.getElementById('playerName').value;
+                if (!name) return alert("Inserisci un nome per la tua lumaca!");
 
-            setInterval(() => {
-                analyser.getByteFrequencyData(dataArray);
-                let sum = 0;
-                for(let i = 0; i < bufferLength; i++) { sum += dataArray[i]; }
-                let volume = sum / bufferLength;
+                try {
+                    const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                    document.getElementById('login-screen').style.display = 'none';
+                    document.getElementById('game-screen').style.display = 'block';
 
-                if (volume > 20 && raceStatus === 'playing') {
-                    myScore += (volume / 2); 
-                    if (myScore > maxScore) myScore = maxScore;
-
-                    db.ref(`rooms/${clientRoomId}/players/${playerId}/score`).set(myScore);
-
-                    let progressPercent = (myScore / maxScore) * 100;
-                    document.getElementById('progress').style.width = progressPercent + '%';
-                    document.getElementById('distance-text').innerText = `Strada percorsa: ${Math.floor(progressPercent)}%`;
-                    
-                    snailEmoji.style.transform = `scale(${1 + (volume/100)}) rotate(${(Math.random() * 10) - 5}deg)`;
-                } else {
-                    snailEmoji.style.transform = "scale(1) rotate(0deg)";
+                    db.ref(`rooms/${clientRoomId}/players/${playerId}`).set({ name: name, color: selectedColor, score: 0 });
+                    startListening(stream);
+                    trackRankings();
+                } catch (err) {
+                    alert("Devi consentire l'accesso al microfono per giocare!");
                 }
-            }, 100);
-        }
+            }
 
-        function trackRankings() {
-            db.ref(`rooms/${clientRoomId}/players`).on('value', (snapshot) => {
-                const players = snapshot.val();
-                if (!players) return;
-
-                let leaderboard = [];
-                for (let key in players) {
-                    leaderboard.push({ id: key, score: players[key].score });
-                }
+            function startListening(stream) {
+                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
+                const analyser = audioContext.createAnalyser();
+                const microphone = audioContext.createMediaStreamSource(stream);
                 
-                leaderboard.sort((a, b) => b.score - a.score);
-                const myRank = leaderboard.findIndex(p => p.id === playerId) + 1;
-                document.getElementById('rank-display').innerText = `Posizione: ${myRank}°`;
-            });
+                microphone.connect(analyser);
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+                const snailEmoji = document.getElementById('my-snail');
+
+                setInterval(() => {
+                    analyser.getByteFrequencyData(dataArray);
+                    let sum = 0;
+                    for(let i = 0; i < bufferLength; i++) { sum += dataArray[i]; }
+                    let volume = sum / bufferLength;
+
+                    if (volume > 20 && raceStatus === 'playing') {
+                        myScore += (volume / 2); 
+                        if (myScore > maxScore) myScore = maxScore;
+                        db.ref(`rooms/${clientRoomId}/players/${playerId}/score`).set(myScore);
+                        let progressPercent = (myScore / maxScore) * 100;
+                        document.getElementById('progress').style.width = progressPercent + '%';
+                        document.getElementById('distance-text').innerText = `Strada percorsa: ${Math.floor(progressPercent)}%`;
+                        snailEmoji.style.transform = `scale(${1 + (volume/100)}) rotate(${(Math.random() * 10) - 5}deg)`;
+                    } else {
+                        snailEmoji.style.transform = "scale(1) rotate(0deg)";
+                    }
+                }, 100);
+            }
+
+            function trackRankings() {
+                db.ref(`rooms/${clientRoomId}/players`).on('value', (snapshot) => {
+                    const players = snapshot.val();
+                    if (!players) return;
+                    let leaderboard = [];
+                    for (let key in players) { leaderboard.push({ id: key, score: players[key].score }); }
+                    leaderboard.sort((a, b) => b.score - a.score);
+                    const myRank = leaderboard.findIndex(p => p.id === playerId) + 1;
+                    document.getElementById('rank-display').innerText = `Posizione: ${myRank}°`;
+                });
+            }
+        } catch (errore) {
+            // Se Firebase viene bloccato dalla rete, mostriamo questo messaggio!
+            console.error(errore);
+            document.getElementById('winner-text').innerText = "ERRORE DI CONNESSIONE: Il tuo browser o la rete Wi-Fi stanno bloccando il gioco. Ma il QR Code dovrebbe essere visibile!";
+            document.getElementById('winner-text').style.color = "red";
         }
     </script>
 </body>
