@@ -6,7 +6,7 @@
     <title>Gara di Lumache</title>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrious/4.0.2/qrious.min.js"></script>
     <style>
         /* STILI GENERALI */
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -36,11 +36,18 @@
             text-align: center;
             box-shadow: 0 4px 8px rgba(0,0,0,0.2);
             z-index: 10;
+            max-width: 200px;
         }
-        #qrcode {
+        #qr-canvas {
             margin: 0 auto;
-            width: 150px;
-            height: 150px;
+            display: block;
+        }
+        #room-link-text {
+            font-size: 11px;
+            color: #555;
+            word-break: break-all;
+            margin-top: 10px;
+            font-family: monospace;
         }
         #start-btn {
             background-color: #e74c3c;
@@ -175,8 +182,9 @@
         </div>
 
         <div id="qr-container">
-            <div id="qrcode"></div>
-            <p style="margin-bottom: 0;"><strong>Inquadrami<br>per giocare!</strong></p>
+            <p style="margin-top: 0;"><strong>Inquadrami!</strong></p>
+            <canvas id="qr-canvas"></canvas>
+            <p id="room-link-text"></p>
         </div>
 
         <div id="race-track" style="margin-top: 20px; position: relative; height: calc(100vh - 200px);">
@@ -228,11 +236,9 @@
         const maxScore = 15000; 
 
         if (roomIdParam) {
-            // SE C'È ?room=... NELL'URL -> MOSTRA IL CLIENT
             document.getElementById('client-view').style.display = 'block';
             initClient(roomIdParam);
         } else {
-            // SE NON C'È -> MOSTRA L'HOST
             document.getElementById('host-view').style.display = 'block';
             initHost();
         }
@@ -242,23 +248,20 @@
         function initHost() {
             hostRoomId = Math.random().toString(36).substring(2, 8);
             
-            // Imposta lo stato iniziale
             db.ref('rooms/' + hostRoomId + '/status').set('waiting');
 
             const currentUrl = window.location.href.split('?')[0]; 
             const clientLink = `${currentUrl}?room=${hostRoomId}`;
             
-            // CREAZIONE DEL QR CODE IN LOCALE (infallibile!)
-            const qrcodeDiv = document.getElementById("qrcode");
-            qrcodeDiv.innerHTML = ""; // Pulisce prima di creare
-            new QRCode(qrcodeDiv, {
-                text: clientLink,
-                width: 150,
-                height: 150,
-                colorDark : "#000000",
-                colorLight : "#ffffff",
-                correctLevel : QRCode.CorrectLevel.L
+            // CREA IL QR CODE SUL CANVAS E MOSTRA IL LINK TESTUALE
+            new QRious({
+                element: document.getElementById('qr-canvas'),
+                value: clientLink,
+                size: 150,
+                background: 'white',
+                foreground: 'black'
             });
+            document.getElementById('room-link-text').innerText = clientLink;
 
             const raceTrack = document.getElementById('race-track');
             let raceFinished = false;
@@ -285,7 +288,6 @@
                     snail.style.backgroundColor = p.color;
                     snail.innerText = '🐌'; 
                     
-                    // Aggiungo il nome vicino alla lumaca
                     const nameTag = document.createElement('span');
                     nameTag.style.position = 'absolute';
                     nameTag.style.top = '-20px';
@@ -312,7 +314,6 @@
                 });
             });
 
-            // Chiude la stanza quando si chiude la pagina
             window.onbeforeunload = function() {
                 db.ref('rooms/' + hostRoomId).remove();
             };
@@ -327,7 +328,7 @@
         // ================= FUNZIONI CLIENT =================
         let clientRoomId;
         let playerId;
-        let selectedColor = '#ff0000'; // Default rosso
+        let selectedColor = '#ff0000'; 
         let myScore = 0;
         let raceStatus = 'waiting';
 
@@ -335,7 +336,6 @@
             clientRoomId = roomStr;
             playerId = 'player_' + Math.random().toString(36).substr(2, 9);
             
-            // Genera pulsanti colore visivi
             const colors = ['#ff0000', '#0000ff', '#ff69b4', '#800080', '#ffa500', '#000000', '#00cc00', '#00cccc'];
             const container = document.getElementById('color-container');
             
@@ -353,7 +353,6 @@
                 container.appendChild(div);
             });
 
-            // Ascolta lo stato della gara
             db.ref(`rooms/${clientRoomId}/status`).on('value', (snap) => {
                 raceStatus = snap.val();
                 const statusText = document.getElementById('game-status-text');
