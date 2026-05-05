@@ -26,14 +26,20 @@
         /* STILI CLIENT (GIOCATORI) */
         #client-view { display: none; text-align: center; background-color: #f4f4f9; min-height: 100vh; padding: 20px; box-sizing: border-box; }
         input, button { padding: 15px; margin: 10px 0; width: 90%; font-size: 18px; border-radius: 8px; border: 1px solid #ccc; }
-        .btn-join { background-color: #28a745; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 20px; }
+        .btn-join { background-color: #28a745; color: white; font-weight: bold; border: none; cursor: pointer; margin-top: 20px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); }
+        .btn-join:active { transform: scale(0.98); }
+        
+        /* STILI SELETTORE COLORE POTENZIATI */
         .color-picker { display: flex; justify-content: center; gap: 15px; flex-wrap: wrap; margin: 20px 0; }
-        .color-option { width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; border: 4px solid transparent; transition: transform 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
-        .color-option.selected { border-color: #333; transform: scale(1.15); }
-        .progress-bar-container { width: 100%; height: 30px; background-color: #ddd; border-radius: 15px; overflow: hidden; margin-top: 20px; }
+        .color-option { width: 65px; height: 65px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 30px; cursor: pointer; border: 4px solid transparent; transition: all 0.2s; box-shadow: 0 4px 6px rgba(0,0,0,0.2); user-select: none; -webkit-tap-highlight-color: transparent; }
+        .color-option.selected { border: 4px solid white; box-shadow: 0 0 0 4px #27ae60; transform: scale(1.15); }
+        
+        .progress-bar-container { width: 100%; height: 30px; background-color: #ddd; border-radius: 15px; overflow: hidden; margin-top: 20px; box-shadow: inset 0 2px 4px rgba(0,0,0,0.1); }
         .progress-bar { height: 100%; width: 0%; background-color: #ff9800; transition: width 0.2s; }
-        #my-snail { font-size: 70px; margin: 20px; display: inline-block; transition: transform 0.1s; }
-        #game-status-text { color: #d35400; font-size: 22px; font-weight: bold; }
+        
+        /* LA TUA LUMACA SCHERMO CLIENT */
+        #my-snail { font-size: 60px; margin: 20px auto; width: 120px; height: 120px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 6px 12px rgba(0,0,0,0.2); transition: transform 0.1s; background-color: #ccc; }
+        #game-status-text { color: #d35400; font-size: 22px; font-weight: bold; margin-top: 20px;}
     </style>
 </head>
 <body>
@@ -57,11 +63,11 @@
     <div id="client-view">
         <div id="login-screen">
             <h2>Prepara la tua Lumaca!</h2>
-            <input type="text" id="playerName" placeholder="Nome (max 10 lett.)" maxlength="10">
-            <h3>Scegli il colore:</h3>
+            <input type="text" id="playerName" placeholder="Il tuo nome..." maxlength="10">
+            <h3>Tocca il colore che vuoi:</h3>
             <div class="color-picker" id="color-container"></div>
             <button class="btn-join" onclick="joinGameClient()">Entra in Gara!</button>
-            <p><small>Verrà richiesto l'accesso al microfono.</small></p>
+            <p><small>Verrà richiesto l'accesso al microfono per far muovere la lumaca urlando.</small></p>
         </div>
 
         <div id="game-screen" style="display: none;">
@@ -118,7 +124,7 @@
                 initHost(globalHostRoomId);
             }
 
-            // FUNZIONI HOST
+            // ================= FUNZIONI HOST =================
             function initHost(hostRoomId) {
                 db.ref('rooms/' + hostRoomId + '/status').set('waiting');
                 const raceTrack = document.getElementById('race-track');
@@ -175,33 +181,46 @@
                 };
             }
 
-            function startRaceHost() {
+            window.startRaceHost = function() {
                 db.ref('rooms/' + globalHostRoomId + '/status').set('playing');
                 document.getElementById('start-btn').style.display = 'none';
                 document.getElementById('winner-text').innerText = "GARA IN CORSO!";
             }
 
-            // FUNZIONI CLIENT
+            // ================= FUNZIONI CLIENT =================
             let clientRoomId, playerId, selectedColor = '#ff0000', myScore = 0, raceStatus = 'waiting';
 
             function initClient(roomStr) {
                 clientRoomId = roomStr;
                 playerId = 'player_' + Math.random().toString(36).substr(2, 9);
                 
-                const colors = ['#ff0000', '#0000ff', '#ff69b4', '#800080', '#ffa500', '#000000', '#00cc00', '#00cccc'];
+                const colors = ['#ff0000', '#0000ff', '#ff69b4', '#800080', '#ffa500', '#333333', '#00cc00', '#00cccc'];
                 const container = document.getElementById('color-container');
                 
                 colors.forEach(c => {
                     const div = document.createElement('div');
                     div.className = 'color-option';
-                    if (c === '#ff0000') div.classList.add('selected'); 
                     div.style.backgroundColor = c;
-                    div.innerText = '🐌';
-                    div.onclick = function() {
-                        document.querySelectorAll('.color-option').forEach(el => el.classList.remove('selected'));
+                    
+                    // Se è il colore di default (rosso), metti la spunta verde
+                    if (c === '#ff0000') {
                         div.classList.add('selected');
+                        div.innerText = '✅';
+                    } else {
+                        div.innerText = '🐌';
+                    }
+                    
+                    // Al click, aggiorna la spunta e rimuovila dagli altri
+                    div.onclick = function() {
+                        document.querySelectorAll('.color-option').forEach(el => {
+                            el.classList.remove('selected');
+                            el.innerText = '🐌';
+                        });
+                        div.classList.add('selected');
+                        div.innerText = '✅';
                         selectedColor = c;
                     };
+                    
                     container.appendChild(div);
                 });
 
@@ -215,7 +234,7 @@
                         statusText.innerText = "🔥 VIA!!! URLA PIÙ FORTE CHE PUOI! 🔥";
                         statusText.style.color = "#27ae60";
                     } else if (raceStatus === 'finished') {
-                        statusText.innerText = "🏁 GARA FINITA! Guarda lo schermo! 🏁";
+                        statusText.innerText = "🏁 GARA FINITA! Guarda lo schermo principale! 🏁";
                         statusText.style.color = "#c0392b";
                     }
                 });
@@ -223,18 +242,21 @@
 
             window.joinGameClient = async function() {
                 const name = document.getElementById('playerName').value;
-                if (!name) return alert("Inserisci un nome per la tua lumaca!");
+                if (!name) return alert("Per favore, inserisci un nome per la tua lumaca!");
 
                 try {
                     const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                     document.getElementById('login-screen').style.display = 'none';
                     document.getElementById('game-screen').style.display = 'block';
 
+                    // Colora la lumaca del giocatore sul suo telefono
+                    document.getElementById('my-snail').style.backgroundColor = selectedColor;
+
                     db.ref(`rooms/${clientRoomId}/players/${playerId}`).set({ name: name, color: selectedColor, score: 0 });
                     startListening(stream);
                     trackRankings();
                 } catch (err) {
-                    alert("Devi consentire l'accesso al microfono per giocare!");
+                    alert("Attenzione: devi consentire l'accesso al microfono per poter gareggiare!");
                 }
             }
 
@@ -262,6 +284,8 @@
                         let progressPercent = (myScore / maxScore) * 100;
                         document.getElementById('progress').style.width = progressPercent + '%';
                         document.getElementById('distance-text').innerText = `Strada percorsa: ${Math.floor(progressPercent)}%`;
+                        
+                        // Fa vibrare e ingrandire la lumaca sul telefono mentre urli
                         snailEmoji.style.transform = `scale(${1 + (volume/100)}) rotate(${(Math.random() * 10) - 5}deg)`;
                     } else {
                         snailEmoji.style.transform = "scale(1) rotate(0deg)";
@@ -282,7 +306,7 @@
             }
         } catch (errore) {
             console.error(errore);
-            document.getElementById('winner-text').innerText = "ERRORE FIREBASE";
+            document.getElementById('winner-text').innerText = "ERRORE DI CONNESSIONE AL DATABASE";
         }
     </script>
 </body>
