@@ -169,7 +169,7 @@
         </div>
 
         <div id="qr-container">
-            <img id="qrcode" src="" alt="QR Code">
+            <img id="qrcode" src="" alt="Caricamento QR...">
             <p><strong>Inquadrami<br>per giocare!</strong></p>
         </div>
 
@@ -242,7 +242,8 @@
             const currentUrl = window.location.href.split('?')[0]; // Prende url base
             const clientLink = `${currentUrl}?room=${hostRoomId}`;
             
-            document.getElementById('qrcode').src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(clientLink)}`;
+            // UTILIZZO IL NUOVO GENERATORE DI QR CODE (QuickChart)
+            document.getElementById('qrcode').src = `https://quickchart.io/qr?size=150&text=${encodeURIComponent(clientLink)}`;
 
             const raceTrack = document.getElementById('race-track');
             let raceFinished = false;
