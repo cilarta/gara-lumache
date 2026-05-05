@@ -7,6 +7,8 @@
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
     
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+    
     <style>
         /* STILI GENERALI */
         body { margin: 0; padding: 0; font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; }
@@ -38,11 +40,10 @@
             z-index: 10;
             max-width: 180px;
         }
-        #qrcode-img {
+        #qrcode {
             margin: 0 auto;
-            width: 150px;
-            height: 150px;
-            display: none; /* Nascosto finché non si carica il link */
+            display: flex;
+            justify-content: center;
         }
         #room-link-text {
             font-size: 11px;
@@ -186,7 +187,7 @@
 
         <div id="qr-container">
             <p style="margin-top: 0;"><strong>Inquadrami!</strong></p>
-            <img id="qrcode-img" src="" alt="QR Code per giocare">
+            <div id="qrcode"></div>
             <p id="room-link-text"></p>
         </div>
 
@@ -249,75 +250,89 @@
         // ================= FUNZIONI HOST =================
         let hostRoomId;
         function initHost() {
+            // ==========================================
+            // NOVITÀ: DISEGNAMO SUBITO IL QR CODE!
+            // ==========================================
             hostRoomId = Math.random().toString(36).substring(2, 8);
-            
-            db.ref('rooms/' + hostRoomId + '/status').set('waiting');
-
             const currentUrl = window.location.href.split('?')[0]; 
             const clientLink = `${currentUrl}?room=${hostRoomId}`;
             
-            // IL RITORNO AL METODO FUNZIONANTE: GENERATORE QR ESTERNO
-            const qrImage = document.getElementById('qrcode-img');
-            qrImage.src = `https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=${encodeURIComponent(clientLink)}`;
-            qrImage.style.display = 'block';
-            
-            // Link testuale di sicurezza
+            // Creiamo il link visibile
             document.getElementById('room-link-text').innerText = clientLink;
-
-            const raceTrack = document.getElementById('race-track');
-            let raceFinished = false;
-
-            const finishLine = document.createElement('div');
-            finishLine.className = 'finish-line';
-            raceTrack.appendChild(finishLine);
-
-            db.ref('rooms/' + hostRoomId + '/players').on('value', (snapshot) => {
-                const players = snapshot.val();
-                if (!players) return;
-
-                const tracks = document.querySelectorAll('.track');
-                tracks.forEach(t => t.remove());
-
-                Object.keys(players).forEach(playerId => {
-                    const p = players[playerId];
-                    
-                    const track = document.createElement('div');
-                    track.className = 'track';
-
-                    const snail = document.createElement('div');
-                    snail.className = 'snail';
-                    snail.style.backgroundColor = p.color;
-                    snail.innerText = '🐌'; 
-                    
-                    const nameTag = document.createElement('span');
-                    nameTag.style.position = 'absolute';
-                    nameTag.style.top = '-20px';
-                    nameTag.style.fontSize = '14px';
-                    nameTag.style.color = 'black';
-                    nameTag.style.textShadow = 'none';
-                    nameTag.innerText = p.name;
-                    snail.appendChild(nameTag);
-
-                    let progressPercent = (p.score / maxScore) * 100;
-                    if (progressPercent > 90) progressPercent = 90; 
-                    
-                    snail.style.left = `calc(${progressPercent}% - 50px)`;
-                    
-                    track.appendChild(snail);
-                    raceTrack.appendChild(track);
-
-                    if (p.score >= maxScore && !raceFinished) {
-                        raceFinished = true;
-                        db.ref('rooms/' + hostRoomId + '/status').set('finished');
-                        document.getElementById('winner-text').innerText = `🏆 HA VINTO ${p.name.toUpperCase()}! 🏆`;
-                        document.getElementById('start-btn').style.display = 'none';
-                    }
-                });
+            
+            // Generiamo il QR Code nel div #qrcode
+            new QRCode(document.getElementById("qrcode"), {
+                text: clientLink,
+                width: 150,
+                height: 150,
+                colorDark : "#000000",
+                colorLight : "#ffffff",
+                correctLevel : QRCode.CorrectLevel.L
             });
 
-            window.onbeforeunload = function() {
-                db.ref('rooms/' + hostRoomId).remove();
-            };
+            // ==========================================
+            // SOLO DOPO INIZIAMO A PARLARE CON FIREBASE
+            // ==========================================
+            try {
+                db.ref('rooms/' + hostRoomId + '/status').set('waiting');
+
+                const raceTrack = document.getElementById('race-track');
+                let raceFinished = false;
+
+                const finishLine = document.createElement('div');
+                finishLine.className = 'finish-line';
+                raceTrack.appendChild(finishLine);
+
+                db.ref('rooms/' + hostRoomId + '/players').on('value', (snapshot) => {
+                    const players = snapshot.val();
+                    if (!players) return;
+
+                    const tracks = document.querySelectorAll('.track');
+                    tracks.forEach(t => t.remove());
+
+                    Object.keys(players).forEach(playerId => {
+                        const p = players[playerId];
+                        
+                        const track = document.createElement('div');
+                        track.className = 'track';
+
+                        const snail = document.createElement('div');
+                        snail.className = 'snail';
+                        snail.style.backgroundColor = p.color;
+                        snail.innerText = '🐌'; 
+                        
+                        const nameTag = document.createElement('span');
+                        nameTag.style.position = 'absolute';
+                        nameTag.style.top = '-20px';
+                        nameTag.style.fontSize = '14px';
+                        nameTag.style.color = 'black';
+                        nameTag.style.textShadow = 'none';
+                        nameTag.innerText = p.name;
+                        snail.appendChild(nameTag);
+
+                        let progressPercent = (p.score / maxScore) * 100;
+                        if (progressPercent > 90) progressPercent = 90; 
+                        
+                        snail.style.left = `calc(${progressPercent}% - 50px)`;
+                        
+                        track.appendChild(snail);
+                        raceTrack.appendChild(track);
+
+                        if (p.score >= maxScore && !raceFinished) {
+                            raceFinished = true;
+                            db.ref('rooms/' + hostRoomId + '/status').set('finished');
+                            document.getElementById('winner-text').innerText = `🏆 HA VINTO ${p.name.toUpperCase()}! 🏆`;
+                            document.getElementById('start-btn').style.display = 'none';
+                        }
+                    });
+                });
+
+                window.onbeforeunload = function() {
+                    db.ref('rooms/' + hostRoomId).remove();
+                };
+            } catch(e) {
+                console.error("Errore di connessione a Firebase: ", e);
+            }
         }
 
         function startRaceHost() {
