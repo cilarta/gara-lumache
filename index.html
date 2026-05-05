@@ -15,7 +15,7 @@
         #host-view { display: none; overflow: hidden; background: linear-gradient(to bottom, #87CEEB 0%, #E0F6FF 60%, #7CFC00 60%, #228B22 100%); height: 100vh; position: relative; }
         #header { text-align: center; padding: 15px; background: rgba(255, 255, 255, 0.9); border-bottom: 3px solid #333; box-shadow: 0 4px 6px rgba(0,0,0,0.1); }
         #qr-container { position: absolute; top: 20px; right: 20px; background: white; padding: 15px; border-radius: 10px; text-align: center; box-shadow: 0 4px 8px rgba(0,0,0,0.2); z-index: 10; max-width: 180px; }
-        #qrcode-img { margin: 0 auto; width: 150px; height: 150px; display: block; background-color: #f0f0f0; } /* Grigio di default se non carica */
+        #qrcode-img { margin: 0 auto; width: 150px; height: 150px; display: block; background-color: #f0f0f0; border-radius: 5px; } 
         #room-link-text { font-size: 11px; color: #555; word-break: break-all; margin-top: 10px; font-family: monospace; font-weight: bold; }
         #start-btn { background-color: #e74c3c; color: white; font-size: 24px; font-weight: bold; padding: 15px 30px; border: none; border-radius: 10px; cursor: pointer; margin-top: 10px; box-shadow: 0 4px 6px rgba(0,0,0,0.2); transition: transform 0.1s; }
         #start-btn:active { transform: scale(0.95); }
@@ -90,9 +90,9 @@
             const currentUrl = window.location.href.split('?')[0]; 
             const clientLink = currentUrl + "?room=" + globalHostRoomId;
             
-            // Mostro il link e il QR Code (Uso l'API di Google)
+            // Mostro il link e il QR Code usando il servizio API di QRServer (molto più affidabile)
             document.getElementById('room-link-text').innerText = clientLink;
-            document.getElementById('qrcode-img').src = "https://chart.googleapis.com/chart?chs=150x150&cht=qr&chl=" + encodeURIComponent(clientLink);
+            document.getElementById('qrcode-img').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(clientLink);
         }
     </script>
 
@@ -281,10 +281,8 @@
                 });
             }
         } catch (errore) {
-            // Se Firebase viene bloccato dalla rete, mostriamo questo messaggio!
             console.error(errore);
-            document.getElementById('winner-text').innerText = "ERRORE DI CONNESSIONE: Il tuo browser o la rete Wi-Fi stanno bloccando il gioco. Ma il QR Code dovrebbe essere visibile!";
-            document.getElementById('winner-text').style.color = "red";
+            document.getElementById('winner-text').innerText = "ERRORE FIREBASE";
         }
     </script>
 </body>
