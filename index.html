@@ -424,22 +424,33 @@
             }
         }
 
-        async function joinGameClient() {
+async function joinGameClient() {
             const name = document.getElementById('playerName').value;
             if(!name) return alert("Inserisci un nome!");
             
-            // Invio SUBITO la lumaca al database così appare sulla pista!
+            let stream = null;
+            
+            // 1. PRIMISSIMA COSA: Chiedo subito il permesso per il microfono!
+            // Deve essere attaccato al click, altrimenti il browser blocca il popup.
+            try {
+                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
+                    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                }
+            } catch (e) {
+                console.log("L'utente ha rifiutato il microfono o c'è un errore.", e);
+            }
+
+            // 2. SOLO DOPO aver gestito il popup, cambio la schermata e invio la lumaca al database
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('game-screen').style.display = 'block';
             document.getElementById('my-snail').style.backgroundColor = selCol;
             db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
 
-            // Poi provo a chiedere il microfono
-            try {
-                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            // 3. Se il microfono è stato autorizzato lo accendo, altrimenti avviso l'utente
+            if (stream) {
                 startMic(stream);
-            } catch (e) { 
-                alert("⚠️ ATTENZIONE: Il browser ha bloccato il microfono. Questo succede se non stai usando HTTPS o un server locale.\n\nNon preoccuparti: per fare un test puoi FAR AVANZARE LA LUMACA CLICCANDOLA con il dito/mouse!"); 
+            } else {
+                alert("⚠️ Microfono non autorizzato o bloccato dal browser! \n\nNessun problema: puoi gareggiare CLICCANDO o TAPPANDO RIPETUTAMENTE la tua lumaca!");
             }
         }
 
