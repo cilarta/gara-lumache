@@ -424,14 +424,19 @@
             }
         }
 
-async function joinGameClient() {
+let audioCtx = null;
+
+        async function joinGameClient() {
             const name = document.getElementById('playerName').value;
             if(!name) return alert("Inserisci un nome!");
             
             let stream = null;
             
-            // 1. PRIMISSIMA COSA: Chiedo subito il permesso per il microfono!
-            // Deve essere attaccato al click, altrimenti il browser blocca il popup.
+            // Inizializziamo il motore audio ORA, nel momento esatto del click.
+            const AudioContext = window.AudioContext || window.webkitAudioContext;
+            if (!audioCtx) audioCtx = new AudioContext();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+            
             try {
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
@@ -440,17 +445,15 @@ async function joinGameClient() {
                 console.log("L'utente ha rifiutato il microfono o c'è un errore.", e);
             }
 
-            // 2. SOLO DOPO aver gestito il popup, cambio la schermata e invio la lumaca al database
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('game-screen').style.display = 'block';
             document.getElementById('my-snail').style.backgroundColor = selCol;
             db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
 
-            // 3. Se il microfono è stato autorizzato lo accendo, altrimenti avviso l'utente
             if (stream) {
                 startMic(stream);
             } else {
-                alert("⚠️ Microfono non autorizzato o bloccato dal browser! \n\nNessun problema: puoi gareggiare CLICCANDO o TAPPANDO RIPETUTAMENTE la tua lumaca!");
+                alert("⚠️ Microfono non autorizzato o bloccato!\n\nNessun problema: puoi gareggiare CLICCANDO la tua lumaca!");
             }
         }
 
@@ -459,10 +462,9 @@ async function joinGameClient() {
             document.getElementById('game-screen').style.display = 'none';
         }
 
-        // Funzione di emergenza per muovere la lumaca a mano se il microfono è bloccato
         function manualMove() {
             if(rStatus === 'playing') {
-                localScore += 800; // Valore di avanzamento manuale
+                localScore += 800;
                 if(localScore > MAX_SCORE) localScore = MAX_SCORE;
                 db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: localScore });
                 document.getElementById('progress').style.width = (localScore/MAX_SCORE*100) + '%';
@@ -471,33 +473,31 @@ async function joinGameClient() {
         }
 
         function startMic(stream) {
-            const AudioContext = window.AudioContext || window.webkitAudioContext; // Corretto per Safari!
-            const ctx = new AudioContext();
-            const ana = ctx.createAnalyser();
+            const ana = audioCtx.createAnalyser();
             ana.fftSize = 256;
-            ctx.createMediaStreamSource(stream).connect(ana);
+            audioCtx.createMediaStreamSource(stream).connect(ana);
             
             setInterval(() => {
                 const data = new Uint8Array(ana.frequencyBinCount);
                 ana.getByteFrequencyData(data);
                 
-                let vol = data.reduce((a,b) => a+b) / data.length;
-                let micPercent = Math.min((vol / 120) * 100, 100); 
+                let vol = Math.max(...data); 
+                let micPercent = Math.min((vol / 255) * 100, 100); 
                 document.getElementById('mic-level').style.width = micPercent + '%';
 
-                if(vol > 20 && rStatus === 'playing') {
-                    localScore += vol / 2;
+                if(vol > 30 && rStatus === 'playing') {
+                    localScore += vol / 3;
                     if(localScore > MAX_SCORE) localScore = MAX_SCORE;
                     db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: localScore });
                     
                     document.getElementById('progress').style.width = (localScore/MAX_SCORE*100) + '%';
-                    document.getElementById('my-snail').style.transform = `scale(${1+vol/150}) rotate(${(Math.random()*10)-5}deg)`;
+                    document.getElementById('my-snail').style.transform = `scale(${1+vol/200}) rotate(${(Math.random()*10)-5}deg)`;
                     updateClientPointsDisplay();
                 } else {
                     document.getElementById('my-snail').style.transform = `scale(1) rotate(0deg)`;
                 }
             }, 100);
         }
-    </script>
+</script>
 </body>
 </html>
