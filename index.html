@@ -146,7 +146,7 @@
             <div class="color-picker" id="color-container"></div>
             <p>2. Il tuo nome da gara:</p>
             <input type="text" id="playerName" placeholder="Es. Turbo..." maxlength="10">
-            <button class="btn-join" onclick="joinGameClient()">ENTRA IN PISTA! 🏁</button>
+            <button class="btn-join" onclick="joinGameClient()">Entra in pista</button>
         </div>
 
         <div class="client-card" id="game-screen" style="display: none;">
@@ -424,20 +424,27 @@
             }
         }
 
-let audioCtx = null;
+        let audioCtx = null;
 
         async function joinGameClient() {
             const name = document.getElementById('playerName').value;
             if(!name) return alert("Inserisci un nome!");
             
+            // 1. CAMBIO SCHERMATA IMMEDIATO (così l'utente vede subito che ha funzionato)
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'block';
+            document.getElementById('my-snail').style.backgroundColor = selCol;
+            db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
+
+            // 2. INIZIALIZZAZIONE AUDIO E MICROFONO DOPO AVER MOSTRATO LA PISTA
             let stream = null;
-            
-            // Inizializziamo il motore audio ORA, nel momento esatto del click.
-            const AudioContext = window.AudioContext || window.webkitAudioContext;
-            if (!audioCtx) audioCtx = new AudioContext();
-            if (audioCtx.state === 'suspended') audioCtx.resume();
-            
             try {
+                const AudioContext = window.AudioContext || window.webkitAudioContext;
+                if (AudioContext) {
+                    if (!audioCtx) audioCtx = new AudioContext();
+                    if (audioCtx.state === 'suspended') audioCtx.resume();
+                }
+                
                 if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
                     stream = await navigator.mediaDevices.getUserMedia({ audio: true });
                 }
@@ -445,12 +452,8 @@ let audioCtx = null;
                 console.log("L'utente ha rifiutato il microfono o c'è un errore.", e);
             }
 
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('game-screen').style.display = 'block';
-            document.getElementById('my-snail').style.backgroundColor = selCol;
-            db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
-
-            if (stream) {
+            // 3. SE È TUTTO OK SI PARTE, ALTRIMENTI GIOCHI A CLICK
+            if (stream && audioCtx) {
                 startMic(stream);
             } else {
                 alert("⚠️ Microfono non autorizzato o bloccato!\n\nNessun problema: puoi gareggiare CLICCANDO la tua lumaca!");
@@ -498,6 +501,6 @@ let audioCtx = null;
                 }
             }, 100);
         }
-</script>
+    </script>
 </body>
 </html>
