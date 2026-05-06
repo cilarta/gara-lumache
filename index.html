@@ -7,14 +7,18 @@
     <style>@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap');</style>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-app.js"></script>
     <script src="https://www.gstatic.com/firebasejs/8.10.1/firebase-database.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <style>
         /* STILI GENERALI */
         body { margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; touch-action: manipulation; background-color: #2c3e50; overflow-x: hidden; }
         h1, h2, h3, p { margin: 0; padding: 0; }
         
-        /* ================= STILI HOST (IL TABELLONE) ================= */
-        #host-view { display: none; overflow: hidden; background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); height: 100vh; position: relative; }
+        /* ================= STILI HOST ================= */
+        #host-view { display: none; background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); height: 100vh; position: relative; overflow: hidden; }
+        
+        /* Schermata Gara */
+        #host-main-screen { display: block; height: 100%; }
         #header { text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 15px rgba(0,0,0,0.2); position: relative; z-index: 10; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin: 0 20px; transition: background 0.3s; }
         #header h1 { color: #2d3436; font-size: 38px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
         #winner-text { color: #d63031; font-size: 24px; font-weight: bold; }
@@ -23,23 +27,46 @@
         #qrcode-img { width: 140px; height: 140px; border-radius: 10px; }
         .qr-hidden { opacity: 0; transform: scale(0.5) translateY(-100px); pointer-events: none; }
         
-        #start-btn { background: linear-gradient(to right, #ff7675, #d63031); color: white; font-size: 26px; font-weight: bold; padding: 15px 40px; border: none; border-radius: 50px; cursor: pointer; margin-top: 15px; box-shadow: 0 6px 0 #b2bec3, 0 10px 20px rgba(0,0,0,0.2); transition: all 0.1s; text-transform: uppercase; font-family: 'Fredoka', sans-serif; }
-        #start-btn:active { transform: translateY(6px); box-shadow: 0 0px 0 #b2bec3, 0 5px 10px rgba(0,0,0,0.2); }
-        
-        #post-game-btns { display: none; margin-top: 15px; }
-        .btn-restart { background: #00b894; color: white; font-size: 20px; font-weight: bold; padding: 12px 25px; border: none; border-radius: 30px; cursor: pointer; margin: 0 10px; box-shadow: 0 5px 0 #019074; font-family: 'Fredoka', sans-serif; }
-        .btn-restart:active { transform: translateY(5px); box-shadow: 0 0px 0 #019074; }
-        .btn-reset { background: #636e72; color: white; font-size: 18px; font-weight: bold; padding: 12px 25px; border: none; border-radius: 30px; cursor: pointer; margin: 0 10px; box-shadow: 0 5px 0 #2d3436; font-family: 'Fredoka', sans-serif; }
-        .btn-reset:active { transform: translateY(5px); box-shadow: 0 0px 0 #2d3436; }
+        .btn-action { color: white; font-size: 26px; font-weight: bold; padding: 15px 40px; border: none; border-radius: 50px; cursor: pointer; margin-top: 15px; box-shadow: 0 6px 0 rgba(0,0,0,0.2); transition: all 0.1s; text-transform: uppercase; font-family: 'Fredoka', sans-serif; display: inline-block; }
+        .btn-action:active { transform: translateY(6px); box-shadow: 0 0px 0 rgba(0,0,0,0.2); }
+        #start-btn { background: linear-gradient(to right, #ff7675, #d63031); box-shadow: 0 6px 0 #b2bec3, 0 10px 20px rgba(0,0,0,0.2); }
+        #btn-show-lb { background: linear-gradient(to right, #fdcb6e, #e17055); box-shadow: 0 6px 0 #b2bec3, 0 10px 20px rgba(0,0,0,0.2); display: none; color: #2d3436; }
 
         #race-track-container { padding: 20px; margin-top: 10px; background: #55efc4; height: calc(100vh - 180px); border-radius: 20px; margin: 20px; box-shadow: inset 0 10px 20px rgba(0,0,0,0.1); position: relative; overflow-y: auto; }
         .track { position: relative; height: 75px; background: #eccc68; border-bottom: 4px dashed #f1f2f6; border-top: 4px solid #cf6a87; margin-bottom: 5px; border-radius: 10px; box-shadow: inset 0 5px 10px rgba(0,0,0,0.05); }
         .snail { position: absolute; top: 10px; left: 0; width: 60px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; transition: left 0.1s linear; z-index: 2; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: 3px solid rgba(255,255,255,0.5); }
-        .snail span { position: absolute; top: -35px; font-size: 13px; background: white; color: black; padding: 4px 8px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1.2; text-align: center; border: 2px solid #dfe6e9; }
+        .snail span { position: absolute; top: -35px; font-size: 13px; background: white; color: black; padding: 4px 8px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1.2; text-align: center; border: 2px solid #dfe6e9; z-index: 10; }
         .snail span b { color: #e17055; font-size: 14px; }
         .finish-line { position: absolute; right: 40px; top: 0; bottom: 0; width: 20px; background: repeating-linear-gradient(45deg, white, white 10px, black 10px, black 20px); z-index: 1; border-radius: 5px; box-shadow: -5px 0 15px rgba(0,0,0,0.2); }
 
-        /* ================= STILI CLIENT (IL TELEFONO) ================= */
+        /* Schermata Classifica Finale */
+        #leaderboard-screen { display: none; height: 100vh; padding: 30px; text-align: center; color: white; background: #2d3436; overflow-y: auto; box-sizing: border-box; }
+        #leaderboard-screen h1 { font-size: 48px; color: #fdcb6e; text-shadow: 0 5px 10px rgba(0,0,0,0.5); margin-bottom: 30px; text-transform: uppercase; }
+        #lb-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .lb-row { display: flex; align-items: center; justify-content: space-between; background: #636e72; padding: 15px 30px; border-radius: 20px; font-size: 28px; font-weight: bold; opacity: 0; transform: translateY(50px) scale(0.9); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .lb-row.revealed { opacity: 1; transform: translateY(0) scale(1); }
+        .lb-row.gold { background: linear-gradient(135deg, #fdcb6e, #e17055); color: white; transform: translateY(0) scale(1.1); box-shadow: 0 15px 30px rgba(0,0,0,0.4); z-index: 10; font-size: 36px; padding: 25px 40px; border: 4px solid white; }
+        
+        .lb-rank { width: 50px; font-size: 32px; color: #b2bec3; }
+        .lb-row.gold .lb-rank { color: white; font-size: 42px; }
+        .lb-details { display: flex; align-items: center; gap: 15px; flex: 1; text-align: left; margin-left: 20px; }
+        .lb-color-dot { width: 40px; height: 40px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
+        .lb-score { color: #55efc4; }
+        .lb-row.gold .lb-score { color: #ffeaa7; }
+        .lb-gained { font-size: 18px; color: #b2bec3; margin-left: 10px; font-weight: normal; }
+        .lb-row.gold .lb-gained { color: white; }
+
+        #btn-reveal-next { background: #0984e3; color: white; font-size: 24px; font-weight: bold; padding: 15px 40px; border: none; border-radius: 50px; cursor: pointer; margin-top: 40px; box-shadow: 0 6px 0 #074b83; transition: all 0.1s; font-family: 'Fredoka', sans-serif; text-transform: uppercase; }
+        #btn-reveal-next:active { transform: translateY(6px); box-shadow: 0 0px 0 #074b83; }
+
+        #post-game-btns { display: none; margin-top: 30px; gap: 20px; justify-content: center; }
+        .btn-restart { background: #00b894; color: white; font-size: 22px; font-weight: bold; padding: 15px 35px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 0 #019074; font-family: 'Fredoka', sans-serif; }
+        .btn-restart:active { transform: translateY(6px); box-shadow: 0 0px 0 #019074; }
+        .btn-reset { background: #d63031; color: white; font-size: 22px; font-weight: bold; padding: 15px 35px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 0 #b2bec3; font-family: 'Fredoka', sans-serif; }
+        .btn-reset:active { transform: translateY(6px); box-shadow: 0 0px 0 #b2bec3; }
+
+
+        /* ================= STILI CLIENT ================= */
         #client-view { display: none; background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); min-height: 100vh; padding: 20px; box-sizing: border-box; }
         .client-card { background: white; border-radius: 25px; padding: 25px 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; max-width: 400px; margin: 0 auto; }
         
@@ -59,25 +86,23 @@
         .btn-edit { background: transparent; color: #b2bec3; font-size: 16px; border: 2px solid #b2bec3; padding: 10px 20px; border-radius: 20px; margin-top: 20px; font-family: 'Fredoka', sans-serif; font-weight: bold; }
         
         /* SCHERMATA GARA CLIENT */
-        #rank-display { font-size: 28px; background: #fdcb6e; color: #2d3436; display: inline-block; padding: 10px 30px; border-radius: 20px; box-shadow: 0 5px 15px rgba(0,0,0,0.1); border: 3px solid #ffeaa7; margin-bottom: 5px; }
-        #rank-display strong { font-size: 36px; color: #d63031; }
-        #points-display { font-size: 18px; color: #6c5ce7; font-weight: bold; margin-bottom: 15px; }
+        #points-display { font-size: 20px; color: #6c5ce7; font-weight: bold; margin-bottom: 15px; background: #f1f2f6; padding: 10px; border-radius: 15px; }
+        .live-pts { color: #00b894; font-size: 18px; }
         
         #my-snail { font-size: 80px; margin: 10px auto; width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 6px solid #dfe6e9; box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 10px 20px rgba(255,255,255,0.3); transition: transform 0.05s; }
         
-        #game-status-text { font-size: 22px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 10px; }
+        #game-status-text { font-size: 22px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 10px; transition: all 0.3s; }
         .status-waiting { color: #e17055; background: #ffeaa7; }
         .status-playing { color: white; background: #d63031; animation: pulse 0.5s infinite alternate; }
         @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-        /* BARRA MICROFONO (SISMOGRAFO) */
+        /* BARRA MICROFONO */
         .mic-panel { background: #f1f2f6; border-radius: 20px; padding: 15px; margin-top: 15px; box-shadow: inset 0 5px 10px rgba(0,0,0,0.05); }
         .mic-title { font-size: 14px; color: #636e72; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
         .mic-meter-bg { width: 100%; height: 40px; background: #dfe6e9; border-radius: 20px; overflow: hidden; position: relative; border: 3px solid #b2bec3; }
         .mic-meter-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00b894 0%, #fdcb6e 50%, #d63031 100%); transition: width 0.1s ease-out; box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1); }
         .mic-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 20px; z-index: 5; }
 
-        /* BARRA PROGRESSO GARA */
         .progress-title { font-size: 14px; color: #636e72; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
         .progress-bar-container { width: 100%; height: 20px; background-color: #dfe6e9; border-radius: 10px; overflow: hidden; margin-top: 5px; }
         .progress-bar { height: 100%; width: 0%; background-color: #0984e3; transition: width 0.2s; }
@@ -86,46 +111,53 @@
 <body>
 
     <div id="host-view">
-        <div id="header">
-            <h1>🐌 Gran Premio Lumache</h1>
-            <h2 id="winner-text">In attesa dei piloti...</h2>
+        
+        <div id="host-main-screen">
+            <div id="header">
+                <h1>🐌 Gran Premio Lumache</h1>
+                <h2 id="winner-text">In attesa dei piloti...</h2>
+                
+                <button id="start-btn" class="btn-action" onclick="startRaceHost()">🚀 INIZIA LA GARA! 🚀</button>
+                <button id="btn-show-lb" class="btn-action" onclick="startLeaderboard()">📊 Classifica Finale</button>
+            </div>
             
-            <button id="start-btn" onclick="startRaceHost()">🚀 INIZIA LA GARA! 🚀</button>
-            
-            <div id="post-game-btns">
-                <button class="btn-restart" onclick="nextRace(true)">🔄 Continua</button>
-                <button class="btn-reset" onclick="nextRace(false)">❌ Ricomincia</button>
+            <div id="qr-container">
+                <p style="margin: 0 0 10px 0; font-weight: bold; color: #2d3436; font-size: 18px;">INQUADRAMI!</p>
+                <img id="qrcode-img" src="" alt="QR">
+                <p id="room-link-text" style="font-size: 11px; margin-top: 10px; word-break: break-all; color: #636e72;"></p>
+            </div>
+
+            <div id="race-track-container">
+                <div class="finish-line"></div>
+                <div id="race-track"></div>
             </div>
         </div>
-        
-        <div id="qr-container">
-            <p style="margin: 0 0 10px 0; font-weight: bold; color: #2d3436; font-size: 18px;">INQUADRAMI!</p>
-            <img id="qrcode-img" src="" alt="QR">
-            <p id="room-link-text" style="font-size: 11px; margin-top: 10px; word-break: break-all; color: #636e72;"></p>
-        </div>
 
-        <div id="race-track-container">
-            <div class="finish-line"></div>
-            <div id="race-track"></div>
+        <div id="leaderboard-screen">
+            <h1>🏆 CLASSIFICA TORNEO 🏆</h1>
+            <div id="lb-list">
+                </div>
+            <button id="btn-reveal-next" onclick="revealNextPlayer()">Svela il prossimo...</button>
+            
+            <div id="post-game-btns">
+                <button class="btn-restart" onclick="nextRace(true)">🔄 Continua con questi punti</button>
+                <button class="btn-reset" onclick="nextRace(false)">❌ Azzera tutto e Ricomincia</button>
+            </div>
         </div>
     </div>
 
     <div id="client-view">
         <div class="client-card" id="login-screen">
             <h2>Crea la tua Lumaca!</h2>
-            
             <p>1. Scegli il tuo colore:</p>
             <div class="color-picker" id="color-container"></div>
-            
             <p>2. Il tuo nome da gara:</p>
             <input type="text" id="playerName" placeholder="Es. Turbo..." maxlength="10">
-            
             <button class="btn-join" onclick="joinGameClient()">ENTRA IN PISTA! 🏁</button>
         </div>
 
         <div class="client-card" id="game-screen" style="display: none;">
-            <div id="rank-display">Posizione: <strong>-</strong></div>
-            <div id="points-display">Punti Torneo: 0 pt</div>
+            <div id="points-display">Caricamento Punti...</div>
             
             <div id="my-snail">🐌</div>
             
@@ -183,6 +215,9 @@
 
         // ================= LOGICA HOST =================
         let pointsCalculated = false;
+        let pendingLeaderboard = [];
+        let pendingDBUpdates = {};
+        let revealIndex = -1;
 
         function initHost(rid) {
             db.ref('rooms/' + rid + '/status').set('waiting');
@@ -193,7 +228,6 @@
                 if(!players) return;
                 
                 let raceFinishedNow = false;
-                let winnerName = "";
                 
                 Object.keys(players).forEach(id => {
                     const p = players[id];
@@ -208,39 +242,49 @@
                     if(percent > 1) percent = 1;
                     s.style.left = `calc(${percent * 100}% - ${percent * 100}px)`;
                     
+                    // Mostra i punti live aggiornarsi sulla lumaca!
+                    let liveEarned = Math.floor(percent * 1000);
                     let totPt = p.totalPoints || 0;
-                    s.innerHTML = `<span>${p.name}<br><b>🏆 ${totPt} pt</b></span>🐌`;
+                    s.innerHTML = `<span>${p.name}<br><b>🏆 ${totPt} <span style="color:#27ae60">+${liveEarned}</span> pt</b></span>🐌`;
                     
                     tr.appendChild(s);
                     trackDiv.appendChild(tr);
                     
                     if(p.score >= MAX_SCORE && !pointsCalculated) {
                         raceFinishedNow = true;
-                        winnerName = p.name;
                     }
                 });
                 
-                // CALCOLO PUNTI E SUONO A FINE GARA
+                // CALCOLO PUNTI MA LI TENIAMO SEGRETI PER LA CLASSIFICA!
                 if(raceFinishedNow && !pointsCalculated) {
                     pointsCalculated = true;
                     db.ref('rooms/' + rid + '/status').set('finished');
                     
-                    // Suono folla che esulta
-                    soundWin.play().catch(e => console.log("Audio non partito in automatico", e));
+                    pendingLeaderboard = [];
+                    pendingDBUpdates = {};
                     
-                    document.getElementById('winner-text').innerText = "🏆 HA VINTO " + winnerName.toUpperCase() + "!";
-                    document.getElementById('header').style.background = "#ffeaa7"; // Colore oro
-                    document.getElementById('post-game-btns').style.display = 'block';
-                    
-                    let updates = {};
                     Object.keys(players).forEach(id => {
                         let pScore = players[id].score || 0;
                         let gained = Math.floor((pScore / MAX_SCORE) * 1000);
                         if(gained > 1000) gained = 1000;
                         let oldTotal = players[id].totalPoints || 0;
-                        updates[id + '/totalPoints'] = oldTotal + gained;
+                        let finalTotal = oldTotal + gained;
+                        
+                        pendingLeaderboard.push({
+                            id: id, name: players[id].name, color: players[id].color, 
+                            gained: gained, total: finalTotal
+                        });
+                        // Prepariamo l'aggiornamento per il database (non lo inviamo ancora)
+                        pendingDBUpdates[id + '/totalPoints'] = finalTotal;
                     });
-                    db.ref('rooms/' + rid + '/players').update(updates);
+                    
+                    // Ordina la classifica dal più alto al più basso
+                    pendingLeaderboard.sort((a,b) => b.total - a.total);
+                    
+                    document.getElementById('winner-text').innerText = "🏁 GARA TERMINATA! Pronti per la classifica? 🏁";
+                    document.getElementById('header').style.background = "#fdcb6e"; // Oro
+                    document.getElementById('start-btn').style.display = 'none';
+                    document.getElementById('btn-show-lb').style.display = 'inline-block';
                 }
             });
         }
@@ -250,19 +294,96 @@
             document.getElementById('start-btn').style.display = 'none'; 
             document.getElementById('winner-text').innerText = "🔥 GARA IN CORSO! FATE RUMORE! 🔥";
             document.getElementById('qr-container').classList.add('qr-hidden');
+            soundStart.play().catch(e => console.log(e));
+        }
+
+        // --- GESTIONE CLASSIFICA FINALE A SORPRESA ---
+        function startLeaderboard() {
+            document.getElementById('host-main-screen').style.display = 'none';
+            document.getElementById('leaderboard-screen').style.display = 'block';
             
-            // Fischio d'inizio
-            soundStart.play().catch(e => console.log("Audio non partito in automatico", e));
+            const lbList = document.getElementById('lb-list');
+            lbList.innerHTML = '';
+            
+            // Crea le righe HTML nascoste per ogni giocatore
+            pendingLeaderboard.forEach((p, index) => {
+                const row = document.createElement('div');
+                row.className = 'lb-row';
+                row.id = 'lb-row-' + index;
+                
+                let rankStr = (index + 1) + "°";
+                if(index === 0) rankStr = "👑"; // La corona al primo!
+                
+                row.innerHTML = `
+                    <div class="lb-rank">${rankStr}</div>
+                    <div class="lb-details">
+                        <div class="lb-color-dot" style="background-color: ${p.color}"></div>
+                        <div>${p.name.toUpperCase()}</div>
+                    </div>
+                    <div>
+                        <span class="lb-score">${p.total} pt</span>
+                        <span class="lb-gained">(+${p.gained})</span>
+                    </div>
+                `;
+                lbList.appendChild(row);
+            });
+            
+            // Partiamo a svelare dall'ultimo (il numero di giocatori - 1)
+            revealIndex = pendingLeaderboard.length - 1;
+            updateRevealBtnText();
+        }
+        
+        function updateRevealBtnText() {
+            const btn = document.getElementById('btn-reveal-next');
+            if(revealIndex > 0) {
+                btn.innerText = `Svela il ${revealIndex + 1}° classificato...`;
+            } else if (revealIndex === 0) {
+                btn.innerText = `🏆 SVELA IL VINCITORE! 🏆`;
+                btn.style.background = "#d63031"; // Tasto rosso per il vincitore
+            }
+        }
+
+        function revealNextPlayer() {
+            if(revealIndex < 0) return;
+            
+            const row = document.getElementById('lb-row-' + revealIndex);
+            row.classList.add('revealed');
+            
+            if(revealIndex === 0) {
+                // IL VINCITORE!
+                row.classList.add('gold');
+                document.getElementById('btn-reveal-next').style.display = 'none';
+                document.getElementById('post-game-btns').style.display = 'flex';
+                
+                // FUOCHI D'ARTIFICIO
+                confetti({ particleCount: 250, spread: 120, origin: { y: 0.6 }, zIndex: 9999 });
+                soundWin.play().catch(e => console.log(e));
+                
+                // SOLO ORA aggiorniamo il DB, così i telefoni si aggiornano come magia
+                db.ref('rooms/' + globalHostRoomId + '/players').update(pendingDBUpdates);
+            }
+            
+            revealIndex--;
+            updateRevealBtnText();
         }
 
         window.nextRace = function(keepPoints) {
             pointsCalculated = false;
+            
+            // Ripristina l'interfaccia Host
+            document.getElementById('leaderboard-screen').style.display = 'none';
+            document.getElementById('host-main-screen').style.display = 'block';
+            document.getElementById('btn-show-lb').style.display = 'none';
             document.getElementById('post-game-btns').style.display = 'none';
+            document.getElementById('btn-reveal-next').style.display = 'inline-block';
+            document.getElementById('btn-reveal-next').style.background = "#0984e3";
+            
             document.getElementById('header').style.background = "rgba(255, 255, 255, 0.95)";
             document.getElementById('winner-text').innerText = "In attesa dei piloti...";
             document.getElementById('start-btn').style.display = 'inline-block';
             document.getElementById('qr-container').classList.remove('qr-hidden');
             
+            // Azzera la griglia di partenza per tutti
             db.ref('rooms/' + globalHostRoomId + '/players').once('value', snap => {
                 let players = snap.val();
                 if(players) {
@@ -283,6 +404,7 @@
         let selCol = '#ff7675';
         let localScore = 0;
         let rStatus = 'waiting';
+        let myTotalPoints = 0;
 
         function initClient(rid) {
             const colors = [
@@ -314,36 +436,37 @@
                 if(rStatus === 'waiting') {
                     localScore = 0;
                     document.getElementById('progress').style.width = '0%';
-                    st.innerText = "In attesa della prossima gara...";
+                    st.innerText = "In attesa della gara...";
                     st.className = "status-waiting";
                 } else if(rStatus === 'playing') {
                     st.innerText = "URLA PIÙ FORTE CHE PUOI! 📢";
                     st.className = "status-playing";
                 } else if(rStatus === 'finished') {
-                    st.innerText = "🏁 FINE GARA! Guarda lo schermo 🏁";
+                    st.innerText = "🏁 FINE GARA! Guarda lo schermo dell'Host! 🏁";
                     st.className = "status-waiting";
                 }
                 document.getElementById('btn-edit').style.display = rStatus === 'waiting' ? 'inline-block' : 'none';
             });
             
-            db.ref(`rooms/${rid}/players`).on('value', snap => {
-                const players = snap.val();
-                if(!players) return;
+            db.ref(`rooms/${rid}/players/${pId}`).on('value', snap => {
+                const p = snap.val();
+                if(!p) return;
                 
-                if(players[pId]) {
-                    document.getElementById('points-display').innerHTML = `Punti Torneo: <strong>${players[pId].totalPoints || 0}</strong> pt`;
-                }
-                
-                let leaderboard = [];
-                for(let key in players) { leaderboard.push({id: key, score: players[key].score}); }
-                leaderboard.sort((a,b) => b.score - a.score);
-                const myRank = leaderboard.findIndex(p => p.id === pId) + 1;
-                const totPlayers = leaderboard.length;
-                
-                if(myRank > 0) {
-                    document.getElementById('rank-display').innerHTML = `Posizione: <strong>${myRank}°</strong> <span style="font-size:18px">su ${totPlayers}</span>`;
-                }
+                myTotalPoints = p.totalPoints || 0;
+                updateClientPointsDisplay();
             });
+        }
+        
+        function updateClientPointsDisplay() {
+            let livePts = Math.floor((localScore / MAX_SCORE) * 1000);
+            if (livePts > 1000) livePts = 1000;
+            
+            // Durante la gara mostriamo Punti vecchi + i live. A fine gara solo i Punti ufficiali.
+            if(rStatus === 'playing' || rStatus === 'waiting') {
+                document.getElementById('points-display').innerHTML = `Torneo: <strong>${myTotalPoints} pt</strong> <span class="live-pts">(+${livePts})</span>`;
+            } else {
+                document.getElementById('points-display').innerHTML = `Torneo: <strong>${myTotalPoints} pt</strong>`;
+            }
         }
 
         async function joinGameClient() {
@@ -388,6 +511,9 @@
                     
                     document.getElementById('progress').style.width = (localScore/MAX_SCORE*100) + '%';
                     document.getElementById('my-snail').style.transform = `scale(${1+vol/150}) rotate(${(Math.random()*10)-5}deg)`;
+                    
+                    // Aggiorna la vista punti in tempo reale
+                    updateClientPointsDisplay();
                 } else {
                     document.getElementById('my-snail').style.transform = `scale(1) rotate(0deg)`;
                 }
