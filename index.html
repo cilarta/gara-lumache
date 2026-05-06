@@ -17,7 +17,6 @@
         /* ================= STILI HOST ================= */
         #host-view { display: none; background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); height: 100vh; position: relative; overflow: hidden; }
         
-        /* Schermata Gara */
         #host-main-screen { display: block; height: 100%; }
         #header { text-align: center; padding: 20px; background: rgba(255, 255, 255, 0.95); box-shadow: 0 8px 15px rgba(0,0,0,0.2); position: relative; z-index: 10; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin: 0 20px; transition: background 0.3s; }
         #header h1 { color: #2d3436; font-size: 38px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
@@ -39,7 +38,6 @@
         .snail span b { color: #e17055; font-size: 14px; }
         .finish-line { position: absolute; right: 40px; top: 0; bottom: 0; width: 20px; background: repeating-linear-gradient(45deg, white, white 10px, black 10px, black 20px); z-index: 1; border-radius: 5px; box-shadow: -5px 0 15px rgba(0,0,0,0.2); }
 
-        /* Schermata Classifica Finale */
         #leaderboard-screen { display: none; height: 100vh; padding: 30px; text-align: center; color: white; background: #2d3436; overflow-y: auto; box-sizing: border-box; }
         #leaderboard-screen h1 { font-size: 48px; color: #fdcb6e; text-shadow: 0 5px 10px rgba(0,0,0,0.5); margin-bottom: 30px; text-transform: uppercase; }
         #lb-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
@@ -65,7 +63,6 @@
         .btn-reset { background: #d63031; color: white; font-size: 22px; font-weight: bold; padding: 15px 35px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 0 #b2bec3; font-family: 'Fredoka', sans-serif; }
         .btn-reset:active { transform: translateY(6px); box-shadow: 0 0px 0 #b2bec3; }
 
-
         /* ================= STILI CLIENT ================= */
         #client-view { display: none; background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); min-height: 100vh; padding: 20px; box-sizing: border-box; }
         .client-card { background: white; border-radius: 25px; padding: 25px 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; max-width: 400px; margin: 0 auto; }
@@ -83,20 +80,20 @@
         .btn-join { background: linear-gradient(to bottom, #00b894, #00cec9); color: white; font-weight: bold; border: none; font-size: 22px; padding: 18px; width: 90%; border-radius: 15px; box-shadow: 0 8px 0 #019074, 0 15px 20px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.1s; font-family: 'Fredoka', sans-serif; text-transform: uppercase; }
         .btn-join:active { transform: translateY(8px); box-shadow: 0 0px 0 #019074, 0 5px 10px rgba(0,0,0,0.2); }
         
-        .btn-edit { background: transparent; color: #b2bec3; font-size: 16px; border: 2px solid #b2bec3; padding: 10px 20px; border-radius: 20px; margin-top: 20px; font-family: 'Fredoka', sans-serif; font-weight: bold; }
+        .btn-edit { background: transparent; color: #b2bec3; font-size: 16px; border: 2px solid #b2bec3; padding: 10px 20px; border-radius: 20px; margin-top: 20px; font-family: 'Fredoka', sans-serif; font-weight: bold; cursor: pointer;}
         
-        /* SCHERMATA GARA CLIENT */
+        /* SCHERMata GARA CLIENT */
         #points-display { font-size: 20px; color: #6c5ce7; font-weight: bold; margin-bottom: 15px; background: #f1f2f6; padding: 10px; border-radius: 15px; }
         .live-pts { color: #00b894; font-size: 18px; }
         
-        #my-snail { font-size: 80px; margin: 10px auto; width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 6px solid #dfe6e9; box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 10px 20px rgba(255,255,255,0.3); transition: transform 0.05s; }
+        #my-snail { font-size: 80px; margin: 10px auto; width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 6px solid #dfe6e9; box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 10px 20px rgba(255,255,255,0.3); transition: transform 0.05s; cursor: pointer; user-select: none; }
+        #my-snail:active { transform: scale(0.95); }
         
         #game-status-text { font-size: 22px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 10px; transition: all 0.3s; }
         .status-waiting { color: #e17055; background: #ffeaa7; }
         .status-playing { color: white; background: #d63031; animation: pulse 0.5s infinite alternate; }
         @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-        /* BARRA MICROFONO */
         .mic-panel { background: #f1f2f6; border-radius: 20px; padding: 15px; margin-top: 15px; box-shadow: inset 0 5px 10px rgba(0,0,0,0.05); }
         .mic-title { font-size: 14px; color: #636e72; text-transform: uppercase; font-weight: bold; margin-bottom: 5px; }
         .mic-meter-bg { width: 100%; height: 40px; background: #dfe6e9; border-radius: 20px; overflow: hidden; position: relative; border: 3px solid #b2bec3; }
@@ -111,12 +108,10 @@
 <body>
 
     <div id="host-view">
-        
         <div id="host-main-screen">
             <div id="header">
                 <h1>🐌 Gran Premio Lumache</h1>
                 <h2 id="winner-text">In attesa dei piloti...</h2>
-                
                 <button id="start-btn" class="btn-action" onclick="startRaceHost()">🚀 INIZIA LA GARA! 🚀</button>
                 <button id="btn-show-lb" class="btn-action" onclick="startLeaderboard()">📊 Classifica Finale</button>
             </div>
@@ -135,10 +130,8 @@
 
         <div id="leaderboard-screen">
             <h1>🏆 CLASSIFICA TORNEO 🏆</h1>
-            <div id="lb-list">
-                </div>
+            <div id="lb-list"></div>
             <button id="btn-reveal-next" onclick="revealNextPlayer()">Svela il prossimo...</button>
-            
             <div id="post-game-btns">
                 <button class="btn-restart" onclick="nextRace(true)">🔄 Continua con questi punti</button>
                 <button class="btn-reset" onclick="nextRace(false)">❌ Azzera tutto e Ricomincia</button>
@@ -159,12 +152,12 @@
         <div class="client-card" id="game-screen" style="display: none;">
             <div id="points-display">Caricamento Punti...</div>
             
-            <div id="my-snail">🐌</div>
+            <div id="my-snail" onclick="manualMove()">🐌</div>
             
             <p id="game-status-text" class="status-waiting">In attesa dell'Host...</p>
             
             <div class="mic-panel">
-                <div class="mic-title">Volume Voce (Urla per correre!)</div>
+                <div class="mic-title">Volume Voce (Urla o clicca la lumaca!)</div>
                 <div class="mic-meter-bg">
                     <span class="mic-icon">🎤</span>
                     <div id="mic-level" class="mic-meter-fill"></div>
@@ -183,11 +176,9 @@
         const roomIdParam = urlParams.get('room');
         let globalHostRoomId = null;
         
-        // Effetti Sonori Ufficiali Google (Liberi da usare)
         const soundStart = new Audio("https://actions.google.com/sounds/v1/sports/referee_whistle.ogg");
         const soundWin = new Audio("https://actions.google.com/sounds/v1/crowds/crowd_cheering.ogg");
 
-        // Configurazione Firebase
         const firebaseConfig = {
             apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
             authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
@@ -242,7 +233,6 @@
                     if(percent > 1) percent = 1;
                     s.style.left = `calc(${percent * 100}% - ${percent * 100}px)`;
                     
-                    // Mostra i punti live aggiornarsi sulla lumaca!
                     let liveEarned = Math.floor(percent * 1000);
                     let totPt = p.totalPoints || 0;
                     s.innerHTML = `<span>${p.name}<br><b>🏆 ${totPt} <span style="color:#27ae60">+${liveEarned}</span> pt</b></span>🐌`;
@@ -250,16 +240,12 @@
                     tr.appendChild(s);
                     trackDiv.appendChild(tr);
                     
-                    if(p.score >= MAX_SCORE && !pointsCalculated) {
-                        raceFinishedNow = true;
-                    }
+                    if(p.score >= MAX_SCORE && !pointsCalculated) raceFinishedNow = true;
                 });
                 
-                // CALCOLO PUNTI MA LI TENIAMO SEGRETI PER LA CLASSIFICA!
                 if(raceFinishedNow && !pointsCalculated) {
                     pointsCalculated = true;
                     db.ref('rooms/' + rid + '/status').set('finished');
-                    
                     pendingLeaderboard = [];
                     pendingDBUpdates = {};
                     
@@ -274,15 +260,13 @@
                             id: id, name: players[id].name, color: players[id].color, 
                             gained: gained, total: finalTotal
                         });
-                        // Prepariamo l'aggiornamento per il database (non lo inviamo ancora)
                         pendingDBUpdates[id + '/totalPoints'] = finalTotal;
                     });
                     
-                    // Ordina la classifica dal più alto al più basso
                     pendingLeaderboard.sort((a,b) => b.total - a.total);
                     
                     document.getElementById('winner-text').innerText = "🏁 GARA TERMINATA! Pronti per la classifica? 🏁";
-                    document.getElementById('header').style.background = "#fdcb6e"; // Oro
+                    document.getElementById('header').style.background = "#fdcb6e";
                     document.getElementById('start-btn').style.display = 'none';
                     document.getElementById('btn-show-lb').style.display = 'inline-block';
                 }
@@ -297,22 +281,17 @@
             soundStart.play().catch(e => console.log(e));
         }
 
-        // --- GESTIONE CLASSIFICA FINALE A SORPRESA ---
         function startLeaderboard() {
             document.getElementById('host-main-screen').style.display = 'none';
             document.getElementById('leaderboard-screen').style.display = 'block';
-            
             const lbList = document.getElementById('lb-list');
             lbList.innerHTML = '';
             
-            // Crea le righe HTML nascoste per ogni giocatore
             pendingLeaderboard.forEach((p, index) => {
                 const row = document.createElement('div');
                 row.className = 'lb-row';
                 row.id = 'lb-row-' + index;
-                
-                let rankStr = (index + 1) + "°";
-                if(index === 0) rankStr = "👑"; // La corona al primo!
+                let rankStr = (index === 0) ? "👑" : (index + 1) + "°";
                 
                 row.innerHTML = `
                     <div class="lb-rank">${rankStr}</div>
@@ -328,62 +307,49 @@
                 lbList.appendChild(row);
             });
             
-            // Partiamo a svelare dall'ultimo (il numero di giocatori - 1)
             revealIndex = pendingLeaderboard.length - 1;
             updateRevealBtnText();
         }
         
         function updateRevealBtnText() {
             const btn = document.getElementById('btn-reveal-next');
-            if(revealIndex > 0) {
-                btn.innerText = `Svela il ${revealIndex + 1}° classificato...`;
-            } else if (revealIndex === 0) {
+            if(revealIndex > 0) btn.innerText = `Svela il ${revealIndex + 1}° classificato...`;
+            else if (revealIndex === 0) {
                 btn.innerText = `🏆 SVELA IL VINCITORE! 🏆`;
-                btn.style.background = "#d63031"; // Tasto rosso per il vincitore
+                btn.style.background = "#d63031";
             }
         }
 
         function revealNextPlayer() {
             if(revealIndex < 0) return;
-            
             const row = document.getElementById('lb-row-' + revealIndex);
             row.classList.add('revealed');
             
             if(revealIndex === 0) {
-                // IL VINCITORE!
                 row.classList.add('gold');
                 document.getElementById('btn-reveal-next').style.display = 'none';
                 document.getElementById('post-game-btns').style.display = 'flex';
-                
-                // FUOCHI D'ARTIFICIO
                 confetti({ particleCount: 250, spread: 120, origin: { y: 0.6 }, zIndex: 9999 });
                 soundWin.play().catch(e => console.log(e));
-                
-                // SOLO ORA aggiorniamo il DB, così i telefoni si aggiornano come magia
                 db.ref('rooms/' + globalHostRoomId + '/players').update(pendingDBUpdates);
             }
-            
             revealIndex--;
             updateRevealBtnText();
         }
 
         window.nextRace = function(keepPoints) {
             pointsCalculated = false;
-            
-            // Ripristina l'interfaccia Host
             document.getElementById('leaderboard-screen').style.display = 'none';
             document.getElementById('host-main-screen').style.display = 'block';
             document.getElementById('btn-show-lb').style.display = 'none';
             document.getElementById('post-game-btns').style.display = 'none';
             document.getElementById('btn-reveal-next').style.display = 'inline-block';
             document.getElementById('btn-reveal-next').style.background = "#0984e3";
-            
             document.getElementById('header').style.background = "rgba(255, 255, 255, 0.95)";
             document.getElementById('winner-text').innerText = "In attesa dei piloti...";
             document.getElementById('start-btn').style.display = 'inline-block';
             document.getElementById('qr-container').classList.remove('qr-hidden');
             
-            // Azzera la griglia di partenza per tutti
             db.ref('rooms/' + globalHostRoomId + '/players').once('value', snap => {
                 let players = snap.val();
                 if(players) {
@@ -395,7 +361,6 @@
                     db.ref('rooms/' + globalHostRoomId + '/players').update(updates);
                 }
             });
-            
             db.ref('rooms/' + globalHostRoomId + '/status').set('waiting');
         }
 
@@ -407,12 +372,7 @@
         let myTotalPoints = 0;
 
         function initClient(rid) {
-            const colors = [
-                '#ff7675', '#74b9ff', '#a29bfe', '#fdcb6e', 
-                '#e17055', '#2d3436', '#55efc4', '#00cec9',
-                '#e84393', '#00b894', '#d63031', '#0984e3',
-                '#6c5ce7', '#b2bec3', '#ff9ff3', '#feca57'
-            ];
+            const colors = ['#ff7675', '#74b9ff', '#a29bfe', '#fdcb6e', '#e17055', '#2d3436', '#55efc4', '#00cec9', '#e84393', '#00b894', '#d63031', '#0984e3', '#6c5ce7', '#b2bec3', '#ff9ff3', '#feca57'];
             const container = document.getElementById('color-container');
             colors.forEach(c => {
                 const d = document.createElement('div');
@@ -424,7 +384,6 @@
                     d.classList.add('selected');
                     d.innerText = '✅';
                     selCol = c;
-                    document.activeElement.blur();
                 };
                 container.appendChild(d);
             });
@@ -432,17 +391,16 @@
             db.ref(`rooms/${rid}/status`).on('value', snap => {
                 rStatus = snap.val();
                 const st = document.getElementById('game-status-text');
-                
                 if(rStatus === 'waiting') {
                     localScore = 0;
                     document.getElementById('progress').style.width = '0%';
                     st.innerText = "In attesa della gara...";
                     st.className = "status-waiting";
                 } else if(rStatus === 'playing') {
-                    st.innerText = "URLA PIÙ FORTE CHE PUOI! 📢";
+                    st.innerText = "URLA o CLICCA LA LUMACA! 📢";
                     st.className = "status-playing";
                 } else if(rStatus === 'finished') {
-                    st.innerText = "🏁 FINE GARA! Guarda lo schermo dell'Host! 🏁";
+                    st.innerText = "🏁 FINE GARA! Guarda lo schermo! 🏁";
                     st.className = "status-waiting";
                 }
                 document.getElementById('btn-edit').style.display = rStatus === 'waiting' ? 'inline-block' : 'none';
@@ -451,7 +409,6 @@
             db.ref(`rooms/${rid}/players/${pId}`).on('value', snap => {
                 const p = snap.val();
                 if(!p) return;
-                
                 myTotalPoints = p.totalPoints || 0;
                 updateClientPointsDisplay();
             });
@@ -460,8 +417,6 @@
         function updateClientPointsDisplay() {
             let livePts = Math.floor((localScore / MAX_SCORE) * 1000);
             if (livePts > 1000) livePts = 1000;
-            
-            // Durante la gara mostriamo Punti vecchi + i live. A fine gara solo i Punti ufficiali.
             if(rStatus === 'playing' || rStatus === 'waiting') {
                 document.getElementById('points-display').innerHTML = `Torneo: <strong>${myTotalPoints} pt</strong> <span class="live-pts">(+${livePts})</span>`;
             } else {
@@ -472,17 +427,20 @@
         async function joinGameClient() {
             const name = document.getElementById('playerName').value;
             if(!name) return alert("Inserisci un nome!");
-            document.activeElement.blur(); 
+            
+            // Invio SUBITO la lumaca al database così appare sulla pista!
+            document.getElementById('login-screen').style.display = 'none';
+            document.getElementById('game-screen').style.display = 'block';
+            document.getElementById('my-snail').style.backgroundColor = selCol;
+            db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
 
+            // Poi provo a chiedere il microfono
             try {
                 const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                document.getElementById('login-screen').style.display = 'none';
-                document.getElementById('game-screen').style.display = 'block';
-                document.getElementById('my-snail').style.backgroundColor = selCol;
-                
-                db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
                 startMic(stream);
-            } catch (e) { alert("Attiva il microfono per giocare!"); }
+            } catch (e) { 
+                alert("⚠️ ATTENZIONE: Il browser ha bloccato il microfono. Questo succede se non stai usando HTTPS o un server locale.\n\nNon preoccuparti: per fare un test puoi FAR AVANZARE LA LUMACA CLICCANDOLA con il dito/mouse!"); 
+            }
         }
 
         function editProfile() {
@@ -490,8 +448,20 @@
             document.getElementById('game-screen').style.display = 'none';
         }
 
+        // Funzione di emergenza per muovere la lumaca a mano se il microfono è bloccato
+        function manualMove() {
+            if(rStatus === 'playing') {
+                localScore += 800; // Valore di avanzamento manuale
+                if(localScore > MAX_SCORE) localScore = MAX_SCORE;
+                db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: localScore });
+                document.getElementById('progress').style.width = (localScore/MAX_SCORE*100) + '%';
+                updateClientPointsDisplay();
+            }
+        }
+
         function startMic(stream) {
-            const ctx = new window.AudioContext();
+            const AudioContext = window.AudioContext || window.webkitAudioContext; // Corretto per Safari!
+            const ctx = new AudioContext();
             const ana = ctx.createAnalyser();
             ana.fftSize = 256;
             ctx.createMediaStreamSource(stream).connect(ana);
@@ -511,8 +481,6 @@
                     
                     document.getElementById('progress').style.width = (localScore/MAX_SCORE*100) + '%';
                     document.getElementById('my-snail').style.transform = `scale(${1+vol/150}) rotate(${(Math.random()*10)-5}deg)`;
-                    
-                    // Aggiorna la vista punti in tempo reale
                     updateClientPointsDisplay();
                 } else {
                     document.getElementById('my-snail').style.transform = `scale(1) rotate(0deg)`;
