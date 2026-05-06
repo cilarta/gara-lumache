@@ -430,33 +430,41 @@
             const name = document.getElementById('playerName').value;
             if(!name) return alert("Inserisci un nome!");
             
-            // 1. CAMBIO SCHERMATA IMMEDIATO (così l'utente vede subito che ha funzionato)
+            // 1. Cambio schermata immediato
             document.getElementById('login-screen').style.display = 'none';
             document.getElementById('game-screen').style.display = 'block';
             document.getElementById('my-snail').style.backgroundColor = selCol;
             db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name: name, color: selCol, score: 0 });
 
-            // 2. INIZIALIZZAZIONE AUDIO E MICROFONO DOPO AVER MOSTRATO LA PISTA
             let stream = null;
             try {
+                // Controllo se il browser supporta le API
+                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                    throw new Error("L'API del microfono è bloccata. Assicurati di usare HTTPS o localhost.");
+                }
+
+                // Richiedi il flusso audio
+                stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+
+                // Inizializza l'AudioContext DOPO aver ottenuto il permesso
                 const AudioContext = window.AudioContext || window.webkitAudioContext;
                 if (AudioContext) {
                     if (!audioCtx) audioCtx = new AudioContext();
-                    if (audioCtx.state === 'suspended') audioCtx.resume();
+                    // Risveglia esplicitamente il contesto audio
+                    if (audioCtx.state === 'suspended') {
+                        await audioCtx.resume();
+                    }
                 }
-                
-                if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-                    stream = await navigator.mediaDevices.getUserMedia({ audio: true });
-                }
+
             } catch (e) {
-                console.log("L'utente ha rifiutato il microfono o c'è un errore.", e);
+                console.error("Errore Microfono:", e);
+                alert(`⚠️ Impossibile attivare il microfono:\n${e.message}\n\nNessun problema: puoi gareggiare CLICCANDO la tua lumaca!`);
+                return; 
             }
 
-            // 3. SE È TUTTO OK SI PARTE, ALTRIMENTI GIOCHI A CLICK
+            // Se tutto è andato a buon fine, avviamo l'ascolto
             if (stream && audioCtx) {
                 startMic(stream);
-            } else {
-                alert("⚠️ Microfono non autorizzato o bloccato!\n\nNessun problema: puoi gareggiare CLICCANDO la tua lumaca!");
             }
         }
 
@@ -478,7 +486,10 @@
         function startMic(stream) {
             const ana = audioCtx.createAnalyser();
             ana.fftSize = 256;
-            audioCtx.createMediaStreamSource(stream).connect(ana);
+            
+            // Connetti il microfono all'analizzatore
+            const source = audioCtx.createMediaStreamSource(stream);
+            source.connect(ana);
             
             setInterval(() => {
                 const data = new Uint8Array(ana.frequencyBinCount);
@@ -486,8 +497,11 @@
                 
                 let vol = Math.max(...data); 
                 let micPercent = Math.min((vol / 255) * 100, 100); 
+                
+                // Questo muoverà la barra a prescindere dallo stato della gara
                 document.getElementById('mic-level').style.width = micPercent + '%';
 
+                // Punti calcolati solo se il volume supera una soglia e la gara è in corso
                 if(vol > 30 && rStatus === 'playing') {
                     localScore += vol / 3;
                     if(localScore > MAX_SCORE) localScore = MAX_SCORE;
@@ -497,6 +511,7 @@
                     document.getElementById('my-snail').style.transform = `scale(${1+vol/200}) rotate(${(Math.random()*10)-5}deg)`;
                     updateClientPointsDisplay();
                 } else {
+                    // Ripristina l'aspetto della lumaca se c'è silenzio o la gara è in attesa
                     document.getElementById('my-snail').style.transform = `scale(1) rotate(0deg)`;
                 }
             }, 100);
