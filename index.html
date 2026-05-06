@@ -10,1100 +10,504 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
 
     <style>
-        body {
-            margin: 0;
-            padding: 0;
-            font-family: 'Fredoka', sans-serif;
-            touch-action: manipulation;
-            background-color: #2c3e50;
-            overflow-x: hidden;
-        }
+        body { margin: 0; padding: 0; font-family: 'Fredoka', sans-serif; touch-action: manipulation; background-color: #2c3e50; overflow-x: hidden; }
         h1, h2, h3, p { margin: 0; padding: 0; }
 
         /* HOST */
-        #host-view {
-            display: none;
-            background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%);
-            min-height: 100vh;
-            position: relative;
-        }
+        #host-view { display: none; background: linear-gradient(135deg, #74b9ff 0%, #0984e3 100%); min-height: 100vh; position: relative; }
+        #host-main-screen { display: block; min-height: 100vh; padding-bottom: 20px; }
+        #header { text-align: center; padding: 20px; background: rgba(255,255,255,0.95); box-shadow: 0 8px 15px rgba(0,0,0,0.2); position: relative; z-index: 10; border-bottom-left-radius: 30px; border-bottom-right-radius: 30px; margin: 0 20px; transition: background 0.3s; }
+        #header h1 { color: #2d3436; font-size: 38px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: 2px; }
+        #winner-text { color: #d63031; font-size: 24px; font-weight: bold; }
+        #qr-container { position: absolute; top: 130px; right: 30px; background: rgba(255,255,255,0.95); padding: 15px; border-radius: 15px; text-align: center; z-index: 20; box-shadow: 0 10px 25px rgba(0,0,0,0.3); transition: opacity 0.5s, transform 0.5s; border: 4px solid #ffeaa7; }
+        #qrcode-img { width: 140px; height: 140px; border-radius: 10px; }
+        .qr-hidden { opacity: 0; transform: scale(0.5) translateY(-100px); pointer-events: none; }
+        .btn-action { color: white; font-size: 26px; font-weight: bold; padding: 15px 40px; border: none; border-radius: 50px; cursor: pointer; margin-top: 15px; box-shadow: 0 6px 0 rgba(0,0,0,0.2); transition: all 0.1s; text-transform: uppercase; font-family: 'Fredoka', sans-serif; display: inline-block; }
+        .btn-action:active { transform: translateY(6px); box-shadow: 0 0px 0 rgba(0,0,0,0.2); }
+        #start-btn { background: linear-gradient(to right, #ff7675, #d63031); box-shadow: 0 6px 0 #b2bec3, 0 10px 20px rgba(0,0,0,0.2); }
+        #btn-show-lb { background: linear-gradient(to right, #fdcb6e, #e17055); box-shadow: 0 6px 0 #b2bec3, 0 10px 20px rgba(0,0,0,0.2); display: none; color: #2d3436; }
+        #race-track-container { padding: 20px; background: #55efc4; min-height: calc(100vh - 220px); border-radius: 20px; margin: 20px; box-shadow: inset 0 10px 20px rgba(0,0,0,0.1); position: relative; overflow-y: auto; }
+        #race-track { display: flex; flex-direction: column; gap: 10px; }
+        .track { position: relative; height: 85px; background: #eccc68; border-bottom: 4px dashed #f1f2f6; border-top: 4px solid #cf6a87; border-radius: 10px; box-shadow: inset 0 5px 10px rgba(0,0,0,0.05); overflow: visible; }
+        .track-finish-line { position: absolute; right: 35px; top: 0; bottom: 0; width: 20px; background: repeating-linear-gradient(45deg, white, white 10px, black 10px, black 20px); z-index: 1; border-radius: 5px; box-shadow: -5px 0 15px rgba(0,0,0,0.2); }
+        .snail { position: absolute; top: 14px; width: 60px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 28px; color: white; transition: left 0.12s linear; z-index: 2; box-shadow: 0 4px 8px rgba(0,0,0,0.3); border: 3px solid rgba(255,255,255,0.5); }
+        .snail.ready { animation: readyBounce 0.8s infinite alternate ease-in-out; }
+        @keyframes readyBounce { from { transform: translateY(0); } to { transform: translateY(-4px); } }
+        .snail span { position: absolute; top: -38px; font-size: 13px; background: white; color: black; padding: 4px 8px; border-radius: 10px; font-weight: bold; box-shadow: 0 2px 4px rgba(0,0,0,0.2); white-space: nowrap; line-height: 1.3; text-align: center; border: 2px solid #dfe6e9; z-index: 10; }
+        .snail span b { color: #e17055; font-size: 14px; }
 
-        #host-main-screen {
-            display: block;
-            min-height: 100vh;
-            padding-bottom: 20px;
-        }
-
-        #header {
-            text-align: center;
-            padding: 20px;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 8px 15px rgba(0,0,0,0.2);
-            position: relative;
-            z-index: 10;
-            border-bottom-left-radius: 30px;
-            border-bottom-right-radius: 30px;
-            margin: 0 20px;
-            transition: background 0.3s;
-        }
-
-        #header h1 {
-            color: #2d3436;
-            font-size: 38px;
-            margin-bottom: 5px;
-            text-transform: uppercase;
-            letter-spacing: 2px;
-        }
-
-        #winner-text {
-            color: #d63031;
-            font-size: 24px;
-            font-weight: bold;
-        }
-
-        #qr-container {
-            position: absolute;
-            top: 130px;
-            right: 30px;
-            background: rgba(255, 255, 255, 0.95);
-            padding: 15px;
-            border-radius: 15px;
-            text-align: center;
-            z-index: 20;
-            box-shadow: 0 10px 25px rgba(0,0,0,0.3);
-            transition: opacity 0.5s, transform 0.5s;
-            border: 4px solid #ffeaa7;
-        }
-
-        #qrcode-img {
-            width: 140px;
-            height: 140px;
-            border-radius: 10px;
-        }
-
-        .qr-hidden {
-            opacity: 0;
-            transform: scale(0.5) translateY(-100px);
-            pointer-events: none;
-        }
-
-        .btn-action {
-            color: white;
-            font-size: 26px;
-            font-weight: bold;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 15px;
-            box-shadow: 0 6px 0 rgba(0,0,0,0.2);
-            transition: all 0.1s;
-            text-transform: uppercase;
-            font-family: 'Fredoka', sans-serif;
-            display: inline-block;
-        }
-
-        .btn-action:active {
-            transform: translateY(6px);
-            box-shadow: 0 0px 0 rgba(0,0,0,0.2);
-        }
-
-        #start-btn {
-            background: linear-gradient(to right, #ff7675, #d63031);
-            box-shadow: 0 6px 0 #b2bec3, 0 10px 20px rgba(0,0,0,0.2);
-        }
-
-        #btn-show-lb {
-            background: linear-gradient(to right, #fdcb6e, #e17055);
-            box-shadow: 0 6px 0 #b2bec3, 0 10px 20px rgba(0,0,0,0.2);
-            display: none;
-            color: #2d3436;
-        }
-
-        #race-track-container {
-            padding: 20px;
-            background: #55efc4;
-            min-height: calc(100vh - 220px);
-            border-radius: 20px;
-            margin: 20px;
-            box-shadow: inset 0 10px 20px rgba(0,0,0,0.1);
-            position: relative;
-            overflow-y: auto;
-        }
-
-        #race-track {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
-
-        .track {
-            position: relative;
-            height: 85px;
-            background: #eccc68;
-            border-bottom: 4px dashed #f1f2f6;
-            border-top: 4px solid #cf6a87;
-            border-radius: 10px;
-            box-shadow: inset 0 5px 10px rgba(0,0,0,0.05);
-            overflow: visible;
-        }
-
-        .track-finish-line {
-            position: absolute;
-            right: 35px;
-            top: 0;
-            bottom: 0;
-            width: 20px;
-            background: repeating-linear-gradient(45deg, white, white 10px, black 10px, black 20px);
-            z-index: 1;
-            border-radius: 5px;
-            box-shadow: -5px 0 15px rgba(0,0,0,0.2);
-        }
-
-        .snail {
-            position: absolute;
-            top: 14px;
-            left: 10px;
-            width: 60px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 28px;
-            color: white;
-            transition: left 0.12s linear, transform 0.12s ease;
-            z-index: 2;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-            border: 3px solid rgba(255,255,255,0.5);
-        }
-
-        .snail.ready {
-            animation: readyBounce 1s infinite alternate;
-        }
-
-        @keyframes readyBounce {
-            from { transform: translateY(0px); }
-            to { transform: translateY(-3px); }
-        }
-
-        .snail span {
-            position: absolute;
-            top: -35px;
-            font-size: 13px;
-            background: white;
-            color: black;
-            padding: 4px 8px;
-            border-radius: 10px;
-            font-weight: bold;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            white-space: nowrap;
-            line-height: 1.2;
-            text-align: center;
-            border: 2px solid #dfe6e9;
-            z-index: 10;
-        }
-
-        .snail span b {
-            color: #e17055;
-            font-size: 14px;
-        }
-
-        #leaderboard-screen {
-            display: none;
-            min-height: 100vh;
-            padding: 30px;
-            text-align: center;
-            color: white;
-            background: #2d3436;
-            overflow-y: auto;
-            box-sizing: border-box;
-        }
-
-        #leaderboard-screen h1 {
-            font-size: 48px;
-            color: #fdcb6e;
-            text-shadow: 0 5px 10px rgba(0,0,0,0.5);
-            margin-bottom: 30px;
-            text-transform: uppercase;
-        }
-
-        #lb-list {
-            max-width: 800px;
-            margin: 0 auto;
-            display: flex;
-            flex-direction: column;
-            gap: 15px;
-        }
-
-        .lb-row {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            background: #636e72;
-            padding: 15px 30px;
-            border-radius: 20px;
-            font-size: 28px;
-            font-weight: bold;
-            opacity: 0;
-            transform: translateY(50px) scale(0.9);
-            transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .lb-row.revealed {
-            opacity: 1;
-            transform: translateY(0) scale(1);
-        }
-
-        .lb-row.gold {
-            background: linear-gradient(135deg, #fdcb6e, #e17055);
-            color: white;
-            transform: translateY(0) scale(1.1);
-            box-shadow: 0 15px 30px rgba(0,0,0,0.4);
-            z-index: 10;
-            font-size: 36px;
-            padding: 25px 40px;
-            border: 4px solid white;
-        }
-
-        .lb-rank {
-            width: 50px;
-            font-size: 32px;
-            color: #b2bec3;
-        }
-
-        .lb-row.gold .lb-rank {
-            color: white;
-            font-size: 42px;
-        }
-
-        .lb-details {
-            display: flex;
-            align-items: center;
-            gap: 15px;
-            flex: 1;
-            text-align: left;
-            margin-left: 20px;
-        }
-
-        .lb-color-dot {
-            width: 40px;
-            height: 40px;
-            border-radius: 50%;
-            border: 3px solid white;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.3);
-        }
-
+        /* LEADERBOARD */
+        #leaderboard-screen { display: none; min-height: 100vh; padding: 30px; text-align: center; color: white; background: #2d3436; overflow-y: auto; box-sizing: border-box; }
+        #leaderboard-screen h1 { font-size: 48px; color: #fdcb6e; text-shadow: 0 5px 10px rgba(0,0,0,0.5); margin-bottom: 30px; text-transform: uppercase; }
+        #lb-list { max-width: 800px; margin: 0 auto; display: flex; flex-direction: column; gap: 15px; }
+        .lb-row { display: flex; align-items: center; justify-content: space-between; background: #636e72; padding: 15px 30px; border-radius: 20px; font-size: 28px; font-weight: bold; opacity: 0; transform: translateY(50px) scale(0.9); transition: all 0.5s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .lb-row.revealed { opacity: 1; transform: translateY(0) scale(1); }
+        .lb-row.gold { background: linear-gradient(135deg, #fdcb6e, #e17055); color: white; transform: translateY(0) scale(1.1); box-shadow: 0 15px 30px rgba(0,0,0,0.4); z-index: 10; font-size: 36px; padding: 25px 40px; border: 4px solid white; }
+        .lb-rank { width: 50px; font-size: 32px; color: #b2bec3; }
+        .lb-row.gold .lb-rank { color: white; font-size: 42px; }
+        .lb-details { display: flex; align-items: center; gap: 15px; flex: 1; text-align: left; margin-left: 20px; }
+        .lb-color-dot { width: 40px; height: 40px; border-radius: 50%; border: 3px solid white; box-shadow: 0 4px 8px rgba(0,0,0,0.3); }
         .lb-score { color: #55efc4; }
         .lb-row.gold .lb-score { color: #ffeaa7; }
-
-        .lb-gained {
-            font-size: 18px;
-            color: #b2bec3;
-            margin-left: 10px;
-            font-weight: normal;
-        }
-
+        .lb-gained { font-size: 18px; color: #b2bec3; margin-left: 10px; font-weight: normal; }
         .lb-row.gold .lb-gained { color: white; }
-
-        #btn-reveal-next {
-            background: #0984e3;
-            color: white;
-            font-size: 24px;
-            font-weight: bold;
-            padding: 15px 40px;
-            border: none;
-            border-radius: 50px;
-            cursor: pointer;
-            margin-top: 40px;
-            box-shadow: 0 6px 0 #074b83;
-            transition: all 0.1s;
-            font-family: 'Fredoka', sans-serif;
-            text-transform: uppercase;
-        }
-
-        #btn-reveal-next:active {
-            transform: translateY(6px);
-            box-shadow: 0 0px 0 #074b83;
-        }
-
-        #post-game-btns {
-            display: none;
-            margin-top: 30px;
-            gap: 20px;
-            justify-content: center;
-        }
-
-        .btn-restart, .btn-reset {
-            color: white;
-            font-size: 22px;
-            font-weight: bold;
-            padding: 15px 35px;
-            border: none;
-            border-radius: 30px;
-            cursor: pointer;
-            font-family: 'Fredoka', sans-serif;
-        }
-
-        .btn-restart {
-            background: #00b894;
-            box-shadow: 0 6px 0 #019074;
-        }
-
-        .btn-reset {
-            background: #d63031;
-            box-shadow: 0 6px 0 #b2bec3;
-        }
-
-        .btn-restart:active, .btn-reset:active {
-            transform: translateY(6px);
-            box-shadow: 0 0px 0 transparent;
-        }
+        #btn-reveal-next { background: #0984e3; color: white; font-size: 24px; font-weight: bold; padding: 15px 40px; border: none; border-radius: 50px; cursor: pointer; margin-top: 40px; box-shadow: 0 6px 0 #074b83; transition: all 0.1s; font-family: 'Fredoka', sans-serif; text-transform: uppercase; }
+        #btn-reveal-next:active { transform: translateY(6px); box-shadow: 0 0px 0 #074b83; }
+        #post-game-btns { display: none; margin-top: 30px; gap: 20px; justify-content: center; }
+        .btn-restart { background: #00b894; color: white; font-size: 22px; font-weight: bold; padding: 15px 35px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 0 #019074; font-family: 'Fredoka', sans-serif; }
+        .btn-restart:active { transform: translateY(6px); box-shadow: none; }
+        .btn-reset { background: #d63031; color: white; font-size: 22px; font-weight: bold; padding: 15px 35px; border: none; border-radius: 30px; cursor: pointer; box-shadow: 0 6px 0 #922020; font-family: 'Fredoka', sans-serif; }
+        .btn-reset:active { transform: translateY(6px); box-shadow: none; }
 
         /* CLIENT */
-        #client-view {
-            display: none;
-            background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%);
-            min-height: 100vh;
-            padding: 20px;
-            box-sizing: border-box;
-        }
+        #client-view { display: none; background: linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%); min-height: 100vh; padding: 20px; box-sizing: border-box; }
+        .client-card { background: white; border-radius: 25px; padding: 25px 15px; box-shadow: 0 15px 35px rgba(0,0,0,0.2); text-align: center; max-width: 400px; margin: 0 auto; }
+        #client-view h2 { color: #2d3436; margin-bottom: 15px; font-size: 28px; }
+        #client-view p { color: #636e72; font-size: 16px; margin-bottom: 10px; font-weight: 600; }
+        input { padding: 15px; margin: 10px 0 25px 0; width: 85%; font-size: 20px; border-radius: 12px; border: 2px solid #dfe6e9; outline: none; font-family: 'Fredoka', sans-serif; text-align: center; font-weight: bold; color: #2d3436; background: #f8f9fa; }
+        input:focus { border-color: #6c5ce7; background: white; }
+        .color-picker { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-bottom: 25px; }
+        .color-option { width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; font-size: 22px; cursor: pointer; border: 3px solid #f1f2f6; transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275); }
+        .color-option.selected { border-color: #00b894; transform: scale(1.2); box-shadow: 0 5px 15px rgba(0,0,0,0.2); }
+        .btn-join { background: linear-gradient(to bottom, #00b894, #00cec9); color: white; font-weight: bold; border: none; font-size: 22px; padding: 18px; width: 90%; border-radius: 15px; box-shadow: 0 8px 0 #019074, 0 15px 20px rgba(0,0,0,0.2); cursor: pointer; transition: all 0.1s; font-family: 'Fredoka', sans-serif; text-transform: uppercase; }
+        .btn-join:active { transform: translateY(8px); box-shadow: 0 0px 0 #019074; }
+        .btn-edit { background: transparent; color: #b2bec3; font-size: 16px; border: 2px solid #b2bec3; padding: 10px 20px; border-radius: 20px; margin-top: 20px; font-family: 'Fredoka', sans-serif; font-weight: bold; cursor: pointer; }
 
-        .client-card {
-            background: white;
-            border-radius: 25px;
-            padding: 25px 15px;
-            box-shadow: 0 15px 35px rgba(0,0,0,0.2);
-            text-align: center;
-            max-width: 400px;
-            margin: 0 auto;
-        }
-
-        #client-view h2 {
-            color: #2d3436;
-            margin-bottom: 15px;
-            font-size: 28px;
-        }
-
-        #client-view p {
-            color: #636e72;
-            font-size: 16px;
-            margin-bottom: 10px;
-            font-weight: 600;
-        }
-
-        input {
-            padding: 15px;
-            margin: 10px 0 25px 0;
-            width: 85%;
-            font-size: 20px;
-            border-radius: 12px;
-            border: 2px solid #dfe6e9;
-            outline: none;
-            font-family: 'Fredoka', sans-serif;
-            text-align: center;
-            font-weight: bold;
-            color: #2d3436;
-            background: #f8f9fa;
-        }
-
-        input:focus {
-            border-color: #6c5ce7;
-            background: white;
-        }
-
-        .color-picker {
-            display: flex;
-            justify-content: center;
-            gap: 8px;
-            flex-wrap: wrap;
-            margin-bottom: 25px;
-        }
-
-        .color-option {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 22px;
-            cursor: pointer;
-            border: 3px solid #f1f2f6;
-            transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-
-        .color-option.selected {
-            border-color: #00b894;
-            transform: scale(1.2);
-            box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-        }
-
-        .btn-join {
-            background: linear-gradient(to bottom, #00b894, #00cec9);
-            color: white;
-            font-weight: bold;
-            border: none;
-            font-size: 22px;
-            padding: 18px;
-            width: 90%;
-            border-radius: 15px;
-            box-shadow: 0 8px 0 #019074, 0 15px 20px rgba(0,0,0,0.2);
-            cursor: pointer;
-            transition: all 0.1s;
-            font-family: 'Fredoka', sans-serif;
-            text-transform: uppercase;
-        }
-
-        .btn-join:active {
-            transform: translateY(8px);
-            box-shadow: 0 0px 0 #019074, 0 5px 10px rgba(0,0,0,0.2);
-        }
-
-        .btn-edit {
-            background: transparent;
-            color: #b2bec3;
-            font-size: 16px;
-            border: 2px solid #b2bec3;
-            padding: 10px 20px;
-            border-radius: 20px;
-            margin-top: 20px;
-            font-family: 'Fredoka', sans-serif;
-            font-weight: bold;
-            cursor: pointer;
-        }
-
-        #points-display {
-            font-size: 20px;
-            color: #6c5ce7;
-            font-weight: bold;
-            margin-bottom: 15px;
-            background: #f1f2f6;
-            padding: 10px;
-            border-radius: 15px;
-        }
-
-        .live-pts {
-            color: #00b894;
-            font-size: 18px;
-        }
-
-        #my-snail {
-            font-size: 80px;
-            margin: 10px auto;
-            width: 140px;
-            height: 140px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            border: 6px solid #dfe6e9;
-            box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 10px 20px rgba(255,255,255,0.3);
-            transition: transform 0.05s;
-            cursor: pointer;
-            user-select: none;
-        }
-
+        /* GAME SCREEN */
+        #points-display { font-size: 20px; color: #6c5ce7; font-weight: bold; margin-bottom: 15px; background: #f1f2f6; padding: 10px; border-radius: 15px; }
+        .live-pts { color: #00b894; font-size: 18px; }
+        #my-snail { font-size: 80px; margin: 10px auto; width: 140px; height: 140px; border-radius: 50%; display: flex; align-items: center; justify-content: center; border: 6px solid #dfe6e9; box-shadow: 0 15px 25px rgba(0,0,0,0.2), inset 0 10px 20px rgba(255,255,255,0.3); transition: transform 0.05s; cursor: pointer; user-select: none; }
         #my-snail:active { transform: scale(0.95); }
+        #game-status-text { font-size: 22px; font-weight: bold; margin: 15px 0; padding: 10px; border-radius: 10px; transition: all 0.3s; }
+        .status-waiting { color: #e17055; background: #ffeaa7; }
+        .status-playing { color: white; background: #d63031; animation: pulse 0.5s infinite alternate; }
+        @keyframes pulse { from { transform: scale(1); } to { transform: scale(1.05); } }
 
-        #game-status-text {
-            font-size: 22px;
-            font-weight: bold;
-            margin: 15px 0;
-            padding: 10px;
-            border-radius: 10px;
-            transition: all 0.3s;
-        }
+        .mic-panel { background: #f1f2f6; border-radius: 20px; padding: 15px; margin-top: 15px; box-shadow: inset 0 5px 10px rgba(0,0,0,0.05); }
+        .mic-title { font-size: 14px; color: #636e72; text-transform: uppercase; font-weight: bold; margin-bottom: 8px; }
+        .mic-meter-bg { width: 100%; height: 40px; background: #dfe6e9; border-radius: 20px; overflow: hidden; position: relative; border: 3px solid #b2bec3; }
+        .mic-meter-fill { height: 100%; width: 0%; background: linear-gradient(90deg, #00b894 0%, #fdcb6e 50%, #d63031 100%); transition: width 0.1s ease-out; box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1); }
+        .mic-icon { position: absolute; left: 10px; top: 50%; transform: translateY(-50%); font-size: 20px; z-index: 5; }
+        #mic-status-label { margin-top: 8px; font-size: 13px; color: #636e72; font-weight: bold; min-height: 18px; }
 
-        .status-waiting {
-            color: #e17055;
-            background: #ffeaa7;
-        }
-
-        .status-playing {
-            color: white;
-            background: #d63031;
-            animation: pulse 0.5s infinite alternate;
-        }
-
-        @keyframes pulse {
-            from { transform: scale(1); }
-            to { transform: scale(1.05); }
-        }
-
-        .mic-panel {
-            background: #f1f2f6;
-            border-radius: 20px;
-            padding: 15px;
-            margin-top: 15px;
-            box-shadow: inset 0 5px 10px rgba(0,0,0,0.05);
-        }
-
-        .mic-title {
-            font-size: 14px;
-            color: #636e72;
-            text-transform: uppercase;
-            font-weight: bold;
-            margin-bottom: 5px;
-        }
-
-        .mic-meter-bg {
-            width: 100%;
-            height: 40px;
-            background: #dfe6e9;
-            border-radius: 20px;
-            overflow: hidden;
-            position: relative;
-            border: 3px solid #b2bec3;
-        }
-
-        .mic-meter-fill {
-            height: 100%;
-            width: 0%;
-            background: linear-gradient(90deg, #00b894 0%, #fdcb6e 50%, #d63031 100%);
-            transition: width 0.1s ease-out;
-            box-shadow: inset 0 -5px 10px rgba(0,0,0,0.1);
-        }
-
-        .mic-icon {
-            position: absolute;
-            left: 10px;
-            top: 50%;
-            transform: translateY(-50%);
-            font-size: 20px;
-            z-index: 5;
-        }
-
-        .mic-status {
-            margin-top: 8px;
-            font-size: 14px;
-            font-weight: bold;
-            color: #636e72;
-        }
-
-        .progress-title {
-            font-size: 14px;
-            color: #636e72;
-            margin-top: 15px;
-            font-weight: bold;
-            text-transform: uppercase;
-        }
-
-        .progress-bar-container {
-            width: 100%;
-            height: 20px;
-            background-color: #dfe6e9;
-            border-radius: 10px;
-            overflow: hidden;
-            margin-top: 5px;
-        }
-
-        .progress-bar {
-            height: 100%;
-            width: 0%;
-            background-color: #0984e3;
-            transition: width 0.2s;
-        }
+        .progress-title { font-size: 14px; color: #636e72; margin-top: 15px; font-weight: bold; text-transform: uppercase; }
+        .progress-bar-container { width: 100%; height: 20px; background-color: #dfe6e9; border-radius: 10px; overflow: hidden; margin-top: 5px; }
+        .progress-bar { height: 100%; width: 0%; background-color: #0984e3; transition: width 0.2s; }
     </style>
 </head>
 <body>
 
-    <div id="host-view">
-        <div id="host-main-screen">
-            <div id="header">
-                <h1>🐌 Gran Premio Lumache</h1>
-                <h2 id="winner-text">In attesa dei piloti...</h2>
-                <button id="start-btn" class="btn-action" onclick="startRaceHost()">🚀 INIZIA LA GARA! 🚀</button>
-                <button id="btn-show-lb" class="btn-action" onclick="startLeaderboard()">📊 Classifica Finale</button>
-            </div>
-
-            <div id="qr-container">
-                <p style="margin: 0 0 10px 0; font-weight: bold; color: #2d3436; font-size: 18px;">INQUADRAMI!</p>
-                <img id="qrcode-img" src="" alt="QR">
-                <p id="room-link-text" style="font-size: 11px; margin-top: 10px; word-break: break-all; color: #636e72;"></p>
-            </div>
-
-            <div id="race-track-container">
-                <div id="race-track"></div>
-            </div>
+<!-- HOST VIEW -->
+<div id="host-view">
+    <div id="host-main-screen">
+        <div id="header">
+            <h1>🐌 Gran Premio Lumache</h1>
+            <h2 id="winner-text">In attesa dei piloti...</h2>
+            <button id="start-btn" class="btn-action" onclick="startRaceHost()">🚀 INIZIA LA GARA! 🚀</button>
+            <button id="btn-show-lb" class="btn-action" onclick="startLeaderboard()">📊 Classifica Finale</button>
         </div>
-
-        <div id="leaderboard-screen">
-            <h1>🏆 CLASSIFICA TORNEO 🏆</h1>
-            <div id="lb-list"></div>
-            <button id="btn-reveal-next" onclick="revealNextPlayer()">Svela il prossimo...</button>
-            <div id="post-game-btns">
-                <button class="btn-restart" onclick="nextRace(true)">🔄 Continua con questi punti</button>
-                <button class="btn-reset" onclick="nextRace(false)">❌ Azzera tutto e Ricomincia</button>
-            </div>
+        <div id="qr-container">
+            <p style="margin:0 0 10px 0;font-weight:bold;color:#2d3436;font-size:18px;">INQUADRAMI!</p>
+            <img id="qrcode-img" src="" alt="QR">
+            <p id="room-link-text" style="font-size:11px;margin-top:10px;word-break:break-all;color:#636e72;"></p>
+        </div>
+        <div id="race-track-container">
+            <div id="race-track"></div>
         </div>
     </div>
-
-    <div id="client-view">
-        <div class="client-card" id="login-screen">
-            <h2>Crea la tua Lumaca!</h2>
-            <p>1. Scegli il tuo colore:</p>
-            <div class="color-picker" id="color-container"></div>
-            <p>2. Il tuo nome da gara:</p>
-            <input type="text" id="playerName" placeholder="Es. Turbo..." maxlength="10">
-
-            <div class="mic-panel">
-                <div class="mic-title">Test Microfono Prima Della Gara</div>
-                <div class="mic-meter-bg">
-                    <span class="mic-icon">🎤</span>
-                    <div id="mic-level" class="mic-meter-fill"></div>
-                </div>
-                <div class="mic-status" id="mic-status">Tocca “Entra in pista” per autorizzare il microfono.</div>
-            </div>
-
-            <button class="btn-join" onclick="joinGameClient()">Entra in pista</button>
-        </div>
-
-        <div class="client-card" id="game-screen" style="display: none;">
-            <div id="points-display">Caricamento Punti...</div>
-
-            <div id="my-snail" onclick="manualMove()">🐌</div>
-
-            <p id="game-status-text" class="status-waiting">In attesa dell'Host...</p>
-
-            <div class="mic-panel">
-                <div class="mic-title">Volume Voce (Urla o clicca la lumaca!)</div>
-                <div class="mic-meter-bg">
-                    <span class="mic-icon">🎤</span>
-                    <div id="mic-level-game" class="mic-meter-fill"></div>
-                </div>
-                <div class="mic-status" id="mic-status-game">Microfono non ancora inizializzato.</div>
-            </div>
-
-            <div class="progress-title">Traguardo</div>
-            <div class="progress-bar-container"><div id="progress" class="progress-bar"></div></div>
-
-            <button class="btn-edit" id="btn-edit" onclick="editProfile()">⚙️ Modifica Lumaca</button>
+    <div id="leaderboard-screen">
+        <h1>🏆 CLASSIFICA TORNEO 🏆</h1>
+        <div id="lb-list"></div>
+        <button id="btn-reveal-next" onclick="revealNextPlayer()">Svela il prossimo...</button>
+        <div id="post-game-btns">
+            <button class="btn-restart" onclick="nextRace(true)">🔄 Continua con questi punti</button>
+            <button class="btn-reset" onclick="nextRace(false)">❌ Azzera tutto e Ricomincia</button>
         </div>
     </div>
+</div>
 
-    <script>
-        const urlParams = new URLSearchParams(window.location.search);
-        const roomIdParam = urlParams.get('room');
-        let globalHostRoomId = null;
+<!-- CLIENT VIEW -->
+<div id="client-view">
 
-        const soundStart = new Audio("https://actions.google.com/sounds/v1/sports/referee_whistle.ogg");
-        const soundWin = new Audio("https://actions.google.com/sounds/v1/crowds/crowd_cheering.ogg");
+    <!-- SCHERMATA 1: LOGIN -->
+    <div class="client-card" id="login-screen">
+        <h2>Crea la tua Lumaca!</h2>
+        <p>1. Scegli il tuo colore:</p>
+        <div class="color-picker" id="color-container"></div>
+        <p>2. Il tuo nome da gara:</p>
+        <input type="text" id="playerName" placeholder="Es. Turbo..." maxlength="10">
+        <button class="btn-join" id="btn-join" onclick="joinGameClient()">Entra in pista</button>
+    </div>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
-            authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
-            databaseURL: "https://corsa-delle-lumache-c7898-default-rtdb.europe-west1.firebasedatabase.app",
-            projectId: "corsa-delle-lumache-c7898",
-            storageBucket: "corsa-delle-lumache-c7898.firebasestorage.app",
-            messagingSenderId: "13626588351",
-            appId: "1:13626588351:web:027604fd9ad659b4855a0a"
-        };
+    <!-- SCHERMATA 2: GIOCO -->
+    <div class="client-card" id="game-screen" style="display:none;">
+        <div id="points-display">Caricamento Punti...</div>
 
-        firebase.initializeApp(firebaseConfig);
-        const db = firebase.database();
-        const MAX_SCORE = 15000;
+        <div id="my-snail" onclick="manualMove()">🐌</div>
 
-        if (roomIdParam) {
-            document.getElementById('client-view').style.display = 'block';
-            initClient(roomIdParam);
-        } else {
-            document.getElementById('host-view').style.display = 'block';
-            globalHostRoomId = Math.random().toString(36).substring(2, 8);
-            const clientLink = window.location.href.split('?')[0] + "?room=" + globalHostRoomId;
-            document.getElementById('room-link-text').innerText = clientLink;
-            document.getElementById('qrcode-img').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(clientLink);
-            initHost(globalHostRoomId);
-        }
+        <p id="game-status-text" class="status-waiting">In attesa dell'Host...</p>
 
-        // HOST
-        let pointsCalculated = false;
-        let pendingLeaderboard = [];
-        let pendingDBUpdates = {};
-        let revealIndex = -1;
+        <div class="mic-panel">
+            <div class="mic-title" id="mic-panel-title">🎤 Test Microfono</div>
+            <div class="mic-meter-bg">
+                <span class="mic-icon">🎤</span>
+                <div id="mic-level" class="mic-meter-fill"></div>
+            </div>
+            <div id="mic-status-label">Inizializzazione...</div>
+        </div>
 
-        function initHost(rid) {
-            db.ref('rooms/' + rid + '/status').set('waiting');
+        <div class="progress-title">Traguardo</div>
+        <div class="progress-bar-container">
+            <div id="progress" class="progress-bar"></div>
+        </div>
 
-            db.ref('rooms/' + rid + '/players').on('value', snap => {
-                const players = snap.val();
-                const trackDiv = document.getElementById('race-track');
-                trackDiv.innerHTML = '';
+        <button class="btn-edit" id="btn-edit" onclick="editProfile()">⚙️ Modifica Lumaca</button>
+    </div>
+</div>
 
-                if (!players) {
-                    trackDiv.innerHTML = '<div style="text-align:center; color:#2d3436; font-size:26px; font-weight:bold; padding:40px 20px;">Nessuna lumaca in pista... inquadra il QR! 🐌</div>';
-                    return;
-                }
+<script>
+    const urlParams = new URLSearchParams(window.location.search);
+    const roomIdParam = urlParams.get('room');
+    let globalHostRoomId = null;
 
-                let raceFinishedNow = false;
-                const playerKeys = Object.keys(players);
+    const soundStart = new Audio("https://actions.google.com/sounds/v1/sports/referee_whistle.ogg");
+    const soundWin   = new Audio("https://actions.google.com/sounds/v1/crowds/crowd_cheering.ogg");
 
-                playerKeys.forEach(id => {
-                    const p = players[id];
-                    if (!p || !p.name || !p.color) return;
+    const firebaseConfig = {
+        apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
+        authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
+        databaseURL: "https://corsa-delle-lumache-c7898-default-rtdb.europe-west1.firebasedatabase.app",
+        projectId: "corsa-delle-lumache-c7898",
+        storageBucket: "corsa-delle-lumache-c7898.firebasestorage.app",
+        messagingSenderId: "13626588351",
+        appId: "1:13626588351:web:027604fd9ad659b4855a0a"
+    };
+    firebase.initializeApp(firebaseConfig);
+    const db = firebase.database();
+    const MAX_SCORE = 15000;
 
-                    const tr = document.createElement('div');
-                    tr.className = 'track';
+    if (roomIdParam) {
+        document.getElementById('client-view').style.display = 'block';
+        initClient(roomIdParam);
+    } else {
+        document.getElementById('host-view').style.display = 'block';
+        globalHostRoomId = Math.random().toString(36).substring(2, 8);
+        const clientLink = window.location.href.split('?')[0] + "?room=" + globalHostRoomId;
+        document.getElementById('room-link-text').innerText = clientLink;
+        document.getElementById('qrcode-img').src = "https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=" + encodeURIComponent(clientLink);
+        initHost(globalHostRoomId);
+    }
 
-                    const finish = document.createElement('div');
-                    finish.className = 'track-finish-line';
+    // ================ HOST ================
+    let pointsCalculated = false;
+    let pendingLeaderboard = [];
+    let pendingDBUpdates = {};
+    let revealIndex = -1;
 
-                    const s = document.createElement('div');
-                    s.className = 'snail';
-                    if ((p.score || 0) === 0) s.classList.add('ready');
-                    s.style.backgroundColor = p.color;
+    function initHost(rid) {
+        db.ref('rooms/' + rid + '/status').set('waiting');
+        db.ref('rooms/' + rid + '/players').on('value', snap => {
+            const players = snap.val();
+            const trackDiv = document.getElementById('race-track');
+            trackDiv.innerHTML = '';
 
-                    let percent = (p.score || 0) / MAX_SCORE;
-                    if (percent > 1) percent = 1;
-                    if (percent < 0) percent = 0;
-
-                    const usableWidth = 100 - 14;
-                    s.style.left = `calc(${(percent * usableWidth).toFixed(2)}% + 8px)`;
-
-                    let liveEarned = Math.floor(percent * 1000);
-                    let totPt = p.totalPoints || 0;
-
-                    s.innerHTML = `
-                        <span>
-                            ${p.name}<br>
-                            <b>🏆 ${totPt} <span style="color:#27ae60">+${liveEarned}</span> pt</b>
-                        </span>
-                        🐌
-                    `;
-
-                    tr.appendChild(finish);
-                    tr.appendChild(s);
-                    trackDiv.appendChild(tr);
-
-                    if ((p.score || 0) >= MAX_SCORE && !pointsCalculated) raceFinishedNow = true;
-                });
-
-                if (raceFinishedNow && !pointsCalculated) {
-                    pointsCalculated = true;
-                    db.ref('rooms/' + rid + '/status').set('finished');
-                    pendingLeaderboard = [];
-                    pendingDBUpdates = {};
-
-                    Object.keys(players).forEach(id => {
-                        const p = players[id];
-                        if (!p || !p.name || !p.color) return;
-
-                        let pScore = p.score || 0;
-                        let gained = Math.floor((pScore / MAX_SCORE) * 1000);
-                        if (gained > 1000) gained = 1000;
-
-                        let oldTotal = p.totalPoints || 0;
-                        let finalTotal = oldTotal + gained;
-
-                        pendingLeaderboard.push({
-                            id,
-                            name: p.name,
-                            color: p.color,
-                            gained,
-                            total: finalTotal
-                        });
-
-                        pendingDBUpdates[id + '/totalPoints'] = finalTotal;
-                    });
-
-                    pendingLeaderboard.sort((a, b) => b.total - a.total);
-
-                    document.getElementById('winner-text').innerText = "🏁 GARA TERMINATA! Pronti per la classifica? 🏁";
-                    document.getElementById('header').style.background = "#fdcb6e";
-                    document.getElementById('start-btn').style.display = 'none';
-                    document.getElementById('btn-show-lb').style.display = 'inline-block';
-                } else if (playerKeys.length > 0 && !pointsCalculated) {
-                    document.getElementById('winner-text').innerText = `Piloti pronti: ${playerKeys.length}`;
-                }
-            });
-        }
-
-        function startRaceHost() {
-            db.ref('rooms/' + globalHostRoomId + '/status').set('playing');
-            document.getElementById('start-btn').style.display = 'none';
-            document.getElementById('winner-text').innerText = "🔥 GARA IN CORSO! FATE RUMORE! 🔥";
-            document.getElementById('qr-container').classList.add('qr-hidden');
-            soundStart.play().catch(() => {});
-        }
-
-        function startLeaderboard() {
-            document.getElementById('host-main-screen').style.display = 'none';
-            document.getElementById('leaderboard-screen').style.display = 'block';
-
-            const lbList = document.getElementById('lb-list');
-            lbList.innerHTML = '';
-
-            pendingLeaderboard.forEach((p, index) => {
-                const row = document.createElement('div');
-                row.className = 'lb-row';
-                row.id = 'lb-row-' + index;
-                let rankStr = (index === 0) ? "👑" : (index + 1) + "°";
-
-                row.innerHTML = `
-                    <div class="lb-rank">${rankStr}</div>
-                    <div class="lb-details">
-                        <div class="lb-color-dot" style="background-color: ${p.color}"></div>
-                        <div>${p.name.toUpperCase()}</div>
-                    </div>
-                    <div>
-                        <span class="lb-score">${p.total} pt</span>
-                        <span class="lb-gained">(+${p.gained})</span>
-                    </div>
-                `;
-                lbList.appendChild(row);
-            });
-
-            revealIndex = pendingLeaderboard.length - 1;
-            updateRevealBtnText();
-        }
-
-        function updateRevealBtnText() {
-            const btn = document.getElementById('btn-reveal-next');
-            if (revealIndex > 0) {
-                btn.innerText = `Svela il ${revealIndex + 1}° classificato...`;
-            } else if (revealIndex === 0) {
-                btn.innerText = `🏆 SVELA IL VINCITORE! 🏆`;
-                btn.style.background = "#d63031";
-            }
-        }
-
-        function revealNextPlayer() {
-            if (revealIndex < 0) return;
-
-            const row = document.getElementById('lb-row-' + revealIndex);
-            if (row) row.classList.add('revealed');
-
-            if (revealIndex === 0) {
-                row.classList.add('gold');
-                document.getElementById('btn-reveal-next').style.display = 'none';
-                document.getElementById('post-game-btns').style.display = 'flex';
-                confetti({ particleCount: 250, spread: 120, origin: { y: 0.6 }, zIndex: 9999 });
-                soundWin.play().catch(() => {});
-                db.ref('rooms/' + globalHostRoomId + '/players').update(pendingDBUpdates);
-            }
-
-            revealIndex--;
-            updateRevealBtnText();
-        }
-
-        window.nextRace = function(keepPoints) {
-            pointsCalculated = false;
-
-            document.getElementById('leaderboard-screen').style.display = 'none';
-            document.getElementById('host-main-screen').style.display = 'block';
-            document.getElementById('btn-show-lb').style.display = 'none';
-            document.getElementById('post-game-btns').style.display = 'none';
-            document.getElementById('btn-reveal-next').style.display = 'inline-block';
-            document.getElementById('btn-reveal-next').style.background = "#0984e3";
-            document.getElementById('header').style.background = "rgba(255, 255, 255, 0.95)";
-            document.getElementById('winner-text').innerText = "In attesa dei piloti...";
-            document.getElementById('start-btn').style.display = 'inline-block';
-            document.getElementById('qr-container').classList.remove('qr-hidden');
-
-            db.ref('rooms/' + globalHostRoomId + '/players').once('value', snap => {
-                const players = snap.val();
-                if (players) {
-                    const updates = {};
-                    Object.keys(players).forEach(id => {
-                        updates[id + '/score'] = 0;
-                        if (!keepPoints) updates[id + '/totalPoints'] = 0;
-                    });
-                    db.ref('rooms/' + globalHostRoomId + '/players').update(updates);
-                }
-            });
-
-            db.ref('rooms/' + globalHostRoomId + '/status').set('waiting');
-        };
-
-        // CLIENT
-        let pId = 'p_' + Math.random().toString(36).substr(2, 5);
-        let selCol = '#ff7675';
-        let localScore = 0;
-        let rStatus = 'waiting';
-        let myTotalPoints = 0;
-        let audioCtx = null;
-        let micStream = null;
-        let micStarted = false;
-        let micLoop = null;
-
-        function initClient(rid) {
-            const colors = ['#ff7675', '#74b9ff', '#a29bfe', '#fdcb6e', '#e17055', '#2d3436', '#55efc4', '#00cec9', '#e84393', '#00b894', '#d63031', '#0984e3', '#6c5ce7', '#b2bec3', '#ff9ff3', '#feca57'];
-            const container = document.getElementById('color-container');
-
-            colors.forEach(c => {
-                const d = document.createElement('div');
-                d.className = 'color-option' + (c === '#ff7675' ? ' selected' : '');
-                d.style.backgroundColor = c;
-                d.innerText = c === '#ff7675' ? '✅' : '';
-                d.onclick = () => {
-                    document.querySelectorAll('.color-option').forEach(e => {
-                        e.classList.remove('selected');
-                        e.innerText = '';
-                    });
-                    d.classList.add('selected');
-                    d.innerText = '✅';
-                    selCol = c;
-                };
-                container.appendChild(d);
-            });
-
-            db.ref(`rooms/${rid}/status`).on('value', snap => {
-                rStatus = snap.val() || 'waiting';
-                const st = document.getElementById('game-status-text');
-
-                if (rStatus === 'waiting') {
-                    localScore = 0;
-                    document.getElementById('progress').style.width = '0%';
-                    st.innerText = "In attesa della gara...";
-                    st.className = "status-waiting";
-                } else if (rStatus === 'playing') {
-                    st.innerText = "URLA o CLICCA LA LUMACA! 📢";
-                    st.className = "status-playing";
-                } else if (rStatus === 'finished') {
-                    st.innerText = "🏁 FINE GARA! Guarda lo schermo! 🏁";
-                    st.className = "status-waiting";
-                }
-
-                document.getElementById('btn-edit').style.display = rStatus === 'waiting' ? 'inline-block' : 'none';
-                updateClientPointsDisplay();
-            });
-
-            db.ref(`rooms/${rid}/players/${pId}`).on('value', snap => {
-                const p = snap.val();
-                if (!p) return;
-                myTotalPoints = p.totalPoints || 0;
-                if (typeof p.score === 'number') {
-                    localScore = p.score;
-                    document.getElementById('progress').style.width = (localScore / MAX_SCORE * 100) + '%';
-                }
-                updateClientPointsDisplay();
-            });
-        }
-
-        function updateClientPointsDisplay() {
-            let livePts = Math.floor((localScore / MAX_SCORE) * 1000);
-            if (livePts > 1000) livePts = 1000;
-
-            const html = (rStatus === 'playing' || rStatus === 'waiting')
-                ? `Torneo: <strong>${myTotalPoints} pt</strong> <span class="live-pts">(+${livePts})</span>`
-                : `Torneo: <strong>${myTotalPoints} pt</strong>`;
-
-            document.getElementById('points-display').innerHTML = html;
-        }
-
-        async function setupMicrophone() {
-            if (micStarted) return true;
-
-            const loginStatus = document.getElementById('mic-status');
-            const gameStatus = document.getElementById('mic-status-game');
-
-            try {
-                if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
-                    throw new Error("Browser o contesto non compatibile con il microfono. Usa HTTPS.");
-                }
-
-                loginStatus.innerText = "Richiesta autorizzazione microfono...";
-                gameStatus.innerText = "Richiesta autorizzazione microfono...";
-
-                micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-
-                const AudioContextClass = window.AudioContext || window.webkitAudioContext;
-                if (!AudioContextClass) {
-                    throw new Error("AudioContext non supportato dal browser.");
-                }
-
-                if (!audioCtx) audioCtx = new AudioContextClass();
-                if (audioCtx.state === 'suspended') await audioCtx.resume();
-
-                startMic(micStream);
-                micStarted = true;
-
-                loginStatus.innerText = "✅ Microfono attivo: prova a parlare, la barra deve muoversi.";
-                gameStatus.innerText = "✅ Microfono attivo.";
-                return true;
-            } catch (e) {
-                console.error("Errore Microfono:", e);
-                loginStatus.innerText = "⚠️ Microfono non disponibile. Puoi comunque giocare cliccando la lumaca.";
-                gameStatus.innerText = "⚠️ Microfono non disponibile. Usa il click sulla lumaca.";
-                return false;
-            }
-        }
-
-        async function joinGameClient() {
-            const name = document.getElementById('playerName').value.trim();
-            if (!name) {
-                alert("Inserisci un nome!");
+            if (!players) {
+                trackDiv.innerHTML = '<div style="text-align:center;color:#2d3436;font-size:24px;font-weight:bold;padding:40px 20px;opacity:0.6;">Nessuna lumaca ancora... inquadra il QR! 🐌</div>';
                 return;
             }
 
-            await setupMicrophone();
+            let raceFinishedNow = false;
+            Object.keys(players).forEach(id => {
+                const p = players[id];
+                if (!p || !p.name || !p.color) return;
 
-            document.getElementById('login-screen').style.display = 'none';
-            document.getElementById('game-screen').style.display = 'block';
-            document.getElementById('my-snail').style.backgroundColor = selCol;
+                const tr = document.createElement('div');
+                tr.className = 'track';
 
-            db.ref(`rooms/${roomIdParam}/players/${pId}`).update({
-                name: name,
-                color: selCol,
-                score: 0
-            });
-        }
+                const finish = document.createElement('div');
+                finish.className = 'track-finish-line';
 
-        function editProfile() {
-            document.getElementById('login-screen').style.display = 'block';
-            document.getElementById('game-screen').style.display = 'none';
-        }
+                const s = document.createElement('div');
+                s.className = 'snail';
+                s.style.backgroundColor = p.color;
 
-        function manualMove() {
-            if (rStatus !== 'playing') return;
-
-            localScore += 800;
-            if (localScore > MAX_SCORE) localScore = MAX_SCORE;
-
-            db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: localScore });
-            document.getElementById('progress').style.width = (localScore / MAX_SCORE * 100) + '%';
-            updateClientPointsDisplay();
-        }
-
-        function startMic(stream) {
-            if (micLoop) clearInterval(micLoop);
-
-            const ana = audioCtx.createAnalyser();
-            ana.fftSize = 256;
-
-            const source = audioCtx.createMediaStreamSource(stream);
-            source.connect(ana);
-
-            const loginMeter = document.getElementById('mic-level');
-            const gameMeter = document.getElementById('mic-level-game');
-            const mySnail = document.getElementById('my-snail');
-
-            micLoop = setInterval(() => {
-                const data = new Uint8Array(ana.frequencyBinCount);
-                ana.getByteFrequencyData(data);
-
-                let vol = Math.max(...data);
-                let micPercent = Math.min((vol / 255) * 100, 100);
-
-                if (loginMeter) loginMeter.style.width = micPercent + '%';
-                if (gameMeter) gameMeter.style.width = micPercent + '%';
-
-                if (vol > 30 && rStatus === 'playing') {
-                    localScore += vol / 3;
-                    if (localScore > MAX_SCORE) localScore = MAX_SCORE;
-
-                    db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: localScore });
-
-                    document.getElementById('progress').style.width = (localScore / MAX_SCORE * 100) + '%';
-                    if (mySnail) {
-                        mySnail.style.transform = `scale(${1 + vol / 200}) rotate(${(Math.random() * 10) - 5}deg)`;
-                    }
-                    updateClientPointsDisplay();
+                let percent = (p.score || 0) / MAX_SCORE;
+                if (percent > 1) percent = 1;
+                if (percent <= 0) {
+                    s.classList.add('ready');
+                    s.style.left = '8px';
                 } else {
-                    if (mySnail) mySnail.style.transform = 'scale(1) rotate(0deg)';
+                    s.style.left = `calc(${(percent * 86).toFixed(2)}% + 8px)`;
                 }
-            }, 100);
+
+                let liveEarned = Math.min(Math.floor(percent * 1000), 1000);
+                let totPt = p.totalPoints || 0;
+                s.innerHTML = `<span>${p.name}<br><b>🏆 ${totPt} <span style="color:#27ae60">+${liveEarned}</span> pt</b></span>🐌`;
+
+                tr.appendChild(finish);
+                tr.appendChild(s);
+                trackDiv.appendChild(tr);
+
+                if ((p.score || 0) >= MAX_SCORE && !pointsCalculated) raceFinishedNow = true;
+            });
+
+            const playerKeys = Object.keys(players).filter(id => players[id] && players[id].name);
+            if (playerKeys.length > 0 && !pointsCalculated) {
+                document.getElementById('winner-text').innerText = `Piloti pronti: ${playerKeys.length} 🐌`;
+            }
+
+            if (raceFinishedNow && !pointsCalculated) {
+                pointsCalculated = true;
+                db.ref('rooms/' + rid + '/status').set('finished');
+                pendingLeaderboard = [];
+                pendingDBUpdates = {};
+
+                Object.keys(players).forEach(id => {
+                    const p = players[id];
+                    if (!p || !p.name) return;
+                    let gained = Math.min(Math.floor(((p.score || 0) / MAX_SCORE) * 1000), 1000);
+                    let finalTotal = (p.totalPoints || 0) + gained;
+                    pendingLeaderboard.push({ id, name: p.name, color: p.color, gained, total: finalTotal });
+                    pendingDBUpdates[id + '/totalPoints'] = finalTotal;
+                });
+
+                pendingLeaderboard.sort((a, b) => b.total - a.total);
+                document.getElementById('winner-text').innerText = "🏁 GARA TERMINATA! Pronti per la classifica? 🏁";
+                document.getElementById('header').style.background = "#fdcb6e";
+                document.getElementById('start-btn').style.display = 'none';
+                document.getElementById('btn-show-lb').style.display = 'inline-block';
+            }
+        });
+    }
+
+    function startRaceHost() {
+        db.ref('rooms/' + globalHostRoomId + '/status').set('playing');
+        document.getElementById('start-btn').style.display = 'none';
+        document.getElementById('winner-text').innerText = "🔥 GARA IN CORSO! FATE RUMORE! 🔥";
+        document.getElementById('qr-container').classList.add('qr-hidden');
+        soundStart.play().catch(() => {});
+    }
+
+    function startLeaderboard() {
+        document.getElementById('host-main-screen').style.display = 'none';
+        document.getElementById('leaderboard-screen').style.display = 'block';
+        const lbList = document.getElementById('lb-list');
+        lbList.innerHTML = '';
+        pendingLeaderboard.forEach((p, index) => {
+            const row = document.createElement('div');
+            row.className = 'lb-row';
+            row.id = 'lb-row-' + index;
+            row.innerHTML = `
+                <div class="lb-rank">${index === 0 ? "👑" : (index + 1) + "°"}</div>
+                <div class="lb-details">
+                    <div class="lb-color-dot" style="background-color:${p.color}"></div>
+                    <div>${p.name.toUpperCase()}</div>
+                </div>
+                <div>
+                    <span class="lb-score">${p.total} pt</span>
+                    <span class="lb-gained">(+${p.gained})</span>
+                </div>`;
+            lbList.appendChild(row);
+        });
+        revealIndex = pendingLeaderboard.length - 1;
+        updateRevealBtnText();
+    }
+
+    function updateRevealBtnText() {
+        const btn = document.getElementById('btn-reveal-next');
+        if (revealIndex > 0) btn.innerText = `Svela il ${revealIndex + 1}° classificato...`;
+        else if (revealIndex === 0) { btn.innerText = '🏆 SVELA IL VINCITORE! 🏆'; btn.style.background = '#d63031'; }
+    }
+
+    function revealNextPlayer() {
+        if (revealIndex < 0) return;
+        const row = document.getElementById('lb-row-' + revealIndex);
+        if (row) row.classList.add('revealed');
+        if (revealIndex === 0) {
+            row.classList.add('gold');
+            document.getElementById('btn-reveal-next').style.display = 'none';
+            document.getElementById('post-game-btns').style.display = 'flex';
+            confetti({ particleCount: 250, spread: 120, origin: { y: 0.6 }, zIndex: 9999 });
+            soundWin.play().catch(() => {});
+            db.ref('rooms/' + globalHostRoomId + '/players').update(pendingDBUpdates);
         }
-    </script>
+        revealIndex--;
+        updateRevealBtnText();
+    }
+
+    window.nextRace = function(keepPoints) {
+        pointsCalculated = false;
+        document.getElementById('leaderboard-screen').style.display = 'none';
+        document.getElementById('host-main-screen').style.display = 'block';
+        document.getElementById('btn-show-lb').style.display = 'none';
+        document.getElementById('post-game-btns').style.display = 'none';
+        document.getElementById('btn-reveal-next').style.display = 'inline-block';
+        document.getElementById('btn-reveal-next').style.background = '#0984e3';
+        document.getElementById('header').style.background = 'rgba(255,255,255,0.95)';
+        document.getElementById('winner-text').innerText = 'In attesa dei piloti...';
+        document.getElementById('start-btn').style.display = 'inline-block';
+        document.getElementById('qr-container').classList.remove('qr-hidden');
+        db.ref('rooms/' + globalHostRoomId + '/players').once('value', snap => {
+            const players = snap.val();
+            if (players) {
+                const updates = {};
+                Object.keys(players).forEach(id => {
+                    updates[id + '/score'] = 0;
+                    if (!keepPoints) updates[id + '/totalPoints'] = 0;
+                });
+                db.ref('rooms/' + globalHostRoomId + '/players').update(updates);
+            }
+        });
+        db.ref('rooms/' + globalHostRoomId + '/status').set('waiting');
+    };
+
+    // ================ CLIENT ================
+    let pId = 'p_' + Math.random().toString(36).substr(2, 5);
+    let selCol = '#ff7675';
+    let localScore = 0;
+    let rStatus = 'waiting';
+    let myTotalPoints = 0;
+    let audioCtx = null;
+    let micStarted = false;
+
+    function initClient(rid) {
+        const colors = ['#ff7675','#74b9ff','#a29bfe','#fdcb6e','#e17055','#2d3436','#55efc4','#00cec9','#e84393','#00b894','#d63031','#0984e3','#6c5ce7','#b2bec3','#ff9ff3','#feca57'];
+        const container = document.getElementById('color-container');
+        colors.forEach(c => {
+            const d = document.createElement('div');
+            d.className = 'color-option' + (c === '#ff7675' ? ' selected' : '');
+            d.style.backgroundColor = c;
+            d.innerText = c === '#ff7675' ? '✅' : '';
+            d.onclick = () => {
+                document.querySelectorAll('.color-option').forEach(e => { e.classList.remove('selected'); e.innerText = ''; });
+                d.classList.add('selected'); d.innerText = '✅'; selCol = c;
+            };
+            container.appendChild(d);
+        });
+
+        db.ref(`rooms/${rid}/status`).on('value', snap => {
+            rStatus = snap.val() || 'waiting';
+            const st = document.getElementById('game-status-text');
+            const micTitle = document.getElementById('mic-panel-title');
+            if (rStatus === 'waiting') {
+                localScore = 0;
+                document.getElementById('progress').style.width = '0%';
+                st.innerText = 'In attesa della gara...';
+                st.className = 'status-waiting';
+                if (micTitle) micTitle.innerText = '🎤 Test Microfono';
+            } else if (rStatus === 'playing') {
+                st.innerText = 'URLA o CLICCA LA LUMACA! 📢';
+                st.className = 'status-playing';
+                if (micTitle) micTitle.innerText = '🎤 Volume Voce';
+            } else if (rStatus === 'finished') {
+                st.innerText = '🏁 FINE GARA! Guarda lo schermo! 🏁';
+                st.className = 'status-waiting';
+                if (micTitle) micTitle.innerText = '🎤 Microfono';
+            }
+            document.getElementById('btn-edit').style.display = rStatus === 'waiting' ? 'inline-block' : 'none';
+            updateClientPointsDisplay();
+        });
+
+        db.ref(`rooms/${rid}/players/${pId}`).on('value', snap => {
+            const p = snap.val();
+            if (!p) return;
+            myTotalPoints = p.totalPoints || 0;
+            updateClientPointsDisplay();
+        });
+    }
+
+    function updateClientPointsDisplay() {
+        let livePts = Math.min(Math.floor((localScore / MAX_SCORE) * 1000), 1000);
+        document.getElementById('points-display').innerHTML =
+            (rStatus === 'playing' || rStatus === 'waiting')
+                ? `Torneo: <strong>${myTotalPoints} pt</strong> <span class="live-pts">(+${livePts})</span>`
+                : `Torneo: <strong>${myTotalPoints} pt</strong>`;
+    }
+
+    async function joinGameClient() {
+        const name = document.getElementById('playerName').value.trim();
+        if (!name) { alert('Inserisci un nome!'); return; }
+
+        // Blocca bottone per evitare doppi click
+        const btn = document.getElementById('btn-join');
+        btn.disabled = true;
+        btn.innerText = '⏳ Accesso microfono...';
+
+        // Passa alla schermata di gioco
+        document.getElementById('login-screen').style.display = 'none';
+        document.getElementById('game-screen').style.display = 'block';
+        document.getElementById('my-snail').style.backgroundColor = selCol;
+
+        // Registra il giocatore su Firebase
+        db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ name, color: selCol, score: 0 });
+
+        // Chiedi il microfono ORA — il popup appare nella game screen
+        document.getElementById('mic-status-label').innerText = '⏳ In attesa di autorizzazione microfono...';
+        await setupMicrophone();
+    }
+
+    async function setupMicrophone() {
+        if (micStarted) return;
+        const statusEl = document.getElementById('mic-status-label');
+        try {
+            if (!navigator.mediaDevices || !navigator.mediaDevices.getUserMedia) {
+                throw new Error('API microfono non disponibile. Usa HTTPS.');
+            }
+            const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+            const AudioContextClass = window.AudioContext || window.webkitAudioContext;
+            if (!AudioContextClass) throw new Error('AudioContext non supportato.');
+            if (!audioCtx) audioCtx = new AudioContextClass();
+            if (audioCtx.state === 'suspended') await audioCtx.resume();
+
+            startMicLoop(stream);
+            micStarted = true;
+            statusEl.innerText = '✅ Microfono attivo! Prova a parlare.';
+        } catch (e) {
+            console.warn('Mic error:', e.message);
+            statusEl.innerText = '⚠️ Microfono non disponibile — usa il click sulla lumaca!';
+        }
+    }
+
+    function editProfile() {
+        document.getElementById('login-screen').style.display = 'block';
+        document.getElementById('game-screen').style.display = 'none';
+        const btn = document.getElementById('btn-join');
+        btn.disabled = false;
+        btn.innerText = 'Entra in pista';
+    }
+
+    function manualMove() {
+        if (rStatus !== 'playing') return;
+        localScore = Math.min(localScore + 800, MAX_SCORE);
+        db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: localScore });
+        document.getElementById('progress').style.width = (localScore / MAX_SCORE * 100) + '%';
+        updateClientPointsDisplay();
+    }
+
+    function startMicLoop(stream) {
+        const ana = audioCtx.createAnalyser();
+        ana.fftSize = 256;
+        audioCtx.createMediaStreamSource(stream).connect(ana);
+
+        setInterval(() => {
+            const data = new Uint8Array(ana.frequencyBinCount);
+            ana.getByteFrequencyData(data);
+            const vol = Math.max(...data);
+            const micPercent = Math.min((vol / 255) * 100, 100);
+
+            document.getElementById('mic-level').style.width = micPercent + '%';
+
+            if (vol > 30 && rStatus === 'playing') {
+                localScore = Math.min(localScore + vol / 3, MAX_SCORE);
+                db.ref(`rooms/${roomIdParam}/players/${pId}`).update({ score: localScore });
+                document.getElementById('progress').style.width = (localScore / MAX_SCORE * 100) + '%';
+                document.getElementById('my-snail').style.transform = `scale(${1 + vol / 200}) rotate(${(Math.random() * 10) - 5}deg)`;
+                updateClientPointsDisplay();
+            } else {
+                document.getElementById('my-snail').style.transform = 'scale(1) rotate(0deg)';
+            }
+        }, 100);
+    }
+</script>
 </body>
 </html>
