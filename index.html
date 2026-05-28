@@ -15,127 +15,105 @@
     }
     body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--fg); min-height:100svh; display:flex; flex-direction:column; }
     .fredoka { font-family:'Fredoka',sans-serif; }
-
     .header { background:linear-gradient(90deg,hsl(142,50%,42%,0.12),hsl(36,80%,55%,0.12)); border-bottom:1px solid var(--border); padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
     .header-left { display:flex; align-items:center; gap:0.75rem; }
     .header-right { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
     .main { flex:1; padding:2rem 1.5rem; max-width:1200px; margin:0 auto; width:100%; }
-
     .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; }
     .btn { display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; font-family:'Fredoka',sans-serif; font-size:1rem; font-weight:600; border:none; border-radius:var(--radius); cursor:pointer; transition:opacity 0.15s,transform 0.1s; padding:0.75rem 1.25rem; background:var(--primary); color:#fff; box-shadow:0 3px 10px rgba(39,174,96,0.3); }
-    .btn:hover { opacity:0.88; } .btn:active { transform:scale(0.97); } .btn:disabled { opacity:0.4; cursor:not-allowed; }
-    .btn.lg { font-size:1.15rem; padding:0.9rem 1.6rem; }
-    .btn.outline { background:transparent; color:var(--primary); border:2px solid var(--primary); box-shadow:none; }
-    .btn.yellow-outline { background:transparent; color:#92400e; border:2px solid #fbbf24; box-shadow:none; }
-    .btn.full { width:100%; }
-    .badge-pill { display:inline-flex; align-items:center; gap:0.5rem; background:var(--card); border:1px solid var(--border); border-radius:0.75rem; padding:0.4rem 0.9rem; font-family:'Fredoka',sans-serif; font-size:1rem; }
-
-    .input { width:100%; padding:0.75rem 1rem; font-family:'Nunito',sans-serif; font-size:1rem; border:1px solid var(--border); border-radius:0.75rem; background:var(--bg); color:var(--fg); outline:none; transition:border-color 0.2s; }
-    .input:focus { border-color:var(--primary); }
-    label.lbl { font-family:'Fredoka',sans-serif; font-size:0.9rem; display:block; margin-bottom:0.4rem; }
-
-    .text-center { text-align:center; } .muted { color:var(--muted-fg); } .text-sm { font-size:0.875rem; } .text-xs { font-size:0.75rem; }
+    .btn:hover{opacity:0.88;} .btn:active{transform:scale(0.97);} .btn:disabled{opacity:0.4;cursor:not-allowed;}
+    .btn.lg{font-size:1.15rem;padding:0.9rem 1.6rem;}
+    .btn.yellow-outline{background:transparent;color:#92400e;border:2px solid #fbbf24;box-shadow:none;}
+    .btn.full{width:100%;}
+    .badge-pill{display:inline-flex;align-items:center;gap:0.5rem;background:var(--card);border:1px solid var(--border);border-radius:0.75rem;padding:0.4rem 0.9rem;font-family:'Fredoka',sans-serif;font-size:1rem;}
+    .input{width:100%;padding:0.75rem 1rem;font-family:'Nunito',sans-serif;font-size:1rem;border:1px solid var(--border);border-radius:0.75rem;background:var(--bg);color:var(--fg);outline:none;transition:border-color 0.2s;}
+    .input:focus{border-color:var(--primary);}
+    label.lbl{font-family:'Fredoka',sans-serif;font-size:0.9rem;display:block;margin-bottom:0.4rem;}
+    .text-center{text-align:center;} .muted{color:var(--muted-fg);} .text-sm{font-size:0.875rem;} .text-xs{font-size:0.75rem;}
     .mt-1{margin-top:0.25rem} .mt-2{margin-top:0.5rem} .mt-3{margin-top:0.75rem} .mt-4{margin-top:1rem} .mt-6{margin-top:1.5rem}
-    .flex{display:flex} .flex-col{flex-direction:column} .items-center{align-items:center} .justify-center{justify-content:center}
+    .flex{display:flex;} .items-center{align-items:center;} .justify-center{justify-content:center;}
     .gap-2{gap:0.5rem} .gap-3{gap:0.75rem} .gap-4{gap:1rem}
-    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
-    .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
-    .full{width:100%}
-
-    .join-step { width:100%; max-width:22rem; margin:0 auto; }
-    .join-center { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; }
-
-    .color-btn { background:none; border:2px solid transparent; border-radius:1rem; padding:0.4rem; cursor:pointer; transition:border-color 0.15s,transform 0.15s; display:flex; flex-direction:column; align-items:center; gap:0.25rem; }
-    .color-btn.selected { border-color:var(--primary); transform:scale(1.07); box-shadow:0 2px 8px rgba(39,174,96,0.25); }
-    .color-btn span { font-size:0.65rem; color:var(--muted-fg); text-transform:capitalize; }
-    .preview-box { background:var(--card); border:1px solid var(--border); border-radius:1.5rem; padding:1.5rem; text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
-
-    .track-labels { display:flex; justify-content:space-between; font-size:0.75rem; color:var(--muted-fg); margin-bottom:0.25rem; }
-    .track-bg { position:relative; height:1.5rem; background:var(--muted); border-radius:999px; overflow:hidden; border:1px solid var(--border); }
-    .track-fill { position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,var(--primary),hsl(142,50%,60%)); border-radius:999px; transition:width 0.08s linear; }
-    .track-snail { position:absolute; top:50%; transform:translate(-50%,-50%); font-size:1.1rem; transition:left 0.08s linear; }
-
-    .score-box { background:linear-gradient(135deg,hsl(142,50%,42%,0.1),hsl(36,80%,55%,0.1)); border:1px solid hsl(142,50%,42%,0.2); border-radius:1rem; padding:1rem; text-align:center; }
-    .score-num { font-family:'Fredoka',sans-serif; font-size:3.5rem; font-weight:700; color:var(--primary); line-height:1; }
-
-    .mic-icon-wrap { width:5rem; height:5rem; border-radius:50%; background:hsl(142,50%,42%,0.1); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:2.5rem; }
-    .bars { display:flex; align-items:flex-end; justify-content:center; gap:0.25rem; height:5rem; }
-    .bar { width:1rem; border-radius:999px; background:var(--muted); transition:height 0.06s linear,background 0.06s linear; min-height:0.5rem; }
-    .mic-status { display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-top:0.5rem; }
-    .mic-dot { width:0.75rem; height:0.75rem; border-radius:50%; background:var(--muted-fg); }
-    .mic-dot.active { background:var(--primary); animation:pulse 1s infinite; }
-
-    .dots { display:flex; gap:0.5rem; justify-content:center; }
-    .dot { width:0.5rem; height:0.5rem; background:var(--primary); border-radius:50%; animation:bounce 0.8s infinite alternate; }
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;}
+    .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem;}
+    .full{width:100%;}
+    .join-step{width:100%;max-width:22rem;margin:0 auto;}
+    .join-center{display:flex;flex-direction:column;align-items:center;justify-content:center;min-height:60vh;}
+    .color-btn{background:none;border:2px solid transparent;border-radius:1rem;padding:0.4rem;cursor:pointer;transition:border-color 0.15s,transform 0.15s;display:flex;flex-direction:column;align-items:center;gap:0.25rem;}
+    .color-btn.selected{border-color:var(--primary);transform:scale(1.07);box-shadow:0 2px 8px rgba(39,174,96,0.25);}
+    .color-btn span{font-size:0.65rem;color:var(--muted-fg);text-transform:capitalize;}
+    .preview-box{background:var(--card);border:1px solid var(--border);border-radius:1.5rem;padding:1.5rem;text-align:center;display:flex;flex-direction:column;align-items:center;gap:0.5rem;}
+    .track-labels{display:flex;justify-content:space-between;font-size:0.75rem;color:var(--muted-fg);margin-bottom:0.25rem;}
+    .track-bg{position:relative;height:1.5rem;background:var(--muted);border-radius:999px;overflow:hidden;border:1px solid var(--border);}
+    .track-fill{position:absolute;left:0;top:0;bottom:0;background:linear-gradient(90deg,var(--primary),hsl(142,50%,60%));border-radius:999px;transition:width 0.08s linear;}
+    .track-snail{position:absolute;top:50%;transform:translate(-50%,-50%);font-size:1.1rem;transition:left 0.08s linear;}
+    .score-box{background:linear-gradient(135deg,hsl(142,50%,42%,0.1),hsl(36,80%,55%,0.1));border:1px solid hsl(142,50%,42%,0.2);border-radius:1rem;padding:1rem;text-align:center;}
+    .score-num{font-family:'Fredoka',sans-serif;font-size:3.5rem;font-weight:700;color:var(--primary);line-height:1;}
+    .mic-icon-wrap{width:5rem;height:5rem;border-radius:50%;background:hsl(142,50%,42%,0.1);display:flex;align-items:center;justify-content:center;margin:0 auto 1rem;font-size:2.5rem;}
+    .bars{display:flex;align-items:flex-end;justify-content:center;gap:0.25rem;height:5rem;}
+    .bar{width:1rem;border-radius:999px;background:var(--muted);transition:height 0.06s linear,background 0.06s linear;min-height:0.5rem;}
+    .mic-status{display:flex;align-items:center;justify-content:center;gap:0.5rem;margin-top:0.5rem;}
+    .mic-dot{width:0.75rem;height:0.75rem;border-radius:50%;background:var(--muted-fg);}
+    .mic-dot.active{background:var(--primary);animation:pulse 1s infinite;}
+    .dots{display:flex;gap:0.5rem;justify-content:center;}
+    .dot{width:0.5rem;height:0.5rem;background:var(--primary);border-radius:50%;animation:bounce 0.8s infinite alternate;}
     .dot:nth-child(2){animation-delay:0.15s} .dot:nth-child(3){animation-delay:0.3s}
-
-    .participant-card { display:flex; align-items:center; gap:0.75rem; background:var(--card); padding:0.75rem 1rem; border-radius:1rem; border:1px solid var(--border); }
-    .participant-name { font-family:'Fredoka',sans-serif; font-size:1.1rem; }
-    .participant-pts { font-size:0.75rem; color:var(--primary); }
-
-    .race-lane { background:#fef9e7; border:1px solid #f0d580; border-radius:0.75rem; padding:0.75rem 1rem; }
-    .lane-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem; }
-    .lane-rank { font-family:'Fredoka',sans-serif; font-size:1.1rem; min-width:2rem; }
-    .lane-name { font-family:'Fredoka',sans-serif; font-size:1.1rem; flex:1; margin-left:0.5rem; }
-    .lane-pct { font-size:0.8rem; color:var(--muted-fg); }
-    .lane-track { position:relative; height:1.25rem; background:var(--muted); border-radius:999px; overflow:hidden; }
-    .lane-fill { position:absolute; left:0; top:0; bottom:0; border-radius:999px; transition:width 0.15s ease; }
-    .lane-snail { position:absolute; top:50%; transform:translate(-50%,-50%); font-size:1rem; transition:left 0.15s ease; }
-
-    .lb-row { display:flex; align-items:center; gap:0.75rem; padding:0.6rem 0; border-bottom:1px solid var(--muted); }
-    .lb-rank { font-family:'Fredoka',sans-serif; font-size:1.2rem; min-width:2rem; }
-    .lb-info { flex:1; }
-    .lb-name { font-family:'Fredoka',sans-serif; font-size:1rem; }
-    .lb-pts { font-size:0.75rem; color:var(--muted-fg); }
-    .lb-score { font-family:'Fredoka',sans-serif; font-size:1.1rem; color:var(--primary); }
-
-    .winner-box { text-align:center; padding:3rem 2rem; background:linear-gradient(135deg,hsl(36,80%,55%,0.15),var(--card),hsl(142,50%,42%,0.15)); border-radius:1.5rem; border:1px solid var(--border); }
-    .winner-trophy { font-size:5rem; display:block; margin-bottom:1rem; animation:wiggle 2s infinite; }
-
-    .qr-wrap { display:flex; flex-direction:column; align-items:center; gap:1rem; }
-    .qr-box { background:#fff; padding:1rem; border-radius:1rem; border:2px solid var(--border); box-shadow:0 4px 16px rgba(0,0,0,0.1); }
-    .qr-url { font-size:0.7rem; color:var(--muted-fg); word-break:break-all; max-width:20rem; text-align:center; }
-
-    .reveal-wrap { max-width:40rem; margin:0 auto; }
-    .reveal-item { display:flex; align-items:center; gap:1rem; padding:1rem; background:var(--card); border-radius:1rem; border:1px solid var(--border); margin-bottom:0.75rem; opacity:0; transform:translateY(16px); transition:opacity 0.4s,transform 0.4s; }
-    .reveal-item.shown { opacity:1; transform:translateY(0); }
-    .reveal-rank { font-family:'Fredoka',sans-serif; font-size:1.8rem; min-width:2.5rem; }
-    .reveal-info { flex:1; }
-    .reveal-name { font-family:'Fredoka',sans-serif; font-size:1.2rem; }
-    .reveal-score { font-size:0.85rem; color:var(--muted-fg); }
-    .reveal-total { font-family:'Fredoka',sans-serif; font-size:1.4rem; color:var(--primary); }
-
-    .hof-entry { display:flex; align-items:center; gap:0.75rem; padding:0.6rem 0; border-bottom:1px solid var(--muted); }
-
-    .two-col { display:grid; grid-template-columns:1fr; gap:2rem; }
-    @media(min-width:900px) { .two-col { grid-template-columns:1fr 1fr; } }
-    .three-col { display:grid; grid-template-columns:1fr; gap:2rem; }
-    @media(min-width:1100px) { .three-col { grid-template-columns:2fr 1fr; } }
-    .race-lanes { display:flex; flex-direction:column; gap:0.75rem; }
-
-    .lane-fill-red    { background:linear-gradient(90deg,#c0392b,#e74c3c); }
-    .lane-fill-blue   { background:linear-gradient(90deg,#1a5276,#2980b9); }
-    .lane-fill-green  { background:linear-gradient(90deg,#1e8449,#27ae60); }
-    .lane-fill-purple { background:linear-gradient(90deg,#6c3483,#8e44ad); }
-    .lane-fill-orange { background:linear-gradient(90deg,#ba4a00,#e67e22); }
-    .lane-fill-pink   { background:linear-gradient(90deg,#a93226,#e91e8c); }
-    .lane-fill-yellow { background:linear-gradient(90deg,#9a7d0a,#d4ac0d); }
-    .lane-fill-cyan   { background:linear-gradient(90deg,#0e6655,#17a589); }
-
-    @keyframes bounce { to{transform:translateY(-8px)} }
-    @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-    @keyframes wiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(8deg)} 75%{transform:rotate(-8deg)} }
-    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
-    @keyframes textpulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-    .fade-in { animation:fadeIn 0.35s ease both; }
-    .pulse-text { animation:textpulse 2s infinite; }
-    .flag-anim { font-size:4rem; display:inline-block; animation:wiggle 1s 3; }
-    .bob { animation:bob 2s ease-in-out infinite; }
+    .participant-card{display:flex;align-items:center;gap:0.75rem;background:var(--card);padding:0.75rem 1rem;border-radius:1rem;border:1px solid var(--border);}
+    .participant-name{font-family:'Fredoka',sans-serif;font-size:1.1rem;}
+    .participant-pts{font-size:0.75rem;color:var(--primary);}
+    .race-lane{background:#fef9e7;border:1px solid #f0d580;border-radius:0.75rem;padding:0.75rem 1rem;}
+    .lane-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:0.5rem;}
+    .lane-rank{font-family:'Fredoka',sans-serif;font-size:1.1rem;min-width:2rem;}
+    .lane-name{font-family:'Fredoka',sans-serif;font-size:1.1rem;flex:1;margin-left:0.5rem;}
+    .lane-pct{font-size:0.8rem;color:var(--muted-fg);}
+    .lane-track{position:relative;height:1.25rem;background:var(--muted);border-radius:999px;overflow:hidden;}
+    .lane-fill{position:absolute;left:0;top:0;bottom:0;border-radius:999px;transition:width 0.15s ease;}
+    .lane-snail{position:absolute;top:50%;transform:translate(-50%,-50%);font-size:1rem;transition:left 0.15s ease;}
+    .lb-row{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--muted);}
+    .lb-rank{font-family:'Fredoka',sans-serif;font-size:1.2rem;min-width:2rem;}
+    .lb-info{flex:1;}
+    .lb-name{font-family:'Fredoka',sans-serif;font-size:1rem;}
+    .lb-pts{font-size:0.75rem;color:var(--muted-fg);}
+    .lb-score{font-family:'Fredoka',sans-serif;font-size:1.1rem;color:var(--primary);}
+    .winner-box{text-align:center;padding:3rem 2rem;background:linear-gradient(135deg,hsl(36,80%,55%,0.15),var(--card),hsl(142,50%,42%,0.15));border-radius:1.5rem;border:1px solid var(--border);}
+    .winner-trophy{font-size:5rem;display:block;margin-bottom:1rem;animation:wiggle 2s infinite;}
+    .qr-wrap{display:flex;flex-direction:column;align-items:center;gap:1rem;}
+    .qr-box{background:#fff;padding:1rem;border-radius:1rem;border:2px solid var(--border);box-shadow:0 4px 16px rgba(0,0,0,0.1);}
+    .qr-url{font-size:0.7rem;color:var(--muted-fg);word-break:break-all;max-width:20rem;text-align:center;}
+    .reveal-wrap{max-width:40rem;margin:0 auto;}
+    .reveal-item{display:flex;align-items:center;gap:1rem;padding:1rem;background:var(--card);border-radius:1rem;border:1px solid var(--border);margin-bottom:0.75rem;opacity:0;transform:translateY(16px);transition:opacity 0.4s,transform 0.4s;}
+    .reveal-item.shown{opacity:1;transform:translateY(0);}
+    .reveal-rank{font-family:'Fredoka',sans-serif;font-size:1.8rem;min-width:2.5rem;}
+    .reveal-info{flex:1;}
+    .reveal-name{font-family:'Fredoka',sans-serif;font-size:1.2rem;}
+    .reveal-score{font-size:0.85rem;color:var(--muted-fg);}
+    .reveal-total{font-family:'Fredoka',sans-serif;font-size:1.4rem;color:var(--primary);}
+    .hof-entry{display:flex;align-items:center;gap:0.75rem;padding:0.6rem 0;border-bottom:1px solid var(--muted);}
+    .two-col{display:grid;grid-template-columns:1fr;gap:2rem;}
+    @media(min-width:900px){.two-col{grid-template-columns:1fr 1fr;}}
+    .three-col{display:grid;grid-template-columns:1fr;gap:2rem;}
+    @media(min-width:1100px){.three-col{grid-template-columns:2fr 1fr;}}
+    .race-lanes{display:flex;flex-direction:column;gap:0.75rem;}
+    .lane-fill-red{background:linear-gradient(90deg,#c0392b,#e74c3c);}
+    .lane-fill-blue{background:linear-gradient(90deg,#1a5276,#2980b9);}
+    .lane-fill-green{background:linear-gradient(90deg,#1e8449,#27ae60);}
+    .lane-fill-purple{background:linear-gradient(90deg,#6c3483,#8e44ad);}
+    .lane-fill-orange{background:linear-gradient(90deg,#ba4a00,#e67e22);}
+    .lane-fill-pink{background:linear-gradient(90deg,#a93226,#e91e8c);}
+    .lane-fill-yellow{background:linear-gradient(90deg,#9a7d0a,#d4ac0d);}
+    .lane-fill-cyan{background:linear-gradient(90deg,#0e6655,#17a589);}
+    @keyframes bounce{to{transform:translateY(-8px)}}
+    @keyframes pulse{0%,100%{opacity:1}50%{opacity:0.4}}
+    @keyframes wiggle{0%,100%{transform:rotate(0)}25%{transform:rotate(8deg)}75%{transform:rotate(-8deg)}}
+    @keyframes fadeIn{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+    @keyframes textpulse{0%,100%{opacity:1}50%{opacity:0.5}}
+    @keyframes bob{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+    .fade-in{animation:fadeIn 0.35s ease both;}
+    .pulse-text{animation:textpulse 2s infinite;}
+    .flag-anim{font-size:4rem;display:inline-block;animation:wiggle 1s 3;}
+    .bob{animation:bob 2s ease-in-out infinite;}
   </style>
 </head>
 <body>
-
 <div class="header">
   <div class="header-left">
     <span style="font-size:2rem">🐌</span>
@@ -148,14 +126,10 @@
 </div>
 <main class="main" id="app"><div class="join-center"><p class="muted">Connessione a Firebase...</p></div></main>
 
-<!-- Firebase SDK -->
 <script type="module">
 import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js';
 import { getDatabase, ref, set, get, push, update, onValue, off } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js';
 
-// ═══════════════════════════════════════════════════════════════
-//  FIREBASE CONFIG
-// ═══════════════════════════════════════════════════════════════
 const firebaseConfig = {
   apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
   authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
@@ -165,16 +139,15 @@ const firebaseConfig = {
   messagingSenderId: "13626588351",
   appId: "1:13626588351:web:027604fd9ad659b4855a0a"
 };
-const app = initializeApp(firebaseConfig);
-const db = getDatabase(app);
+const fbApp = initializeApp(firebaseConfig);
+const db = getDatabase(fbApp);
 
-// ═══════════════════════════════════════════════════════════════
-//  CONFIG & COSTANTI
-// ═══════════════════════════════════════════════════════════════
 const urlParams = new URLSearchParams(window.location.search);
-const MODE = urlParams.get('mode') || (window.location.pathname.includes('host') ? 'host' : 'join');
+// HOST se ?mode=host OPPURE se non c'è né ?session né ?race (default = host per semplicità)
 const SESSION_ID_PARAM = urlParams.get('session');
 const LEGACY_RACE_ID   = urlParams.get('race');
+const MODE = urlParams.get('mode') || (SESSION_ID_PARAM || LEGACY_RACE_ID ? 'join' : 'host');
+
 const TRACK_LENGTH = 5000;
 const COLORS = ['red','blue','green','purple','orange','pink','yellow','cyan'];
 const SNAIL_COLORS = {
@@ -188,95 +161,76 @@ const SNAIL_COLORS = {
   cyan:   {shell1:'#0e6655',shell2:'#17a589',shell3:'#76d7c4',body1:'#148f77',body2:'#1abc9c'},
 };
 
-// ═══════════════════════════════════════════════════════════════
-//  FIREBASE DB HELPERS
-// ═══════════════════════════════════════════════════════════════
+// ── Firebase helpers ──────────────────────────────────────────
 function uid() { return push(ref(db,'_')).key; }
-
 const FB = {
-  // Crea record con ID generato
   async create(path, data) {
     const id = uid();
-    const record = { ...data, id, created_date: Date.now() };
+    const record = {...data, id, created_date: Date.now()};
     await set(ref(db, `${path}/${id}`), record);
     return record;
   },
-  // Aggiorna campi di un record
   async update(path, id, data) {
-    const r = ref(db, `${path}/${id}`);
-    await update(r, { ...data, updated_date: Date.now() });
-    const snap = await get(r);
+    await update(ref(db, `${path}/${id}`), {...data, updated_date: Date.now()});
+    const snap = await get(ref(db, `${path}/${id}`));
     return snap.val();
   },
-  // Leggi tutti i record di una collection
   async list(path) {
     const snap = await get(ref(db, path));
     if (!snap.exists()) return [];
-    const val = snap.val();
-    return Object.values(val);
+    return Object.values(snap.val());
   },
-  // Filtra per campo
   async filter(path, filters) {
     const all = await FB.list(path);
-    return all.filter(item => Object.entries(filters).every(([k,v]) => item[k] === v));
+    return all.filter(item => Object.entries(filters).every(([k,v]) => item[k]===v));
   },
-  // Subscribe realtime
+  // Subscribe a un singolo nodo (es. races/ID)
   subscribe(path, cb) {
     const r = ref(db, path);
     onValue(r, snap => cb(snap.exists() ? snap.val() : null));
     return () => off(r);
   },
-  // Subscribe a una singola collection con eventi create/update/delete
+  // Subscribe a una collection intera con eventi create/update/delete
   subscribeCollection(path, cb) {
     let prev = {};
     const r = ref(db, path);
     onValue(r, snap => {
       const current = snap.exists() ? snap.val() : {};
-      // detect creates & updates
       Object.entries(current).forEach(([id, item]) => {
-        if (!prev[id]) cb({ type: 'create', id, data: item });
-        else if (JSON.stringify(prev[id]) !== JSON.stringify(item)) cb({ type: 'update', id, data: item });
+        if (!prev[id]) cb({type:'create', id, data:item});
+        else if (JSON.stringify(prev[id]) !== JSON.stringify(item)) cb({type:'update', id, data:item});
       });
-      // detect deletes
       Object.keys(prev).forEach(id => {
-        if (!current[id]) cb({ type: 'delete', id, data: null });
+        if (!current[id]) cb({type:'delete', id, data:null});
       });
-      prev = { ...current };
+      prev = {...current};
     });
     return () => off(r);
   },
 };
 
-// ═══════════════════════════════════════════════════════════════
-//  SVG LUMACA
-// ═══════════════════════════════════════════════════════════════
+// ── SVG Lumaca ────────────────────────────────────────────────
 function snailSVG(color, size) {
-  const c = SNAIL_COLORS[color] || SNAIL_COLORS.green;
-  return `<svg viewBox="0 0 100 75" width="${size}" height="${size*0.75}" style="overflow:visible;display:block">
+  const c = SNAIL_COLORS[color]||SNAIL_COLORS.green;
+  const uid2 = color+size;
+  return `<svg viewBox="0 0 100 75" width="${size}" height="${size*0.75}" style="overflow:visible;display:block;flex-shrink:0">
     <defs>
-      <filter id="sh${color}${size}"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000044"/></filter>
-      <radialGradient id="sg${color}${size}" cx="35%" cy="30%" r="65%">
-        <stop offset="0%" stop-color="${c.shell3}"/><stop offset="50%" stop-color="${c.shell2}"/><stop offset="100%" stop-color="${c.shell1}"/>
-      </radialGradient>
-      <linearGradient id="bg${color}${size}" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="${c.body2}"/><stop offset="100%" stop-color="${c.body1}"/>
-      </linearGradient>
-      <radialGradient id="sdw${color}${size}" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#00000033"/><stop offset="100%" stop-color="#00000000"/>
-      </radialGradient>
+      <filter id="sh${uid2}"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000044"/></filter>
+      <radialGradient id="sg${uid2}" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="${c.shell3}"/><stop offset="50%" stop-color="${c.shell2}"/><stop offset="100%" stop-color="${c.shell1}"/></radialGradient>
+      <linearGradient id="bg${uid2}" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="${c.body2}"/><stop offset="100%" stop-color="${c.body1}"/></linearGradient>
+      <radialGradient id="sdw${uid2}" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00000033"/><stop offset="100%" stop-color="#00000000"/></radialGradient>
     </defs>
-    <ellipse cx="52" cy="72" rx="28" ry="5" fill="url(#sdw${color}${size})"/>
-    <ellipse cx="38" cy="58" rx="28" ry="10" fill="url(#bg${color}${size})" filter="url(#sh${color}${size})"/>
+    <ellipse cx="52" cy="72" rx="28" ry="5" fill="url(#sdw${uid2})"/>
+    <ellipse cx="38" cy="58" rx="28" ry="10" fill="url(#bg${uid2})" filter="url(#sh${uid2})"/>
     <ellipse cx="36" cy="55" rx="18" ry="5" fill="${c.body2}" opacity="0.35"/>
-    <ellipse cx="16" cy="54" rx="12" ry="10" fill="url(#bg${color}${size})"/>
+    <ellipse cx="16" cy="54" rx="12" ry="10" fill="url(#bg${uid2})"/>
     <ellipse cx="13" cy="51" rx="7" ry="5" fill="${c.body2}" opacity="0.4"/>
-    <ellipse cx="52" cy="44" rx="26" ry="24" fill="url(#sg${color}${size})" filter="url(#sh${color}${size})"/>
+    <ellipse cx="52" cy="44" rx="26" ry="24" fill="url(#sg${uid2})" filter="url(#sh${uid2})"/>
     <path d="M52,26 Q68,30 68,44 Q68,58 52,62 Q36,62 36,48 Q36,36 48,32" fill="none" stroke="${c.shell1}" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
     <path d="M52,34 Q62,37 62,44 Q62,54 52,56 Q42,54 42,46 Q42,38 50,36" fill="none" stroke="${c.shell1}" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
     <circle cx="53" cy="44" r="5" fill="${c.shell2}" opacity="0.6"/>
     <circle cx="53" cy="44" r="2.5" fill="${c.shell3}" opacity="0.8"/>
     <ellipse cx="42" cy="33" rx="7" ry="5" fill="white" opacity="0.3" transform="rotate(-20,42,33)"/>
-    <ellipse cx="40" cy="31" rx="3" ry="2" fill="white" opacity="0.5" transform="rotate(-20,40,31)"/>
     <line x1="11" y1="47" x2="7" y2="36" stroke="${c.body1}" stroke-width="2.5" stroke-linecap="round"/>
     <line x1="19" y1="46" x2="17" y2="35" stroke="${c.body1}" stroke-width="2.5" stroke-linecap="round"/>
     <circle cx="7" cy="34" r="4" fill="${c.body2}" stroke="${c.body1}" stroke-width="1"/>
@@ -291,41 +245,60 @@ function snailSVG(color, size) {
   </svg>`;
 }
 
-function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
-function rankEmoji(i) { return ['🥇','🥈','🥉'][i]||`${i+1}.`; }
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function rankEmoji(i){return['🥇','🥈','🥉'][i]||`${i+1}.`;}
+function trackHTML(pct,id=''){const sl=Math.min(pct,94);return`<div class="track-labels"><span>Partenza</span><span>${Math.round(pct)}%</span><span>🏁 Arrivo</span></div><div class="track-bg"><div class="track-fill" id="tf${id}" style="width:${pct}%"></div><div class="track-snail" id="ts${id}" style="left:calc(${sl}% - 8px)">🐌</div></div>`;}
 
-function trackHTML(pct, id='') {
-  const sl = Math.min(pct,94);
-  return `<div class="track-labels"><span>Partenza</span><span>${Math.round(pct)}%</span><span>🏁 Arrivo</span></div>
-  <div class="track-bg">
-    <div class="track-fill" id="tf${id}" style="width:${pct}%"></div>
-    <div class="track-snail" id="ts${id}" style="left:calc(${sl}% - 8px)">🐌</div>
-  </div>`;
-}
-
-// ═══════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 //  HOST
-// ═══════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 async function initHost() {
   document.getElementById('pageTitle').textContent = 'Corsa delle Lumache — Host';
 
-  let sessionId = null, session = null;
-  let raceId = null, race = null;
-  let participants = [];
-  let hallOfFame = [];
-  let view = 'race';
-  let revealIndex = 0;
-  let unsubRace = null, unsubParts = null;
+  let sessionId=null, session=null;
+  let raceId=null, race=null;
+  let participants=[];
+  let hallOfFame=[];
+  let view='race';
+  let revealIndex=0;
+  let unsubRace=null, unsubParts=null;
 
-  function sorted() { return [...participants].sort((a,b)=>(b.position||0)-(a.position||0)); }
-  function scores() { return session?.scores||{}; }
-  function joinUrl() { return sessionId ? `${window.location.origin}${window.location.pathname}?session=${sessionId}` : ''; }
-  function status() { return race?.status||'waiting'; }
+  const sorted = () => [...participants].sort((a,b)=>(b.position||0)-(a.position||0));
+  const scores = () => session?.scores||{};
+  const joinUrl = () => sessionId ? `${window.location.origin}${window.location.pathname}?session=${sessionId}` : '';
+  const raceStatus = () => race?.status||'waiting';
 
-  function raceLanesHTML(s) {
+  // ── render ───────────────────────────────────────────────────
+  function render() {
+    const sub=document.getElementById('pageSubtitle');
+    if(sub&&session) sub.textContent=`Gara #${(session.race_ids?.length||1)} · Sessione in corso`;
+
+    // Header buttons
+    const hb=document.getElementById('headerButtons');
+    hb.innerHTML='';
+    const badge=document.createElement('div');
+    badge.className='badge-pill';
+    badge.innerHTML=`<span>👥</span><span>${participants.length}</span><span class="muted text-sm">partecipanti</span>`;
+    hb.appendChild(badge);
+    if(raceStatus()==='waiting'&&participants.length>=1){
+      const b=document.createElement('button');b.className='btn lg';b.textContent='▶ VIA!';b.onclick=startRace;hb.appendChild(b);
+    }
+    if(raceStatus()==='finished'){
+      const b1=document.createElement('button');b1.className='btn lg';b1.textContent='→ Continua';b1.onclick=continueRace;hb.appendChild(b1);
+      const b2=document.createElement('button');b2.className='btn lg yellow-outline';b2.textContent='🏆 Fine: classifica finale';b2.onclick=endSession;hb.appendChild(b2);
+    }
+
+    const appl=document.getElementById('app');
+    if(view==='reveal'){renderReveal(appl);return;}
+    if(raceStatus()==='waiting') renderWaiting(appl);
+    else if(raceStatus()==='racing') renderRacing(appl);
+    else if(raceStatus()==='finished') renderFinished(appl);
+  }
+
+  function raceLanesHTML(s){
     return s.map((p,i)=>{
       const pct=Math.min(((p.position||0)/TRACK_LENGTH)*100,100);
-      return `<div class="race-lane">
+      return`<div class="race-lane">
         <div class="lane-header">
           <span class="lane-rank">${rankEmoji(i)}</span>${snailSVG(p.color,28)}
           <span class="lane-name">${esc(p.name)}</span><span class="lane-pct">${Math.round(pct)}%</span>
@@ -338,103 +311,57 @@ async function initHost() {
     }).join('');
   }
 
-  function lbHTML(s) {
+  function lbHTML(s){
     return s.map((p,i)=>{
       const key=`${p.name}__${p.color}`;
-      const racePts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);
-      const totalPts=Math.round(scores()[key]||0);
-      return `<div class="lb-row">
-        <div class="lb-rank">${rankEmoji(i)}</div>${snailSVG(p.color,32)}
-        <div class="lb-info"><div class="lb-name">${esc(p.name)}</div><div class="lb-pts">gara:${racePts}pt·tot:${totalPts}pt</div></div>
-        <div class="lb-score">${racePts}</div>
-      </div>`;
+      const rPts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);
+      const tPts=Math.round(scores()[key]||0);
+      return`<div class="lb-row"><div class="lb-rank">${rankEmoji(i)}</div>${snailSVG(p.color,32)}<div class="lb-info"><div class="lb-name">${esc(p.name)}</div><div class="lb-pts">gara:${rPts}pt·tot:${tPts}pt</div></div><div class="lb-score">${rPts}</div></div>`;
     }).join('');
   }
 
-  function render() {
-    const sub = document.getElementById('pageSubtitle');
-    if (sub && session) sub.textContent = `Gara #${(session.race_ids?.length||1)} · Sessione in corso`;
-
-    const hb = document.getElementById('headerButtons');
-    hb.innerHTML = '';
-    const badge = document.createElement('div');
-    badge.className='badge-pill';
-    badge.innerHTML=`<span>👥</span><span>${participants.length}</span><span class="muted text-sm">partecipanti</span>`;
-    hb.appendChild(badge);
-
-    if (status()==='waiting' && participants.length>=1) {
-      const b=document.createElement('button'); b.className='btn lg'; b.innerHTML='▶ VIA!'; b.onclick=startRace; hb.appendChild(b);
-    }
-    if (status()==='finished') {
-      const b1=document.createElement('button'); b1.className='btn lg'; b1.innerHTML='→ Continua'; b1.onclick=continueRace; hb.appendChild(b1);
-      const b2=document.createElement('button'); b2.className='btn lg yellow-outline'; b2.innerHTML='🏆 Fine: classifica finale'; b2.onclick=endSession; hb.appendChild(b2);
-    }
-
-    const appl = document.getElementById('app');
-    if (view==='reveal') { renderReveal(appl); return; }
-    if (status()==='waiting') renderWaiting(appl);
-    else if (status()==='racing') renderRacing(appl);
-    else if (status()==='finished') renderFinished(appl);
-  }
-
-  function renderWaiting(appl) {
-    const url = joinUrl();
-    const qrSrc = url ? `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}` : '';
-    appl.innerHTML = `<div class="fade-in two-col">
+  function renderWaiting(appl){
+    const url=joinUrl();
+    const qrSrc=url?`https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}`:'';
+    appl.innerHTML=`<div class="fade-in two-col">
       <div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem">
         <h2 class="fredoka" style="font-size:1.4rem">Inquadra il QR Code per unirti!</h2>
         <p class="muted">Scansiona con la fotocamera del telefono</p>
-        ${url?`<div class="qr-wrap"><div class="qr-box"><img src="${esc(qrSrc)}" width="240" height="240" alt="QR"></div><p class="qr-url">${esc(url)}</p></div>`:'<p class="muted">Caricamento URL...</p>'}
+        ${url?`<div class="qr-wrap"><div class="qr-box"><img src="${esc(qrSrc)}" width="240" height="240" alt="QR"></div><p class="qr-url">${esc(url)}</p></div>`:'<p class="muted">Caricamento...</p>'}
       </div>
       <div>
-        <h3 class="fredoka mt-2" style="font-size:1.2rem;margin-bottom:1rem">Partecipanti in attesa:</h3>
+        <h3 class="fredoka" style="font-size:1.2rem;margin-bottom:1rem">Partecipanti in attesa:</h3>
         ${participants.length===0
           ?`<div class="card text-center" style="padding:3rem"><div class="bob" style="font-size:4rem;margin-bottom:1rem">🐌</div><p class="muted">In attesa di partecipanti...</p></div>`
-          :`<div class="grid2">${participants.map(p=>{const key=`${p.name}__${p.color}`;const score=Math.round(scores()[key]||0);return`<div class="participant-card">${snailSVG(p.color,40)}<div><div class="participant-name">${esc(p.name)}</div>${score>0?`<div class="participant-pts">${score} pt</div>`:''}</div></div>`;}).join('')}</div>`
-        }
+          :`<div class="grid2">${participants.map(p=>{const key=`${p.name}__${p.color}`;const sc=Math.round(scores()[key]||0);return`<div class="participant-card">${snailSVG(p.color,40)}<div><div class="participant-name">${esc(p.name)}</div>${sc>0?`<div class="participant-pts">${sc}pt</div>`:''}</div></div>`;}).join('')}</div>`}
       </div>
     </div>`;
   }
 
-  function renderRacing(appl) {
+  function renderRacing(appl){
     const s=sorted();
     appl.innerHTML=`<div class="fade-in three-col">
       <div>
-        <div class="flex items-center gap-3 mt-2" style="margin-bottom:1rem"><span style="font-size:2rem">🏁</span><h2 class="fredoka" style="font-size:1.4rem">Gara in Corso!</h2></div>
+        <div style="display:flex;align-items:center;gap:0.75rem;margin-bottom:1rem"><span style="font-size:2rem">🏁</span><h2 class="fredoka" style="font-size:1.4rem">Gara in Corso!</h2></div>
         <div class="card"><div class="race-lanes" id="raceLanes">${raceLanesHTML(s)}</div></div>
       </div>
       <div class="card" style="align-self:start"><h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Live</h3><div id="lbRows">${lbHTML(s)}</div></div>
     </div>`;
   }
 
-  function renderFinished(appl) {
+  function renderFinished(appl){
     const s=sorted(); const winner=s[0];
     appl.innerHTML=`<div class="fade-in">
-      ${winner?`<div class="winner-box" style="margin-bottom:2rem">
-        <span class="winner-trophy">🏆</span>
-        <h2 class="fredoka" style="font-size:2rem;margin-bottom:0.5rem">Vincitore!</h2>
-        <div class="flex items-center justify-center gap-4 mt-4">${snailSVG(winner.color,80)}<span class="fredoka" style="font-size:2rem">${esc(winner.name)}</span></div>
-        <p class="muted mt-3">Scegli come continuare ↑</p>
-      </div>`:''}
-      <div class="three-col">
-        <div class="card"><div class="race-lanes">${raceLanesHTML(s)}</div></div>
-        <div class="card" style="align-self:start"><h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Finale</h3>${lbHTML(s)}</div>
-      </div>
+      ${winner?`<div class="winner-box" style="margin-bottom:2rem"><span class="winner-trophy">🏆</span><h2 class="fredoka" style="font-size:2rem;margin-bottom:0.5rem">Vincitore!</h2><div style="display:flex;align-items:center;justify-content:center;gap:1rem;margin-top:1rem">${snailSVG(winner.color,80)}<span class="fredoka" style="font-size:2rem">${esc(winner.name)}</span></div><p class="muted mt-3">Scegli come continuare ↑</p></div>`:''}
+      <div class="three-col"><div class="card"><div class="race-lanes">${raceLanesHTML(s)}</div></div><div class="card" style="align-self:start"><h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Finale</h3>${lbHTML(s)}</div></div>
     </div>`;
   }
 
-  function renderReveal(appl) {
+  function renderReveal(appl){
     const s=sorted();
     appl.innerHTML=`<div class="fade-in reveal-wrap">
       <div class="text-center" style="margin-bottom:2rem"><span style="font-size:4rem">🏁</span><h2 class="fredoka" style="font-size:2rem;margin-top:0.5rem">Risultati Finali</h2></div>
-      <div id="revealList">
-        ${s.map((p,i)=>{const key=`${p.name}__${p.color}`;const rPts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);const tPts=Math.round(scores()[key]||0);
-          return`<div class="reveal-item${i<revealIndex?' shown':''}" id="ri${i}">
-            <div class="reveal-rank">${rankEmoji(i)}</div>${snailSVG(p.color,48)}
-            <div class="reveal-info"><div class="reveal-name">${esc(p.name)}</div><div class="reveal-score">Gara:${rPts}pt · Tot:${tPts}pt</div></div>
-            <div class="reveal-total">${tPts}</div>
-          </div>`;}).join('')}
-      </div>
+      ${s.map((p,i)=>{const key=`${p.name}__${p.color}`;const rPts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);const tPts=Math.round(scores()[key]||0);return`<div class="reveal-item${i<revealIndex?' shown':''}"><div class="reveal-rank">${rankEmoji(i)}</div>${snailSVG(p.color,48)}<div class="reveal-info"><div class="reveal-name">${esc(p.name)}</div><div class="reveal-score">Gara:${rPts}pt · Tot:${tPts}pt</div></div><div class="reveal-total">${tPts}</div></div>`;}).join('')}
       <div class="text-center mt-6">
         ${revealIndex<s.length
           ?`<button class="btn lg" id="revBtn">Rivela prossimo 👁</button>`
@@ -445,136 +372,118 @@ async function initHost() {
     document.getElementById('backBtn')?.addEventListener('click',()=>{view='race';render();});
   }
 
-  function hofHTML() {
-    if(!hallOfFame.length) return '';
-    return `<div class="card mt-6"><h3 class="fredoka" style="font-size:1.2rem;margin-bottom:1rem">⭐ Hall of Fame</h3>
-      ${hallOfFame.map(e=>`<div class="hof-entry">${snailSVG(e.color||'green',40)}<div><div class="fredoka">${esc(e.name)}</div><div class="text-xs muted">${e.race_count} gare vinte</div></div></div>`).join('')}
-    </div>`;
+  function hofHTML(){
+    if(!hallOfFame.length)return'';
+    return`<div class="card mt-6"><h3 class="fredoka" style="font-size:1.2rem;margin-bottom:1rem">⭐ Hall of Fame</h3>${hallOfFame.map(e=>`<div class="hof-entry">${snailSVG(e.color||'green',40)}<div><div class="fredoka">${esc(e.name)}</div><div class="text-xs muted">${e.race_count} gare vinte</div></div></div>`).join('')}</div>`;
   }
 
-  function updateRacingDOM() {
+  // Aggiorna solo le lane durante la gara senza re-render completo
+  function updateRacingDOM(){
     const s=sorted();
     const lanes=document.getElementById('raceLanes'); if(lanes) lanes.innerHTML=raceLanesHTML(s);
     const lb=document.getElementById('lbRows'); if(lb) lb.innerHTML=lbHTML(s);
   }
 
-  // ── AZIONI ──────────────────────────────────────────────────
-  async function startRace() {
-    await FB.update('races', raceId, {status:'racing'});
+  // ── Azioni ───────────────────────────────────────────────────
+  async function startRace(){
+    await FB.update('races',raceId,{status:'racing'});
+    // Il subscribe su races/raceId aggiornerà `race` e chiamerà render()
   }
 
-  async function continueRace() {
-    const newRace = await FB.create('races', {status:'waiting', track_length:TRACK_LENGTH});
-    raceId = newRace.id;
-    race = newRace;
-
-    // Copia partecipanti
-    const prev = [...participants];
-    participants = [];
-    await Promise.all(prev.map(p => FB.create('participants', {race_id:newRace.id, name:p.name, color:p.color, position:0, finished:false})));
-    participants = await FB.filter('participants', {race_id:newRace.id});
-
-    const updSess = await FB.update('sessions', sessionId, {
-      race_ids: [...(session.race_ids||[]), newRace.id],
-      current_race_id: newRace.id,
-    });
-    session = updSess;
-    view = 'race';
+  async function continueRace(){
+    const newRace=await FB.create('races',{status:'waiting',track_length:TRACK_LENGTH});
+    const prev=[...participants];
+    participants=[];
+    raceId=newRace.id;
+    race=newRace;
+    await Promise.all(prev.map(p=>FB.create('participants',{race_id:newRace.id,name:p.name,color:p.color,position:0,finished:false})));
+    participants=await FB.filter('participants',{race_id:newRace.id});
+    const updSess=await FB.update('sessions',sessionId,{race_ids:[...(session.race_ids||[]),newRace.id],current_race_id:newRace.id});
+    session=updSess;
+    view='race';
     attachSubscriptions(newRace.id);
     render();
   }
 
-  async function endSession() {
-    const winnerNames = session?.winner_names||[];
-    if (winnerNames.length>=3) {
-      const first=winnerNames[0];
-      if (winnerNames.every(n=>n===first)&&first) {
-        const wp=participants.find(p=>p.name===first);
-        await FB.create('hof',{name:first,color:wp?.color||'green',session_id:sessionId,race_count:winnerNames.length});
-        hallOfFame = await FB.list('hof');
-      }
-    }
+  async function endSession(){
+    const wn=session?.winner_names||[];
+    if(wn.length>=3){const first=wn[0];if(wn.every(n=>n===first)&&first){const wp=participants.find(p=>p.name===first);await FB.create('hof',{name:first,color:wp?.color||'green',session_id:sessionId,race_count:wn.length});hallOfFame=await FB.list('hof').catch(()=>[]);}}
     await FB.update('sessions',sessionId,{status:'finished'});
-    view='reveal'; revealIndex=0; render();
+    view='reveal';revealIndex=0;render();
   }
 
-  async function onRaceFinished() {
-    if(!session||!raceId) return;
+  async function onRaceFinished(){
+    if(!session||!raceId)return;
     const s=sorted();
     const winnerName=s[0]?.name||'';
     const newScores={...(session.scores||{})};
-    participants.forEach(p=>{
-      const key=`${p.name}__${p.color}`;
-      const pts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);
-      newScores[key]=(newScores[key]||0)+pts;
-    });
-    const updSess=await FB.update('sessions',sessionId,{
-      scores:newScores,
-      winner_names:[...(session.winner_names||[]),winnerName],
-      race_count:(session.race_count||0)+1,
-    });
+    participants.forEach(p=>{const key=`${p.name}__${p.color}`;const pts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);newScores[key]=(newScores[key]||0)+pts;});
+    const updSess=await FB.update('sessions',sessionId,{scores:newScores,winner_names:[...(session.winner_names||[]),winnerName],race_count:(session.race_count||0)+1});
     session=updSess;
     render();
   }
 
-  // ── SUBSCRIPTIONS ────────────────────────────────────────────
-  function attachSubscriptions(rid) {
-    if(unsubRace) unsubRace();
-    if(unsubParts) unsubParts();
+  // ── Subscriptions ────────────────────────────────────────────
+  function attachSubscriptions(rid){
+    if(unsubRace)unsubRace();
+    if(unsubParts)unsubParts();
 
-    let prevRaceStatus = null;
-    unsubRace = FB.subscribe(`races/${rid}`, data => {
-      if(!data) return;
-      race = data;
-      const wasFinished = prevRaceStatus==='finished';
-      if(!wasFinished && race.status==='finished') onRaceFinished();
-      prevRaceStatus = race.status;
-      if(race.status==='racing') updateRacingDOM();
-      else render();
+    let raceFinishedHandled=false;
+
+    // ✅ FIX PRINCIPALE: subscribe diretto al nodo della race
+    // onValue viene chiamato subito con il valore corrente E ad ogni cambio
+    unsubRace=FB.subscribe(`races/${rid}`, data=>{
+      if(!data)return;
+      const prevStatus=race?.status;
+      race=data;
+      // Se la race è passata a 'finished' per la prima volta, aggiorna i punteggi
+      if(prevStatus!=='finished'&&race.status==='finished'&&!raceFinishedHandled){
+        raceFinishedHandled=true;
+        onRaceFinished();
+      }
+      render(); // ✅ render sempre quando cambia la race
     });
 
-    unsubParts = FB.subscribeCollection('participants', ev => {
-      if(ev.data?.race_id!==rid) return;
+    unsubParts=FB.subscribeCollection('participants', ev=>{
+      if(ev.data?.race_id!==rid)return;
       if(ev.type==='create'&&!participants.find(p=>p.id===ev.id)) participants.push(ev.data);
       else if(ev.type==='update') participants=participants.map(p=>p.id===ev.id?ev.data:p);
       else if(ev.type==='delete') participants=participants.filter(p=>p.id!==ev.id);
+      // Aggiorna solo le lane se siamo in racing, altrimenti render completo
       if(race?.status==='racing') updateRacingDOM();
       else render();
     });
   }
 
-  // ── INIT ────────────────────────────────────────────────────
-  hallOfFame = await FB.list('hof').catch(()=>[]);
-
-  const sess = await FB.create('sessions',{status:'active',race_count:0,scores:{},race_ids:[],winner_names:[]});
-  session=sess; sessionId=sess.id;
-
-  const r = await FB.create('races',{status:'waiting',track_length:TRACK_LENGTH});
-  race=r; raceId=r.id;
-
+  // ── Init ─────────────────────────────────────────────────────
+  hallOfFame=await FB.list('hof').catch(()=>[]);
+  const sess=await FB.create('sessions',{status:'active',race_count:0,scores:{},race_ids:[],winner_names:[]});
+  session=sess;sessionId=sess.id;
+  const r=await FB.create('races',{status:'waiting',track_length:TRACK_LENGTH});
+  race=r;raceId=r.id;
   await FB.update('sessions',sessionId,{race_ids:[r.id],current_race_id:r.id});
   attachSubscriptions(r.id);
   render();
 }
 
-// ═══════════════════════════════════════════════════════════════
+// ════════════════════════════════════════════════════════════════
 //  JOIN
-// ═══════════════════════════════════════════════════════════════
-async function initJoin() {
-  const SESSION_ID = SESSION_ID_PARAM;
-  const LEGACY_RID = LEGACY_RACE_ID;
+// ════════════════════════════════════════════════════════════════
+async function initJoin(){
+  const SESSION_ID=SESSION_ID_PARAM;
+  const LEGACY_RID=LEGACY_RACE_ID;
 
-  let step='setup', nameInput='', colorInput='green';
-  let session=null, currentRaceId=LEGACY_RID||null;
-  let race=null, participants=[];
-  let participantId=null, myName='', myColor='green';
-  let volumeVal=0, positionVal=0, trackLengthVal=TRACK_LENGTH;
-  let displayPosition=0, finishFired=false;
-  let movRaf=null, saveInt=null, dispInt=null;
-  let micActive=false, micStream=null, micCtx=null, micAnalyser=null, micRaf=null, permDenied=false;
-  let unsubSess=null, unsubRace=null;
+  let step='setup',nameInput='',colorInput='green';
+  let session=null,currentRaceId=LEGACY_RID||null;
+  let race=null,participants=[];
+  let participantId=null,myName='',myColor='green';
+  let volumeVal=0,positionVal=0,trackLengthVal=TRACK_LENGTH;
+  let displayPosition=0,finishFired=false;
+  let movRaf=null,saveInt=null,dispInt=null;
+  let micActive=false,micStream=null,micCtx=null,micAnalyser=null,micRaf=null,permDenied=false;
+  let unsubSess=null,unsubRace=null;
 
-  function render() {
+  function render(){
     const appl=document.getElementById('app');
     const displayName=myName||nameInput;
     const displayColor=myColor||colorInput;
@@ -583,25 +492,16 @@ async function initJoin() {
     const myScore=Math.round((displayPosition/tl)*1000);
 
     if(!SESSION_ID&&!LEGACY_RID){
-      appl.innerHTML=`<div class="join-center fade-in"><div class="text-center">
-        <div style="font-size:4rem;margin-bottom:1rem">🐌</div>
-        <h2 class="fredoka" style="font-size:1.4rem;margin-bottom:0.5rem">Nessuna gara trovata</h2>
-        <p class="muted">Scansiona il QR Code dello schermo dell'host per unirti a una gara.</p>
-      </div></div>`;
+      appl.innerHTML=`<div class="join-center fade-in"><div class="text-center"><div style="font-size:4rem;margin-bottom:1rem">🐌</div><h2 class="fredoka" style="font-size:1.4rem;margin-bottom:0.5rem">Nessuna gara trovata</h2><p class="muted">Scansiona il QR Code dello schermo dell'host.</p></div></div>`;
       return;
     }
-
     if(step==='setup'){
       appl.innerHTML=`<div class="join-center fade-in"><div class="join-step">
         <div class="text-center" style="margin-bottom:2rem"><h2 class="fredoka" style="font-size:1.6rem">Crea la tua Lumaca!</h2><p class="muted text-sm mt-1">Scegli un nome e un colore</p></div>
-        <div>
-          <div style="margin-bottom:1.5rem"><label class="lbl">Nome della lumaca</label><input id="nameInp" class="input" placeholder="es. Turbo, Flash, Speedy..." maxlength="20" value="${esc(nameInput)}"/></div>
-          <div style="margin-bottom:1.5rem"><label class="lbl">Colore del vestito</label>
-            <div class="grid4">${COLORS.map(c=>`<button class="color-btn${colorInput===c?' selected':''}" data-color="${c}">${snailSVG(c,40)}<span>${c}</span></button>`).join('')}</div>
-          </div>
-          <div class="preview-box" style="margin-bottom:1.5rem">${snailSVG(colorInput,80)}<p class="fredoka" style="font-size:1.1rem;margin-top:0.5rem" id="prevName">${esc(nameInput)||'???'}</p></div>
-          <button class="btn full lg" id="joinBtn" ${!nameInput.trim()?'disabled':''}>🐌 Unisciti alla Gara!</button>
-        </div>
+        <div style="margin-bottom:1.5rem"><label class="lbl">Nome della lumaca</label><input id="nameInp" class="input" placeholder="es. Turbo, Flash, Speedy..." maxlength="20" value="${esc(nameInput)}"/></div>
+        <div style="margin-bottom:1.5rem"><label class="lbl">Colore del vestito</label><div class="grid4">${COLORS.map(c=>`<button class="color-btn${colorInput===c?' selected':''}" data-color="${c}">${snailSVG(c,40)}<span>${c}</span></button>`).join('')}</div></div>
+        <div class="preview-box" style="margin-bottom:1.5rem">${snailSVG(colorInput,80)}<p class="fredoka" style="font-size:1.1rem;margin-top:0.5rem" id="prevName">${esc(nameInput)||'???'}</p></div>
+        <button class="btn full lg" id="joinBtn" ${!nameInput.trim()?'disabled':''}>🐌 Unisciti alla Gara!</button>
       </div></div>`;
       document.getElementById('nameInp').addEventListener('input',e=>{nameInput=e.target.value;document.getElementById('prevName').textContent=nameInput||'???';document.getElementById('joinBtn').disabled=!nameInput.trim();});
       document.querySelectorAll('.color-btn').forEach(b=>b.addEventListener('click',()=>{colorInput=b.dataset.color;render();}));
@@ -616,20 +516,18 @@ async function initJoin() {
     }
     else if(step==='racing'){
       appl.innerHTML=`<div class="join-center fade-in"><div class="join-step" style="display:flex;flex-direction:column;gap:1.5rem">
-        <div class="text-center">
-          <div style="display:flex;justify-content:center">${snailSVG(displayColor,80)}</div>
+        <div class="text-center"><div style="display:flex;justify-content:center">${snailSVG(displayColor,80)}</div>
           <h2 class="fredoka" style="font-size:1.2rem;margin-top:0.5rem">${esc(displayName)}</h2>
           <div class="score-box mt-3"><div class="score-num" id="scoreNum">${myScore}</div><p class="muted text-sm">punti</p></div>
         </div>
         <div class="card">${trackHTML(pct,'player')}</div>
         <div class="card" id="micCard">${micActive?activeMicHTML():inactiveMicHTML()}</div>
       </div></div>`;
-      if(!micActive) document.getElementById('startMicBtn')?.addEventListener('click',startMic);
+      if(!micActive)document.getElementById('startMicBtn')?.addEventListener('click',startMic);
     }
     else if(step==='finished'){
       appl.innerHTML=`<div class="join-center fade-in"><div class="join-step text-center" style="display:flex;flex-direction:column;align-items:center;gap:1.5rem">
-        <div class="flag-anim">🏁</div>
-        <div>${snailSVG(displayColor,80)}</div>
+        <div class="flag-anim">🏁</div><div>${snailSVG(displayColor,80)}</div>
         <h2 class="fredoka" style="font-size:2rem">${esc(displayName)}</h2>
         <div class="score-box full"><div class="score-num" style="font-size:4rem">${myScore}</div><p class="muted">punti questa gara</p></div>
         <div class="card full">${trackHTML(pct,'fin')}</div>
@@ -642,12 +540,11 @@ async function initJoin() {
   function activeMicHTML(){return`<div class="text-center"><p class="fredoka" style="font-size:1rem;margin-bottom:0.75rem">GRIDA PER FAR CORRERE LA TUA LUMACA! 🐌💨</p><div class="bars">${Array.from({length:12},(_,i)=>`<div class="bar" id="bar${i}"></div>`).join('')}</div><div class="mic-status"><div class="mic-dot active"></div><span class="muted text-sm" id="micLbl">In attesa...</span></div></div>`;}
 
   function updateRacingDOM(){
-    const tl=trackLengthVal, pct=Math.min((displayPosition/tl)*100,100), sl=Math.min(pct,94);
-    const fill=document.getElementById('tfplayer'); if(fill) fill.style.width=pct+'%';
-    const snail=document.getElementById('tsplayer'); if(snail) snail.style.left=`calc(${sl}% - 8px)`;
-    const sc=document.getElementById('scoreNum'); if(sc) sc.textContent=Math.round((displayPosition/tl)*1000);
+    const tl=trackLengthVal,pct=Math.min((displayPosition/tl)*100,100),sl=Math.min(pct,94);
+    const fill=document.getElementById('tfplayer');if(fill)fill.style.width=pct+'%';
+    const snail=document.getElementById('tsplayer');if(snail)snail.style.left=`calc(${sl}% - 8px)`;
+    const sc=document.getElementById('scoreNum');if(sc)sc.textContent=Math.round((displayPosition/tl)*1000);
   }
-
   function updateBars(vol){
     for(let i=0;i<12;i++){const el=document.getElementById('bar'+i);if(!el)continue;const a=vol>(i/12);el.style.height=(a?20+(i/12)*60:8)+'px';el.style.background=a?(vol>0.7?'hsl(0,80%,55%)':vol>0.4?'hsl(36,80%,55%)':'hsl(142,50%,42%)'):'hsl(120,15%,90%)';}
     const l=document.getElementById('micLbl');if(l)l.textContent=vol<0.1?'In attesa...':vol<0.4?'Più forte!':vol<0.7?'Bene!':'FANTASTICO! 🔥';
@@ -663,7 +560,7 @@ async function initJoin() {
       const data=new Uint8Array(micAnalyser.frequencyBinCount);
       function read(){micAnalyser.getByteFrequencyData(data);let s=0;for(let i=0;i<data.length;i++)s+=data[i];volumeVal=Math.min(s/data.length/80,1);updateBars(volumeVal);micRaf=requestAnimationFrame(read);}
       read();
-      const mc=document.getElementById('micCard');if(mc){mc.innerHTML=activeMicHTML();}
+      const mc=document.getElementById('micCard');if(mc)mc.innerHTML=activeMicHTML();
     }catch{permDenied=true;const mc=document.getElementById('micCard');if(mc){mc.innerHTML=inactiveMicHTML();document.getElementById('startMicBtn')?.addEventListener('click',startMic);}}
   }
 
@@ -679,7 +576,6 @@ async function initJoin() {
     },200);
     dispInt=setInterval(()=>{displayPosition=positionVal;updateRacingDOM();},33);
   }
-
   function stopLoop(){if(movRaf){cancelAnimationFrame(movRaf);movRaf=null;}if(saveInt){clearInterval(saveInt);saveInt=null;}if(dispInt){clearInterval(dispInt);dispInt=null;}}
 
   function setStep(s){
@@ -696,8 +592,7 @@ async function initJoin() {
 
   function switchRace(newRaceId){
     if(!newRaceId||newRaceId===currentRaceId)return;
-    currentRaceId=newRaceId;finishFired=false;positionVal=0;displayPosition=0;
-    race=null;participantId=null;
+    currentRaceId=newRaceId;finishFired=false;positionVal=0;displayPosition=0;race=null;participantId=null;
 
     if(unsubRace)unsubRace();
     unsubRace=FB.subscribe(`races/${newRaceId}`,data=>{
@@ -707,7 +602,6 @@ async function initJoin() {
       if(race.status==='finished'&&step==='racing')setStep('finished');
     });
 
-    // Trova il nostro slot (l'host li copia)
     let poll=0;
     async function findSlot(){
       const list=await FB.filter('participants',{race_id:newRaceId});
@@ -721,30 +615,22 @@ async function initJoin() {
     findSlot();
   }
 
-  // INIT JOIN
   if(!SESSION_ID&&!LEGACY_RID){render();return;}
-
   if(SESSION_ID){
-    // Subscribe alla sessione
     unsubSess=FB.subscribe(`sessions/${SESSION_ID}`,data=>{
       if(!data)return;
       session=data;
       if(session.current_race_id&&session.current_race_id!==currentRaceId)switchRace(session.current_race_id);
     });
-  } else if(LEGACY_RID){
+  }else if(LEGACY_RID){
     switchRace(LEGACY_RID);
   }
   render();
 }
 
-// ═══════════════════════════════════════════════════════════════
-//  BOOTSTRAP
-// ═══════════════════════════════════════════════════════════════
-if(MODE==='host'){
-  initHost();
-} else {
-  initJoin();
-}
+// ── Bootstrap ─────────────────────────────────────────────────
+if(MODE==='host') initHost();
+else initJoin();
 </script>
 </body>
 </html>
