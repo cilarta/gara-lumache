@@ -7,183 +7,131 @@
   <link href__="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@400;600;700&display=swap" rel="stylesheet" />
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-
     :root {
-      --primary: hsl(142, 50%, 42%);
-      --primary-light: hsl(142, 50%, 92%);
-      --secondary: hsl(36, 80%, 55%);
-      --bg: hsl(120, 20%, 97%);
-      --fg: hsl(150, 30%, 12%);
-      --card: #ffffff;
-      --muted: hsl(120, 15%, 92%);
-      --muted-fg: hsl(150, 10%, 45%);
-      --border: hsl(120, 15%, 85%);
-      --radius: 1rem;
-      --destructive: hsl(0, 84%, 60%);
+      --primary: hsl(142,50%,42%); --secondary: hsl(36,80%,55%);
+      --bg: hsl(120,20%,97%); --fg: hsl(150,30%,12%);
+      --card: #fff; --muted: hsl(120,15%,92%); --muted-fg: hsl(150,10%,45%);
+      --border: hsl(120,15%,85%); --radius: 1rem; --destructive: hsl(0,84%,60%);
     }
+    body { font-family:'Nunito',sans-serif; background:var(--bg); color:var(--fg); min-height:100svh; display:flex; flex-direction:column; }
+    .fredoka { font-family:'Fredoka',sans-serif; }
 
-    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--fg); min-height: 100svh; display: flex; flex-direction: column; }
-    .fredoka { font-family: 'Fredoka', sans-serif; }
+    .header { background:linear-gradient(90deg,hsl(142,50%,42%,0.12),hsl(36,80%,55%,0.12)); border-bottom:1px solid var(--border); padding:1rem 1.5rem; display:flex; align-items:center; justify-content:space-between; gap:1rem; flex-wrap:wrap; }
+    .header-left { display:flex; align-items:center; gap:0.75rem; }
+    .header-right { display:flex; align-items:center; gap:0.75rem; flex-wrap:wrap; }
+    .main { flex:1; padding:2rem 1.5rem; max-width:1200px; margin:0 auto; width:100%; }
 
-    /* ── LAYOUT ── */
-    .header { background: linear-gradient(90deg, hsl(142,50%,42%,0.12), hsl(36,80%,55%,0.12)); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
-    .header-left { display: flex; align-items: center; gap: 0.75rem; }
-    .header-right { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
-    .main { flex: 1; padding: 2rem 1.5rem; max-width: 1200px; margin: 0 auto; width: 100%; }
+    .card { background:var(--card); border:1px solid var(--border); border-radius:var(--radius); padding:1.5rem; }
+    .btn { display:inline-flex; align-items:center; justify-content:center; gap:0.5rem; font-family:'Fredoka',sans-serif; font-size:1rem; font-weight:600; border:none; border-radius:var(--radius); cursor:pointer; transition:opacity 0.15s,transform 0.1s; padding:0.75rem 1.25rem; background:var(--primary); color:#fff; box-shadow:0 3px 10px rgba(39,174,96,0.3); }
+    .btn:hover { opacity:0.88; } .btn:active { transform:scale(0.97); } .btn:disabled { opacity:0.4; cursor:not-allowed; }
+    .btn.lg { font-size:1.15rem; padding:0.9rem 1.6rem; }
+    .btn.outline { background:transparent; color:var(--primary); border:2px solid var(--primary); box-shadow:none; }
+    .btn.yellow-outline { background:transparent; color:#92400e; border:2px solid #fbbf24; box-shadow:none; }
+    .btn.full { width:100%; }
+    .badge-pill { display:inline-flex; align-items:center; gap:0.5rem; background:var(--card); border:1px solid var(--border); border-radius:0.75rem; padding:0.4rem 0.9rem; font-family:'Fredoka',sans-serif; font-size:1rem; }
 
-    /* ── CARD ── */
-    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
+    .input { width:100%; padding:0.75rem 1rem; font-family:'Nunito',sans-serif; font-size:1rem; border:1px solid var(--border); border-radius:0.75rem; background:var(--bg); color:var(--fg); outline:none; transition:border-color 0.2s; }
+    .input:focus { border-color:var(--primary); }
+    label.lbl { font-family:'Fredoka',sans-serif; font-size:0.9rem; display:block; margin-bottom:0.4rem; }
 
-    /* ── BUTTON ── */
-    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: 'Fredoka', sans-serif; font-size: 1rem; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; transition: opacity 0.15s, transform 0.1s; padding: 0.75rem 1.25rem; background: var(--primary); color: #fff; box-shadow: 0 3px 10px rgba(39,174,96,0.3); }
-    .btn:hover { opacity: 0.88; }
-    .btn:active { transform: scale(0.97); }
-    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
-    .btn.lg { font-size: 1.15rem; padding: 0.9rem 1.6rem; }
-    .btn.outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); box-shadow: none; }
-    .btn.yellow-outline { background: transparent; color: #92400e; border: 2px solid #fbbf24; box-shadow: none; }
-    .btn.full { width: 100%; }
-    .badge-pill { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.4rem 0.9rem; font-family: 'Fredoka', sans-serif; font-size: 1rem; }
+    .text-center { text-align:center; } .muted { color:var(--muted-fg); } .text-sm { font-size:0.875rem; } .text-xs { font-size:0.75rem; }
+    .mt-1{margin-top:0.25rem} .mt-2{margin-top:0.5rem} .mt-3{margin-top:0.75rem} .mt-4{margin-top:1rem} .mt-6{margin-top:1.5rem}
+    .flex{display:flex} .flex-col{flex-direction:column} .items-center{align-items:center} .justify-center{justify-content:center}
+    .gap-2{gap:0.5rem} .gap-3{gap:0.75rem} .gap-4{gap:1rem}
+    .grid2{display:grid;grid-template-columns:1fr 1fr;gap:0.75rem}
+    .grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:0.75rem}
+    .full{width:100%}
 
-    /* ── INPUT ── */
-    .input { width: 100%; padding: 0.75rem 1rem; font-family: 'Nunito', sans-serif; font-size: 1rem; border: 1px solid var(--border); border-radius: 0.75rem; background: var(--bg); color: var(--fg); outline: none; transition: border-color 0.2s; }
-    .input:focus { border-color: var(--primary); }
-    label.lbl { font-family: 'Fredoka', sans-serif; font-size: 0.9rem; display: block; margin-bottom: 0.4rem; }
+    .join-step { width:100%; max-width:22rem; margin:0 auto; }
+    .join-center { display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:60vh; }
 
-    /* ── UTILS ── */
-    .text-center { text-align: center; }
-    .muted { color: var(--muted-fg); }
-    .text-sm { font-size: 0.875rem; }
-    .text-xs { font-size: 0.75rem; }
-    .mt-1 { margin-top: 0.25rem; }
-    .mt-2 { margin-top: 0.5rem; }
-    .mt-3 { margin-top: 0.75rem; }
-    .mt-4 { margin-top: 1rem; }
-    .mt-6 { margin-top: 1.5rem; }
-    .mt-8 { margin-top: 2rem; }
-    .flex { display: flex; }
-    .flex-col { flex-direction: column; }
-    .items-center { align-items: center; }
-    .justify-center { justify-content: center; }
-    .gap-2 { gap: 0.5rem; }
-    .gap-3 { gap: 0.75rem; }
-    .gap-4 { gap: 1rem; }
-    .gap-6 { gap: 1.5rem; }
-    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
-    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
-    .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
-    .full { width: 100%; }
+    .color-btn { background:none; border:2px solid transparent; border-radius:1rem; padding:0.4rem; cursor:pointer; transition:border-color 0.15s,transform 0.15s; display:flex; flex-direction:column; align-items:center; gap:0.25rem; }
+    .color-btn.selected { border-color:var(--primary); transform:scale(1.07); box-shadow:0 2px 8px rgba(39,174,96,0.25); }
+    .color-btn span { font-size:0.65rem; color:var(--muted-fg); text-transform:capitalize; }
+    .preview-box { background:var(--card); border:1px solid var(--border); border-radius:1.5rem; padding:1.5rem; text-align:center; display:flex; flex-direction:column; align-items:center; gap:0.5rem; }
 
-    /* ── JOIN: STEP CONTAINER ── */
-    .join-step { width: 100%; max-width: 22rem; margin: 0 auto; }
-    .join-center { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; }
+    .track-labels { display:flex; justify-content:space-between; font-size:0.75rem; color:var(--muted-fg); margin-bottom:0.25rem; }
+    .track-bg { position:relative; height:1.5rem; background:var(--muted); border-radius:999px; overflow:hidden; border:1px solid var(--border); }
+    .track-fill { position:absolute; left:0; top:0; bottom:0; background:linear-gradient(90deg,var(--primary),hsl(142,50%,60%)); border-radius:999px; transition:width 0.08s linear; }
+    .track-snail { position:absolute; top:50%; transform:translate(-50%,-50%); font-size:1.1rem; transition:left 0.08s linear; }
 
-    /* ── COLOR SELECTOR ── */
-    .color-btn { background: none; border: 2px solid transparent; border-radius: 1rem; padding: 0.4rem; cursor: pointer; transition: border-color 0.15s, transform 0.15s; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
-    .color-btn.selected { border-color: var(--primary); transform: scale(1.07); box-shadow: 0 2px 8px rgba(39,174,96,0.25); }
-    .color-btn span { font-size: 0.65rem; color: var(--muted-fg); text-transform: capitalize; }
+    .score-box { background:linear-gradient(135deg,hsl(142,50%,42%,0.1),hsl(36,80%,55%,0.1)); border:1px solid hsl(142,50%,42%,0.2); border-radius:1rem; padding:1rem; text-align:center; }
+    .score-num { font-family:'Fredoka',sans-serif; font-size:3.5rem; font-weight:700; color:var(--primary); line-height:1; }
 
-    /* ── PREVIEW BOX ── */
-    .preview-box { background: var(--card); border: 1px solid var(--border); border-radius: 1.5rem; padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
+    .mic-icon-wrap { width:5rem; height:5rem; border-radius:50%; background:hsl(142,50%,42%,0.1); display:flex; align-items:center; justify-content:center; margin:0 auto 1rem; font-size:2.5rem; }
+    .bars { display:flex; align-items:flex-end; justify-content:center; gap:0.25rem; height:5rem; }
+    .bar { width:1rem; border-radius:999px; background:var(--muted); transition:height 0.06s linear,background 0.06s linear; min-height:0.5rem; }
+    .mic-status { display:flex; align-items:center; justify-content:center; gap:0.5rem; margin-top:0.5rem; }
+    .mic-dot { width:0.75rem; height:0.75rem; border-radius:50%; background:var(--muted-fg); }
+    .mic-dot.active { background:var(--primary); animation:pulse 1s infinite; }
 
-    /* ── TRACK ── */
-    .track-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted-fg); margin-bottom: 0.25rem; }
-    .track-bg { position: relative; height: 1.5rem; background: var(--muted); border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
-    .track-fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--primary), hsl(142,50%,60%)); border-radius: 999px; transition: width 0.08s linear; }
-    .track-snail { position: absolute; top: 50%; transform: translate(-50%, -50%); font-size: 1.1rem; transition: left 0.08s linear; }
+    .dots { display:flex; gap:0.5rem; justify-content:center; }
+    .dot { width:0.5rem; height:0.5rem; background:var(--primary); border-radius:50%; animation:bounce 0.8s infinite alternate; }
+    .dot:nth-child(2){animation-delay:0.15s} .dot:nth-child(3){animation-delay:0.3s}
 
-    /* ── SCORE BOX ── */
-    .score-box { background: linear-gradient(135deg, hsl(142,50%,42%,0.1), hsl(36,80%,55%,0.1)); border: 1px solid hsl(142,50%,42%,0.2); border-radius: 1rem; padding: 1rem; text-align: center; }
-    .score-num { font-family: 'Fredoka', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--primary); line-height: 1; }
+    .participant-card { display:flex; align-items:center; gap:0.75rem; background:var(--card); padding:0.75rem 1rem; border-radius:1rem; border:1px solid var(--border); }
+    .participant-name { font-family:'Fredoka',sans-serif; font-size:1.1rem; }
+    .participant-pts { font-size:0.75rem; color:var(--primary); }
 
-    /* ── MIC ── */
-    .mic-icon-wrap { width: 5rem; height: 5rem; border-radius: 50%; background: hsl(142,50%,42%,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2.5rem; }
-    .bars { display: flex; align-items: flex-end; justify-content: center; gap: 0.25rem; height: 5rem; }
-    .bar { width: 1rem; border-radius: 999px; background: var(--muted); transition: height 0.06s linear, background 0.06s linear; min-height: 0.5rem; }
-    .mic-status { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; }
-    .mic-dot { width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--muted-fg); }
-    .mic-dot.active { background: var(--primary); animation: pulse 1s infinite; }
+    .race-lane { background:#fef9e7; border:1px solid #f0d580; border-radius:0.75rem; padding:0.75rem 1rem; }
+    .lane-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:0.5rem; }
+    .lane-rank { font-family:'Fredoka',sans-serif; font-size:1.1rem; min-width:2rem; }
+    .lane-name { font-family:'Fredoka',sans-serif; font-size:1.1rem; flex:1; margin-left:0.5rem; }
+    .lane-pct { font-size:0.8rem; color:var(--muted-fg); }
+    .lane-track { position:relative; height:1.25rem; background:var(--muted); border-radius:999px; overflow:hidden; }
+    .lane-fill { position:absolute; left:0; top:0; bottom:0; border-radius:999px; transition:width 0.15s ease; }
+    .lane-snail { position:absolute; top:50%; transform:translate(-50%,-50%); font-size:1rem; transition:left 0.15s ease; }
 
-    /* ── DOTS ── */
-    .dots { display: flex; gap: 0.5rem; justify-content: center; }
-    .dot { width: 0.5rem; height: 0.5rem; background: var(--primary); border-radius: 50%; animation: bounce 0.8s infinite alternate; }
-    .dot:nth-child(2) { animation-delay: 0.15s; }
-    .dot:nth-child(3) { animation-delay: 0.3s; }
+    .lb-row { display:flex; align-items:center; gap:0.75rem; padding:0.6rem 0; border-bottom:1px solid var(--muted); }
+    .lb-rank { font-family:'Fredoka',sans-serif; font-size:1.2rem; min-width:2rem; }
+    .lb-info { flex:1; }
+    .lb-name { font-family:'Fredoka',sans-serif; font-size:1rem; }
+    .lb-pts { font-size:0.75rem; color:var(--muted-fg); }
+    .lb-score { font-family:'Fredoka',sans-serif; font-size:1.1rem; color:var(--primary); }
 
-    /* ── HOST: PARTICIPANTS GRID ── */
-    .participant-card { display: flex; align-items: center; gap: 0.75rem; background: var(--card); padding: 0.75rem 1rem; border-radius: 1rem; border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
-    .participant-name { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; }
-    .participant-pts { font-size: 0.75rem; color: var(--primary); }
+    .winner-box { text-align:center; padding:3rem 2rem; background:linear-gradient(135deg,hsl(36,80%,55%,0.15),var(--card),hsl(142,50%,42%,0.15)); border-radius:1.5rem; border:1px solid var(--border); }
+    .winner-trophy { font-size:5rem; display:block; margin-bottom:1rem; animation:wiggle 2s infinite; }
 
-    /* ── HOST: RACE TRACK (simple lanes for standalone) ── */
-    .race-lanes { display: flex; flex-direction: column; gap: 0.75rem; }
-    .race-lane { background: #fef9e7; border: 1px solid #f0d580; border-radius: 0.75rem; padding: 0.75rem 1rem; }
-    .lane-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
-    .lane-rank { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; min-width: 2rem; }
-    .lane-name { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; flex: 1; margin-left: 0.5rem; }
-    .lane-pct { font-size: 0.8rem; color: var(--muted-fg); }
-    .lane-track { position: relative; height: 1.25rem; background: var(--muted); border-radius: 999px; overflow: hidden; }
-    .lane-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; transition: width 0.15s ease; }
-    .lane-snail { position: absolute; top: 50%; transform: translate(-50%, -50%); font-size: 1rem; transition: left 0.15s ease; }
+    .qr-wrap { display:flex; flex-direction:column; align-items:center; gap:1rem; }
+    .qr-box { background:#fff; padding:1rem; border-radius:1rem; border:2px solid var(--border); box-shadow:0 4px 16px rgba(0,0,0,0.1); }
+    .qr-url { font-size:0.7rem; color:var(--muted-fg); word-break:break-all; max-width:20rem; text-align:center; }
 
-    /* ── HOST: LEADERBOARD ── */
-    .lb-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--muted); }
-    .lb-rank { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; min-width: 2rem; }
-    .lb-info { flex: 1; }
-    .lb-name { font-family: 'Fredoka', sans-serif; font-size: 1rem; }
-    .lb-pts { font-size: 0.75rem; color: var(--muted-fg); }
-    .lb-score { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; color: var(--primary); }
+    .reveal-wrap { max-width:40rem; margin:0 auto; }
+    .reveal-item { display:flex; align-items:center; gap:1rem; padding:1rem; background:var(--card); border-radius:1rem; border:1px solid var(--border); margin-bottom:0.75rem; opacity:0; transform:translateY(16px); transition:opacity 0.4s,transform 0.4s; }
+    .reveal-item.shown { opacity:1; transform:translateY(0); }
+    .reveal-rank { font-family:'Fredoka',sans-serif; font-size:1.8rem; min-width:2.5rem; }
+    .reveal-info { flex:1; }
+    .reveal-name { font-family:'Fredoka',sans-serif; font-size:1.2rem; }
+    .reveal-score { font-size:0.85rem; color:var(--muted-fg); }
+    .reveal-total { font-family:'Fredoka',sans-serif; font-size:1.4rem; color:var(--primary); }
 
-    /* ── HOST: WINNER BOX ── */
-    .winner-box { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, hsl(36,80%,55%,0.15), var(--card), hsl(142,50%,42%,0.15)); border-radius: 1.5rem; border: 1px solid var(--border); }
-    .winner-trophy { font-size: 5rem; display: block; margin-bottom: 1rem; animation: wiggle 2s infinite; }
-    .winner-name { font-family: 'Fredoka', sans-serif; font-size: 2rem; }
+    .hof-entry { display:flex; align-items:center; gap:0.75rem; padding:0.6rem 0; border-bottom:1px solid var(--muted); }
 
-    /* ── HOST: QR ── */
-    .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
-    .qr-box { background: #fff; padding: 1rem; border-radius: 1rem; border: 2px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
-    .qr-url { font-size: 0.7rem; color: var(--muted-fg); word-break: break-all; max-width: 20rem; text-align: center; }
+    .two-col { display:grid; grid-template-columns:1fr; gap:2rem; }
+    @media(min-width:900px) { .two-col { grid-template-columns:1fr 1fr; } }
+    .three-col { display:grid; grid-template-columns:1fr; gap:2rem; }
+    @media(min-width:1100px) { .three-col { grid-template-columns:2fr 1fr; } }
+    .race-lanes { display:flex; flex-direction:column; gap:0.75rem; }
 
-    /* ── REVEAL / FINAL ── */
-    .reveal-wrap { max-width: 40rem; margin: 0 auto; }
-    .reveal-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--card); border-radius: 1rem; border: 1px solid var(--border); margin-bottom: 0.75rem; opacity: 0; transform: translateY(16px); transition: opacity 0.4s, transform 0.4s; }
-    .reveal-item.shown { opacity: 1; transform: translateY(0); }
-    .reveal-rank { font-family: 'Fredoka', sans-serif; font-size: 1.8rem; min-width: 2.5rem; }
-    .reveal-info { flex: 1; }
-    .reveal-name { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; }
-    .reveal-score { font-size: 0.85rem; color: var(--muted-fg); }
-    .reveal-total { font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: var(--primary); }
+    .lane-fill-red    { background:linear-gradient(90deg,#c0392b,#e74c3c); }
+    .lane-fill-blue   { background:linear-gradient(90deg,#1a5276,#2980b9); }
+    .lane-fill-green  { background:linear-gradient(90deg,#1e8449,#27ae60); }
+    .lane-fill-purple { background:linear-gradient(90deg,#6c3483,#8e44ad); }
+    .lane-fill-orange { background:linear-gradient(90deg,#ba4a00,#e67e22); }
+    .lane-fill-pink   { background:linear-gradient(90deg,#a93226,#e91e8c); }
+    .lane-fill-yellow { background:linear-gradient(90deg,#9a7d0a,#d4ac0d); }
+    .lane-fill-cyan   { background:linear-gradient(90deg,#0e6655,#17a589); }
 
-    /* ── HOF ── */
-    .hof-entry { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--muted); }
-
-    /* ── TWO COLUMN LAYOUT ── */
-    .two-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-    @media(min-width: 900px) { .two-col { grid-template-columns: 1fr 1fr; } }
-    .three-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-    @media(min-width: 1100px) { .three-col { grid-template-columns: 2fr 1fr; } }
-
-    /* ── ANIMATIONS ── */
-    @keyframes bounce { to { transform: translateY(-8px); } }
+    @keyframes bounce { to{transform:translateY(-8px)} }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
     @keyframes wiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(8deg)} 75%{transform:rotate(-8deg)} }
-    @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes fadeIn { from{opacity:0;transform:translateY(10px)} to{opacity:1;transform:translateY(0)} }
     @keyframes textpulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-    @keyframes floatBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-    .fade-in { animation: fadeIn 0.35s ease both; }
-    .pulse-text { animation: textpulse 2s infinite; }
-    .flag-anim { font-size: 4rem; display: inline-block; animation: wiggle 1s 3; }
-    .bob { animation: floatBob 2s ease-in-out infinite; }
-
-    /* ── LANE COLORS ── */
-    .lane-fill-red    { background: linear-gradient(90deg, #c0392b, #e74c3c); }
-    .lane-fill-blue   { background: linear-gradient(90deg, #1a5276, #2980b9); }
-    .lane-fill-green  { background: linear-gradient(90deg, #1e8449, #27ae60); }
-    .lane-fill-purple { background: linear-gradient(90deg, #6c3483, #8e44ad); }
-    .lane-fill-orange { background: linear-gradient(90deg, #ba4a00, #e67e22); }
-    .lane-fill-pink   { background: linear-gradient(90deg, #a93226, #e91e8c); }
-    .lane-fill-yellow { background: linear-gradient(90deg, #9a7d0a, #d4ac0d); }
-    .lane-fill-cyan   { background: linear-gradient(90deg, #0e6655, #17a589); }
+    @keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+    .fade-in { animation:fadeIn 0.35s ease both; }
+    .pulse-text { animation:textpulse 2s infinite; }
+    .flag-anim { font-size:4rem; display:inline-block; animation:wiggle 1s 3; }
+    .bob { animation:bob 2s ease-in-out infinite; }
   </style>
 </head>
 <body>
@@ -198,96 +146,106 @@
   </div>
   <div class="header-right" id="headerButtons"></div>
 </div>
+<main class="main" id="app"><div class="join-center"><p class="muted">Connessione a Firebase...</p></div></main>
 
-<main class="main" id="app"></main>
+<!-- Firebase SDK -->
+<script type="module">
+import { initializeApp } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-app.js';
+import { getDatabase, ref, set, get, push, update, onValue, off } from 'https://www.gstatic.com/firebasejs/11.8.1/firebase-database.js';
 
-<script>
 // ═══════════════════════════════════════════════════════════════
-//  DETERMINA MODALITÀ: host o join
+//  FIREBASE CONFIG
+// ═══════════════════════════════════════════════════════════════
+const firebaseConfig = {
+  apiKey: "AIzaSyAD7k9EhLPFZZjQuV3va9ig7JHYZHir6Ro",
+  authDomain: "corsa-delle-lumache-c7898.firebaseapp.com",
+  databaseURL: "https://corsa-delle-lumache-c7898-default-rtdb.europe-west1.firebasedatabase.app",
+  projectId: "corsa-delle-lumache-c7898",
+  storageBucket: "corsa-delle-lumache-c7898.firebasestorage.app",
+  messagingSenderId: "13626588351",
+  appId: "1:13626588351:web:027604fd9ad659b4855a0a"
+};
+const app = initializeApp(firebaseConfig);
+const db = getDatabase(app);
+
+// ═══════════════════════════════════════════════════════════════
+//  CONFIG & COSTANTI
 // ═══════════════════════════════════════════════════════════════
 const urlParams = new URLSearchParams(window.location.search);
 const MODE = urlParams.get('mode') || (window.location.pathname.includes('host') ? 'host' : 'join');
-// Parametri join
 const SESSION_ID_PARAM = urlParams.get('session');
 const LEGACY_RACE_ID   = urlParams.get('race');
-// Costanti
 const TRACK_LENGTH = 5000;
 const COLORS = ['red','blue','green','purple','orange','pink','yellow','cyan'];
 const SNAIL_COLORS = {
-  red:    { shell1:'#c0392b', shell2:'#e74c3c', shell3:'#ff6b6b', body1:'#e67e22', body2:'#f39c12' },
-  blue:   { shell1:'#1a5276', shell2:'#2980b9', shell3:'#5dade2', body1:'#1e8bc3', body2:'#3498db' },
-  green:  { shell1:'#1e8449', shell2:'#27ae60', shell3:'#58d68d', body1:'#27ae60', body2:'#2ecc71' },
-  purple: { shell1:'#6c3483', shell2:'#8e44ad', shell3:'#bb8fce', body1:'#7d3c98', body2:'#9b59b6' },
-  orange: { shell1:'#ba4a00', shell2:'#e67e22', shell3:'#f0b27a', body1:'#ca6f1e', body2:'#f39c12' },
-  pink:   { shell1:'#a93226', shell2:'#e91e8c', shell3:'#f48fb1', body1:'#c2185b', body2:'#e91e8c' },
-  yellow: { shell1:'#9a7d0a', shell2:'#d4ac0d', shell3:'#f7dc6f', body1:'#b7950b', body2:'#f1c40f' },
-  cyan:   { shell1:'#0e6655', shell2:'#17a589', shell3:'#76d7c4', body1:'#148f77', body2:'#1abc9c' },
+  red:    {shell1:'#c0392b',shell2:'#e74c3c',shell3:'#ff6b6b',body1:'#e67e22',body2:'#f39c12'},
+  blue:   {shell1:'#1a5276',shell2:'#2980b9',shell3:'#5dade2',body1:'#1e8bc3',body2:'#3498db'},
+  green:  {shell1:'#1e8449',shell2:'#27ae60',shell3:'#58d68d',body1:'#27ae60',body2:'#2ecc71'},
+  purple: {shell1:'#6c3483',shell2:'#8e44ad',shell3:'#bb8fce',body1:'#7d3c98',body2:'#9b59b6'},
+  orange: {shell1:'#ba4a00',shell2:'#e67e22',shell3:'#f0b27a',body1:'#ca6f1e',body2:'#f39c12'},
+  pink:   {shell1:'#a93226',shell2:'#e91e8c',shell3:'#f48fb1',body1:'#c2185b',body2:'#e91e8c'},
+  yellow: {shell1:'#9a7d0a',shell2:'#d4ac0d',shell3:'#f7dc6f',body1:'#b7950b',body2:'#f1c40f'},
+  cyan:   {shell1:'#0e6655',shell2:'#17a589',shell3:'#76d7c4',body1:'#148f77',body2:'#1abc9c'},
 };
 
 // ═══════════════════════════════════════════════════════════════
-//  API — chiama Base44 REST direttamente
-//  Richiede che l'utente sia già autenticato (cookie/localStorage)
+//  FIREBASE DB HELPERS
 // ═══════════════════════════════════════════════════════════════
-function getAppId() {
-  const meta = document.querySelector('meta[name="base44-app-id"]');
-  if (meta) return meta.content;
-  const m = window.location.hostname.match(/--([a-f0-9]+)\.base44\.app/);
-  if (m) return m[1];
-  // fallback: prendi da localStorage se l'app l'ha salvato
-  return localStorage.getItem('b44_app_id') || null;
-}
+function uid() { return push(ref(db,'_')).key; }
 
-const APP_ID = getAppId();
-const API_BASE = APP_ID ? `https://api.base44.com/api/apps/${APP_ID}` : null;
-
-function getToken() {
-  const m = document.cookie.match(/(?:^|;\s*)base44_token=([^;]+)/);
-  if (m) return decodeURIComponent(m[1]);
-  return localStorage.getItem('base44_auth_token') || '';
-}
-
-async function api(method, path, body) {
-  if (!API_BASE) throw new Error('APP_ID non trovato. Apri questa pagina dall\'app Base44.');
-  const token = getToken();
-  const r = await fetch(`${API_BASE}${path}`, {
-    method,
-    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
-    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
-  });
-  if (!r.ok) throw new Error(`API ${method} ${path}: ${r.status}`);
-  return r.json();
-}
-
-const db = {
-  list:   (e)         => api('GET',   `/entities/${e}`),
-  filter: (e, q)      => api('POST',  `/entities/${e}/query`, { filters: q }),
-  create: (e, d)      => api('POST',  `/entities/${e}`, d),
-  update: (e, id, d)  => api('PATCH', `/entities/${e}/${id}`, d),
+const FB = {
+  // Crea record con ID generato
+  async create(path, data) {
+    const id = uid();
+    const record = { ...data, id, created_date: Date.now() };
+    await set(ref(db, `${path}/${id}`), record);
+    return record;
+  },
+  // Aggiorna campi di un record
+  async update(path, id, data) {
+    const r = ref(db, `${path}/${id}`);
+    await update(r, { ...data, updated_date: Date.now() });
+    const snap = await get(r);
+    return snap.val();
+  },
+  // Leggi tutti i record di una collection
+  async list(path) {
+    const snap = await get(ref(db, path));
+    if (!snap.exists()) return [];
+    const val = snap.val();
+    return Object.values(val);
+  },
+  // Filtra per campo
+  async filter(path, filters) {
+    const all = await FB.list(path);
+    return all.filter(item => Object.entries(filters).every(([k,v]) => item[k] === v));
+  },
+  // Subscribe realtime
+  subscribe(path, cb) {
+    const r = ref(db, path);
+    onValue(r, snap => cb(snap.exists() ? snap.val() : null));
+    return () => off(r);
+  },
+  // Subscribe a una singola collection con eventi create/update/delete
+  subscribeCollection(path, cb) {
+    let prev = {};
+    const r = ref(db, path);
+    onValue(r, snap => {
+      const current = snap.exists() ? snap.val() : {};
+      // detect creates & updates
+      Object.entries(current).forEach(([id, item]) => {
+        if (!prev[id]) cb({ type: 'create', id, data: item });
+        else if (JSON.stringify(prev[id]) !== JSON.stringify(item)) cb({ type: 'update', id, data: item });
+      });
+      // detect deletes
+      Object.keys(prev).forEach(id => {
+        if (!current[id]) cb({ type: 'delete', id, data: null });
+      });
+      prev = { ...current };
+    });
+    return () => off(r);
+  },
 };
-
-// Polling subscriber — restituisce funzione unsub
-function subscribe(entity, cb, ms = 1200) {
-  let stopped = false;
-  let lastSeen = {};
-  async function poll() {
-    if (stopped) return;
-    try {
-      const list = await db.list(entity);
-      list.forEach(item => {
-        const prev = lastSeen[item.id];
-        if (!prev) cb({ type: 'create', id: item.id, data: item });
-        else if (prev.updated_date !== item.updated_date) cb({ type: 'update', id: item.id, data: item });
-        lastSeen[item.id] = item;
-      });
-      Object.keys(lastSeen).forEach(id => {
-        if (!list.find(i => i.id === id)) { cb({ type: 'delete', id, data: null }); delete lastSeen[id]; }
-      });
-    } catch {}
-    if (!stopped) setTimeout(poll, ms);
-  }
-  poll();
-  return () => { stopped = true; };
-}
 
 // ═══════════════════════════════════════════════════════════════
 //  SVG LUMACA
@@ -296,17 +254,23 @@ function snailSVG(color, size) {
   const c = SNAIL_COLORS[color] || SNAIL_COLORS.green;
   return `<svg viewBox="0 0 100 75" width="${size}" height="${size*0.75}" style="overflow:visible;display:block">
     <defs>
-      <filter id="sh${color}"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000044"/></filter>
-      <radialGradient id="sg${color}" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="${c.shell3}"/><stop offset="50%" stop-color="${c.shell2}"/><stop offset="100%" stop-color="${c.shell1}"/></radialGradient>
-      <linearGradient id="bg${color}" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="${c.body2}"/><stop offset="100%" stop-color="${c.body1}"/></linearGradient>
-      <radialGradient id="sdw${color}" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00000033"/><stop offset="100%" stop-color="#00000000"/></radialGradient>
+      <filter id="sh${color}${size}"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000044"/></filter>
+      <radialGradient id="sg${color}${size}" cx="35%" cy="30%" r="65%">
+        <stop offset="0%" stop-color="${c.shell3}"/><stop offset="50%" stop-color="${c.shell2}"/><stop offset="100%" stop-color="${c.shell1}"/>
+      </radialGradient>
+      <linearGradient id="bg${color}${size}" x1="0%" y1="0%" x2="0%" y2="100%">
+        <stop offset="0%" stop-color="${c.body2}"/><stop offset="100%" stop-color="${c.body1}"/>
+      </linearGradient>
+      <radialGradient id="sdw${color}${size}" cx="50%" cy="50%" r="50%">
+        <stop offset="0%" stop-color="#00000033"/><stop offset="100%" stop-color="#00000000"/>
+      </radialGradient>
     </defs>
-    <ellipse cx="52" cy="72" rx="28" ry="5" fill="url(#sdw${color})"/>
-    <ellipse cx="38" cy="58" rx="28" ry="10" fill="url(#bg${color})" filter="url(#sh${color})"/>
+    <ellipse cx="52" cy="72" rx="28" ry="5" fill="url(#sdw${color}${size})"/>
+    <ellipse cx="38" cy="58" rx="28" ry="10" fill="url(#bg${color}${size})" filter="url(#sh${color}${size})"/>
     <ellipse cx="36" cy="55" rx="18" ry="5" fill="${c.body2}" opacity="0.35"/>
-    <ellipse cx="16" cy="54" rx="12" ry="10" fill="url(#bg${color})"/>
+    <ellipse cx="16" cy="54" rx="12" ry="10" fill="url(#bg${color}${size})"/>
     <ellipse cx="13" cy="51" rx="7" ry="5" fill="${c.body2}" opacity="0.4"/>
-    <ellipse cx="52" cy="44" rx="26" ry="24" fill="url(#sg${color})" filter="url(#sh${color})"/>
+    <ellipse cx="52" cy="44" rx="26" ry="24" fill="url(#sg${color}${size})" filter="url(#sh${color}${size})"/>
     <path d="M52,26 Q68,30 68,44 Q68,58 52,62 Q36,62 36,48 Q36,36 48,32" fill="none" stroke="${c.shell1}" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
     <path d="M52,34 Q62,37 62,44 Q62,54 52,56 Q42,54 42,46 Q42,38 50,36" fill="none" stroke="${c.shell1}" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
     <circle cx="53" cy="44" r="5" fill="${c.shell2}" opacity="0.6"/>
@@ -327,13 +291,11 @@ function snailSVG(color, size) {
   </svg>`;
 }
 
-function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function esc(s) { return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+function rankEmoji(i) { return ['🥇','🥈','🥉'][i]||`${i+1}.`; }
 
-// ═══════════════════════════════════════════════════════════════
-//  SHARED HELPERS
-// ═══════════════════════════════════════════════════════════════
-function trackHTML(pct, id = '') {
-  const sl = Math.min(pct, 94);
+function trackHTML(pct, id='') {
+  const sl = Math.min(pct,94);
   return `<div class="track-labels"><span>Partenza</span><span>${Math.round(pct)}%</span><span>🏁 Arrivo</span></div>
   <div class="track-bg">
     <div class="track-fill" id="tf${id}" style="width:${pct}%"></div>
@@ -341,407 +303,287 @@ function trackHTML(pct, id = '') {
   </div>`;
 }
 
-function rankEmoji(i) { return ['🥇','🥈','🥉'][i] || `${i+1}.`; }
+// ═══════════════════════════════════════════════════════════════
+//  HOST
+// ═══════════════════════════════════════════════════════════════
+async function initHost() {
+  document.getElementById('pageTitle').textContent = 'Corsa delle Lumache — Host';
 
-// ═══════════════════════════════════════════════════════════════
-//
-//  ██╗  ██╗ ██████╗ ███████╗████████╗
-//  ██║  ██║██╔═══██╗██╔════╝╚══██╔══╝
-//  ███████║██║   ██║███████╗   ██║   
-//  ██╔══██║██║   ██║╚════██║   ██║   
-//  ██║  ██║╚██████╔╝███████║   ██║   
-//
-// ═══════════════════════════════════════════════════════════════
-const Host = (() => {
   let sessionId = null, session = null;
   let raceId = null, race = null;
   let participants = [];
   let hallOfFame = [];
-  let view = 'race'; // 'race' | 'reveal'
+  let view = 'race';
   let revealIndex = 0;
-  let unsubRace = null, unsubParts = null, unsubSession = null;
-  let partsInterval = null;
-  let currentRaceIdRef = null;
+  let unsubRace = null, unsubParts = null;
 
-  function status() { return race?.status || 'waiting'; }
   function sorted() { return [...participants].sort((a,b)=>(b.position||0)-(a.position||0)); }
-  function sessionScores() { return session?.scores || {}; }
-  function joinUrl() { return sessionId ? `${window.location.origin}${window.location.pathname.replace('host','join')}?session=${sessionId}` : ''; }
+  function scores() { return session?.scores||{}; }
+  function joinUrl() { return sessionId ? `${window.location.origin}${window.location.pathname}?session=${sessionId}` : ''; }
+  function status() { return race?.status||'waiting'; }
 
-  // ── RENDER ──────────────────────────────────────────────────
-  function render() {
-    // subtitle
-    const sub = document.getElementById('pageSubtitle');
-    if (sub && session) sub.textContent = `Gara #${(session.race_ids?.length||1)} · Sessione in corso`;
-
-    // header buttons
-    const hb = document.getElementById('headerButtons');
-    hb.innerHTML = '';
-    // participants badge
-    const badge = document.createElement('div');
-    badge.className = 'badge-pill';
-    badge.innerHTML = `<span>👥</span><span>${participants.length}</span><span class="muted text-sm">partecipanti</span>`;
-    hb.appendChild(badge);
-
-    if (status() === 'waiting' && participants.length >= 1) {
-      const b = document.createElement('button');
-      b.className = 'btn lg'; b.innerHTML = '▶ VIA!'; b.onclick = startRace;
-      hb.appendChild(b);
-    }
-    if (status() === 'finished') {
-      const b1 = document.createElement('button');
-      b1.className = 'btn lg'; b1.innerHTML = '→ Continua'; b1.onclick = continueRace;
-      hb.appendChild(b1);
-      const b2 = document.createElement('button');
-      b2.className = 'btn lg yellow-outline'; b2.innerHTML = '🏆 Fine: classifica finale'; b2.onclick = endSession;
-      hb.appendChild(b2);
-    }
-
-    const app = document.getElementById('app');
-    if (view === 'reveal') { renderReveal(app); return; }
-
-    if (status() === 'waiting') renderWaiting(app);
-    else if (status() === 'racing') renderRacing(app);
-    else if (status() === 'finished') renderFinished(app);
-  }
-
-  function renderWaiting(app) {
-    const url = joinUrl();
-    const qrSrc = url ? `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}` : '';
-    app.innerHTML = `<div class="fade-in two-col">
-      <div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem">
-        <h2 class="fredoka" style="font-size:1.4rem">Inquadra il QR Code per unirti!</h2>
-        <p class="muted">Scansiona con la fotocamera del telefono</p>
-        ${url ? `<div class="qr-wrap"><div class="qr-box"><img src="${esc(qrSrc)}" width="240" height="240" alt="QR"></div><p class="qr-url">${esc(url)}</p></div>` : '<p class="muted">Caricamento...</p>'}
-      </div>
-      <div>
-        <h3 class="fredoka mt-2" style="font-size:1.2rem;margin-bottom:1rem">Partecipanti in attesa:</h3>
-        ${participants.length === 0
-          ? `<div class="card text-center" style="padding:3rem"><div class="bob" style="font-size:4rem;margin-bottom:1rem">🐌</div><p class="muted">In attesa di partecipanti...</p></div>`
-          : `<div class="grid2">${participants.map(p=>{
-              const key=`${p.name}__${p.color}`;
-              const score=Math.round(sessionScores()[key]||0);
-              return `<div class="participant-card">
-                ${snailSVG(p.color,40)}
-                <div><div class="participant-name">${esc(p.name)}</div>${score>0?`<div class="participant-pts">${score} pt</div>`:''}</div>
-              </div>`;
-            }).join('')}</div>`
-        }
-      </div>
-    </div>`;
-  }
-
-  function renderRacing(app) {
-    const s = sorted();
-    const scores = sessionScores();
-    app.innerHTML = `<div class="fade-in three-col">
-      <div>
-        <div class="flex items-center gap-3 mt-2" style="margin-bottom:1rem">
-          <span style="font-size:2rem">🏁</span>
-          <h2 class="fredoka" style="font-size:1.4rem">Gara in Corso!</h2>
-        </div>
-        <div class="card">
-          <div class="race-lanes" id="raceLanes">${raceLanesHTML(s)}</div>
-        </div>
-      </div>
-      <div class="card" style="align-self:start">
-        <h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Live</h3>
-        <div id="lbRows">${lbHTML(s, scores)}</div>
-      </div>
-    </div>`;
-  }
-
-  function renderFinished(app) {
-    const s = sorted();
-    const winner = s[0];
-    const scores = sessionScores();
-    app.innerHTML = `<div class="fade-in">
-      ${winner ? `<div class="winner-box" style="margin-bottom:2rem">
-        <span class="winner-trophy">🏆</span>
-        <h2 class="fredoka" style="font-size:2rem;margin-bottom:0.5rem">Vincitore!</h2>
-        <div class="flex items-center justify-center gap-4 mt-4">
-          ${snailSVG(winner.color,80)}
-          <span class="winner-name">${esc(winner.name)}</span>
-        </div>
-        <p class="muted mt-3">Scegli come continuare ↑</p>
-      </div>` : ''}
-      <div class="three-col">
-        <div class="card">
-          <div class="race-lanes">${raceLanesHTML(s)}</div>
-        </div>
-        <div class="card" style="align-self:start">
-          <h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Finale</h3>
-          <div>${lbHTML(s, scores)}</div>
-        </div>
-      </div>
-    </div>`;
-  }
-
-  function renderReveal(app) {
-    const s = sorted();
-    const scores = sessionScores();
-    app.innerHTML = `<div class="fade-in reveal-wrap">
-      <div class="text-center" style="margin-bottom:2rem">
-        <span style="font-size:4rem">🏁</span>
-        <h2 class="fredoka" style="font-size:2rem;margin-top:0.5rem">Risultati Finali</h2>
-      </div>
-      <div id="revealList">
-        ${s.map((p,i)=>{
-          const key=`${p.name}__${p.color}`;
-          const racePts = Math.round(((p.position||0)/TRACK_LENGTH)*1000);
-          const totalPts = Math.round(scores[key]||0);
-          return `<div class="reveal-item${i<revealIndex?' shown':''}" id="revealItem${i}">
-            <div class="reveal-rank">${rankEmoji(i)}</div>
-            ${snailSVG(p.color,48)}
-            <div class="reveal-info">
-              <div class="reveal-name">${esc(p.name)}</div>
-              <div class="reveal-score">Questa gara: ${racePts} pt · Totale: ${totalPts} pt</div>
-            </div>
-            <div class="reveal-total">${totalPts}</div>
-          </div>`;
-        }).join('')}
-      </div>
-      <div class="text-center mt-6">
-        ${revealIndex < s.length
-          ? `<button class="btn lg" id="revealBtn">Rivela prossimo 👁</button>`
-          : `<div>
-              ${hofHTML()}
-              <button class="btn lg mt-6" id="backBtn">← Nuova Gara</button>
-            </div>`
-        }
-      </div>
-    </div>`;
-
-    document.getElementById('revealBtn')?.addEventListener('click', () => {
-      revealIndex++;
-      renderReveal(app);
-    });
-    document.getElementById('backBtn')?.addEventListener('click', () => { view='race'; render(); });
-  }
-
-  function hofHTML() {
-    if (!hallOfFame.length) return '';
-    return `<div class="card mt-6">
-      <h3 class="fredoka" style="font-size:1.2rem;margin-bottom:1rem">⭐ Hall of Fame</h3>
-      ${hallOfFame.map(e=>`<div class="hof-entry">
-        ${snailSVG(e.color||'green',40)}
-        <div>
-          <div class="fredoka">${esc(e.name)}</div>
-          <div class="text-xs muted">${e.race_count} gare vinte · ${e.session_id?.slice(0,8)||''}</div>
-        </div>
-      </div>`).join('')}
-    </div>`;
-  }
-
-  function raceLanesHTML(sorted) {
-    return sorted.map((p,i)=>{
-      const pct = Math.min(((p.position||0)/TRACK_LENGTH)*100, 100);
-      const sl = Math.min(pct,94);
+  function raceLanesHTML(s) {
+    return s.map((p,i)=>{
+      const pct=Math.min(((p.position||0)/TRACK_LENGTH)*100,100);
       return `<div class="race-lane">
         <div class="lane-header">
-          <span class="lane-rank">${rankEmoji(i)}</span>
-          ${snailSVG(p.color,28)}
-          <span class="lane-name">${esc(p.name)}</span>
-          <span class="lane-pct">${Math.round(pct)}%</span>
+          <span class="lane-rank">${rankEmoji(i)}</span>${snailSVG(p.color,28)}
+          <span class="lane-name">${esc(p.name)}</span><span class="lane-pct">${Math.round(pct)}%</span>
         </div>
         <div class="lane-track">
           <div class="lane-fill lane-fill-${p.color}" style="width:${pct}%"></div>
-          <div class="lane-snail" style="left:calc(${sl}% - 8px)">🐌</div>
+          <div class="lane-snail" style="left:calc(${Math.min(pct,94)}% - 8px)">🐌</div>
         </div>
       </div>`;
     }).join('');
   }
 
-  function lbHTML(sorted, scores) {
-    return sorted.map((p,i)=>{
+  function lbHTML(s) {
+    return s.map((p,i)=>{
       const key=`${p.name}__${p.color}`;
       const racePts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);
-      const totalPts=Math.round(scores[key]||0);
+      const totalPts=Math.round(scores()[key]||0);
       return `<div class="lb-row">
-        <div class="lb-rank">${rankEmoji(i)}</div>
-        ${snailSVG(p.color,32)}
-        <div class="lb-info">
-          <div class="lb-name">${esc(p.name)}</div>
-          <div class="lb-pts">gara: ${racePts}pt · tot: ${totalPts}pt</div>
-        </div>
+        <div class="lb-rank">${rankEmoji(i)}</div>${snailSVG(p.color,32)}
+        <div class="lb-info"><div class="lb-name">${esc(p.name)}</div><div class="lb-pts">gara:${racePts}pt·tot:${totalPts}pt</div></div>
         <div class="lb-score">${racePts}</div>
       </div>`;
     }).join('');
   }
 
-  // ── ACTIONS ─────────────────────────────────────────────────
+  function render() {
+    const sub = document.getElementById('pageSubtitle');
+    if (sub && session) sub.textContent = `Gara #${(session.race_ids?.length||1)} · Sessione in corso`;
+
+    const hb = document.getElementById('headerButtons');
+    hb.innerHTML = '';
+    const badge = document.createElement('div');
+    badge.className='badge-pill';
+    badge.innerHTML=`<span>👥</span><span>${participants.length}</span><span class="muted text-sm">partecipanti</span>`;
+    hb.appendChild(badge);
+
+    if (status()==='waiting' && participants.length>=1) {
+      const b=document.createElement('button'); b.className='btn lg'; b.innerHTML='▶ VIA!'; b.onclick=startRace; hb.appendChild(b);
+    }
+    if (status()==='finished') {
+      const b1=document.createElement('button'); b1.className='btn lg'; b1.innerHTML='→ Continua'; b1.onclick=continueRace; hb.appendChild(b1);
+      const b2=document.createElement('button'); b2.className='btn lg yellow-outline'; b2.innerHTML='🏆 Fine: classifica finale'; b2.onclick=endSession; hb.appendChild(b2);
+    }
+
+    const appl = document.getElementById('app');
+    if (view==='reveal') { renderReveal(appl); return; }
+    if (status()==='waiting') renderWaiting(appl);
+    else if (status()==='racing') renderRacing(appl);
+    else if (status()==='finished') renderFinished(appl);
+  }
+
+  function renderWaiting(appl) {
+    const url = joinUrl();
+    const qrSrc = url ? `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}` : '';
+    appl.innerHTML = `<div class="fade-in two-col">
+      <div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem">
+        <h2 class="fredoka" style="font-size:1.4rem">Inquadra il QR Code per unirti!</h2>
+        <p class="muted">Scansiona con la fotocamera del telefono</p>
+        ${url?`<div class="qr-wrap"><div class="qr-box"><img src="${esc(qrSrc)}" width="240" height="240" alt="QR"></div><p class="qr-url">${esc(url)}</p></div>`:'<p class="muted">Caricamento URL...</p>'}
+      </div>
+      <div>
+        <h3 class="fredoka mt-2" style="font-size:1.2rem;margin-bottom:1rem">Partecipanti in attesa:</h3>
+        ${participants.length===0
+          ?`<div class="card text-center" style="padding:3rem"><div class="bob" style="font-size:4rem;margin-bottom:1rem">🐌</div><p class="muted">In attesa di partecipanti...</p></div>`
+          :`<div class="grid2">${participants.map(p=>{const key=`${p.name}__${p.color}`;const score=Math.round(scores()[key]||0);return`<div class="participant-card">${snailSVG(p.color,40)}<div><div class="participant-name">${esc(p.name)}</div>${score>0?`<div class="participant-pts">${score} pt</div>`:''}</div></div>`;}).join('')}</div>`
+        }
+      </div>
+    </div>`;
+  }
+
+  function renderRacing(appl) {
+    const s=sorted();
+    appl.innerHTML=`<div class="fade-in three-col">
+      <div>
+        <div class="flex items-center gap-3 mt-2" style="margin-bottom:1rem"><span style="font-size:2rem">🏁</span><h2 class="fredoka" style="font-size:1.4rem">Gara in Corso!</h2></div>
+        <div class="card"><div class="race-lanes" id="raceLanes">${raceLanesHTML(s)}</div></div>
+      </div>
+      <div class="card" style="align-self:start"><h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Live</h3><div id="lbRows">${lbHTML(s)}</div></div>
+    </div>`;
+  }
+
+  function renderFinished(appl) {
+    const s=sorted(); const winner=s[0];
+    appl.innerHTML=`<div class="fade-in">
+      ${winner?`<div class="winner-box" style="margin-bottom:2rem">
+        <span class="winner-trophy">🏆</span>
+        <h2 class="fredoka" style="font-size:2rem;margin-bottom:0.5rem">Vincitore!</h2>
+        <div class="flex items-center justify-center gap-4 mt-4">${snailSVG(winner.color,80)}<span class="fredoka" style="font-size:2rem">${esc(winner.name)}</span></div>
+        <p class="muted mt-3">Scegli come continuare ↑</p>
+      </div>`:''}
+      <div class="three-col">
+        <div class="card"><div class="race-lanes">${raceLanesHTML(s)}</div></div>
+        <div class="card" style="align-self:start"><h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Finale</h3>${lbHTML(s)}</div>
+      </div>
+    </div>`;
+  }
+
+  function renderReveal(appl) {
+    const s=sorted();
+    appl.innerHTML=`<div class="fade-in reveal-wrap">
+      <div class="text-center" style="margin-bottom:2rem"><span style="font-size:4rem">🏁</span><h2 class="fredoka" style="font-size:2rem;margin-top:0.5rem">Risultati Finali</h2></div>
+      <div id="revealList">
+        ${s.map((p,i)=>{const key=`${p.name}__${p.color}`;const rPts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);const tPts=Math.round(scores()[key]||0);
+          return`<div class="reveal-item${i<revealIndex?' shown':''}" id="ri${i}">
+            <div class="reveal-rank">${rankEmoji(i)}</div>${snailSVG(p.color,48)}
+            <div class="reveal-info"><div class="reveal-name">${esc(p.name)}</div><div class="reveal-score">Gara:${rPts}pt · Tot:${tPts}pt</div></div>
+            <div class="reveal-total">${tPts}</div>
+          </div>`;}).join('')}
+      </div>
+      <div class="text-center mt-6">
+        ${revealIndex<s.length
+          ?`<button class="btn lg" id="revBtn">Rivela prossimo 👁</button>`
+          :`<div>${hofHTML()}<button class="btn lg mt-6" id="backBtn">← Torna alla gara</button></div>`}
+      </div>
+    </div>`;
+    document.getElementById('revBtn')?.addEventListener('click',()=>{revealIndex++;renderReveal(appl);});
+    document.getElementById('backBtn')?.addEventListener('click',()=>{view='race';render();});
+  }
+
+  function hofHTML() {
+    if(!hallOfFame.length) return '';
+    return `<div class="card mt-6"><h3 class="fredoka" style="font-size:1.2rem;margin-bottom:1rem">⭐ Hall of Fame</h3>
+      ${hallOfFame.map(e=>`<div class="hof-entry">${snailSVG(e.color||'green',40)}<div><div class="fredoka">${esc(e.name)}</div><div class="text-xs muted">${e.race_count} gare vinte</div></div></div>`).join('')}
+    </div>`;
+  }
+
+  function updateRacingDOM() {
+    const s=sorted();
+    const lanes=document.getElementById('raceLanes'); if(lanes) lanes.innerHTML=raceLanesHTML(s);
+    const lb=document.getElementById('lbRows'); if(lb) lb.innerHTML=lbHTML(s);
+  }
+
+  // ── AZIONI ──────────────────────────────────────────────────
   async function startRace() {
-    const updated = await db.update('Race', raceId, { status: 'racing' });
-    race = updated;
-    render();
+    await FB.update('races', raceId, {status:'racing'});
   }
 
   async function continueRace() {
-    const newRace = await db.create('Race', { status: 'waiting', track_length: TRACK_LENGTH });
-    const prev = [...participants];
-    participants = [];
+    const newRace = await FB.create('races', {status:'waiting', track_length:TRACK_LENGTH});
     raceId = newRace.id;
     race = newRace;
-    currentRaceIdRef = newRace.id;
 
-    await Promise.all(prev.map(p => db.create('RaceParticipant', {
-      race_id: newRace.id, name: p.name, color: p.color, position: 0, finished: false,
-    })));
-    const fresh = await db.filter('RaceParticipant', { race_id: newRace.id });
-    participants = fresh;
+    // Copia partecipanti
+    const prev = [...participants];
+    participants = [];
+    await Promise.all(prev.map(p => FB.create('participants', {race_id:newRace.id, name:p.name, color:p.color, position:0, finished:false})));
+    participants = await FB.filter('participants', {race_id:newRace.id});
 
-    const updSess = await db.update('Session', sessionId, {
+    const updSess = await FB.update('sessions', sessionId, {
       race_ids: [...(session.race_ids||[]), newRace.id],
       current_race_id: newRace.id,
     });
     session = updSess;
     view = 'race';
-    attachRaceSubscriptions();
+    attachSubscriptions(newRace.id);
     render();
   }
 
   async function endSession() {
-    const winnerNames = session?.winner_names || [];
-    if (winnerNames.length >= 3) {
-      const first = winnerNames[0];
-      if (winnerNames.every(n=>n===first) && first) {
-        const wp = participants.find(p=>p.name===first);
-        await db.create('HallOfFame', { name:first, color:wp?.color||'green', session_id:sessionId, race_count:winnerNames.length });
-        hallOfFame = await db.list('HallOfFame');
+    const winnerNames = session?.winner_names||[];
+    if (winnerNames.length>=3) {
+      const first=winnerNames[0];
+      if (winnerNames.every(n=>n===first)&&first) {
+        const wp=participants.find(p=>p.name===first);
+        await FB.create('hof',{name:first,color:wp?.color||'green',session_id:sessionId,race_count:winnerNames.length});
+        hallOfFame = await FB.list('hof');
       }
     }
-    await db.update('Session', sessionId, { status: 'finished' });
-    view = 'reveal';
-    revealIndex = 0;
-    render();
-  }
-
-  // ── SUBSCRIPTIONS ────────────────────────────────────────────
-  function attachRaceSubscriptions() {
-    if (unsubRace) unsubRace();
-    if (unsubParts) unsubParts();
-    if (partsInterval) clearInterval(partsInterval);
-
-    unsubRace = subscribe('Race', ev => {
-      if (ev.id !== raceId) return;
-      if (ev.type === 'update') {
-        const wasFinished = race?.status === 'finished';
-        race = ev.data;
-        if (!wasFinished && race.status === 'finished') onRaceFinished();
-        render();
-      }
-    }, 1000);
-
-    unsubParts = subscribe('RaceParticipant', ev => {
-      if (ev.data?.race_id && ev.data.race_id !== currentRaceIdRef) return;
-      if (ev.type === 'create') { if (!participants.find(p=>p.id===ev.id)) participants.push(ev.data); }
-      else if (ev.type === 'update') participants = participants.map(p=>p.id===ev.id?ev.data:p);
-      else if (ev.type === 'delete') participants = participants.filter(p=>p.id!==ev.id);
-      // update just the lanes in DOM without full re-render during racing
-      if (race?.status === 'racing') updateRacingDOM();
-      else render();
-    }, 800);
-
-    // Fallback poll for participants
-    partsInterval = setInterval(async () => {
-      if (raceId === currentRaceIdRef) {
-        participants = await db.filter('RaceParticipant', { race_id: raceId });
-        if (race?.status === 'racing') updateRacingDOM();
-        else render();
-      }
-    }, 3000);
-  }
-
-  function updateRacingDOM() {
-    const lanes = document.getElementById('raceLanes');
-    const lb = document.getElementById('lbRows');
-    const s = sorted();
-    if (lanes) lanes.innerHTML = raceLanesHTML(s);
-    if (lb) lb.innerHTML = lbHTML(s, sessionScores());
+    await FB.update('sessions',sessionId,{status:'finished'});
+    view='reveal'; revealIndex=0; render();
   }
 
   async function onRaceFinished() {
-    if (!session || !raceId) return;
-    const s = sorted();
-    const winnerName = s[0]?.name || '';
-    const newScores = { ...(session.scores||{}) };
-    participants.forEach(p => {
+    if(!session||!raceId) return;
+    const s=sorted();
+    const winnerName=s[0]?.name||'';
+    const newScores={...(session.scores||{})};
+    participants.forEach(p=>{
       const key=`${p.name}__${p.color}`;
       const pts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);
       newScores[key]=(newScores[key]||0)+pts;
     });
-    const updSess = await db.update('Session', sessionId, {
-      scores: newScores,
-      winner_names: [...(session.winner_names||[]), winnerName],
-      race_count: (session.race_count||0)+1,
+    const updSess=await FB.update('sessions',sessionId,{
+      scores:newScores,
+      winner_names:[...(session.winner_names||[]),winnerName],
+      race_count:(session.race_count||0)+1,
     });
-    session = updSess;
+    session=updSess;
     render();
   }
 
-  // ── INIT ─────────────────────────────────────────────────────
-  async function init() {
-    document.getElementById('pageTitle').textContent = 'Corsa delle Lumache — Host';
-    render(); // mostra schermata vuota subito
+  // ── SUBSCRIPTIONS ────────────────────────────────────────────
+  function attachSubscriptions(rid) {
+    if(unsubRace) unsubRace();
+    if(unsubParts) unsubParts();
 
-    hallOfFame = await db.list('HallOfFame').catch(()=>[]);
+    let prevRaceStatus = null;
+    unsubRace = FB.subscribe(`races/${rid}`, data => {
+      if(!data) return;
+      race = data;
+      const wasFinished = prevRaceStatus==='finished';
+      if(!wasFinished && race.status==='finished') onRaceFinished();
+      prevRaceStatus = race.status;
+      if(race.status==='racing') updateRacingDOM();
+      else render();
+    });
 
-    const sess = await db.create('Session', { status:'active', race_count:0, scores:{}, race_ids:[], winner_names:[] });
-    session = sess;
-    sessionId = sess.id;
-
-    const r = await db.create('Race', { status:'waiting', track_length:TRACK_LENGTH });
-    race = r;
-    raceId = r.id;
-    currentRaceIdRef = r.id;
-
-    await db.update('Session', sessionId, { race_ids:[r.id], current_race_id:r.id });
-
-    attachRaceSubscriptions();
-    render();
+    unsubParts = FB.subscribeCollection('participants', ev => {
+      if(ev.data?.race_id!==rid) return;
+      if(ev.type==='create'&&!participants.find(p=>p.id===ev.id)) participants.push(ev.data);
+      else if(ev.type==='update') participants=participants.map(p=>p.id===ev.id?ev.data:p);
+      else if(ev.type==='delete') participants=participants.filter(p=>p.id!==ev.id);
+      if(race?.status==='racing') updateRacingDOM();
+      else render();
+    });
   }
 
-  return { init };
-})();
+  // ── INIT ────────────────────────────────────────────────────
+  hallOfFame = await FB.list('hof').catch(()=>[]);
 
+  const sess = await FB.create('sessions',{status:'active',race_count:0,scores:{},race_ids:[],winner_names:[]});
+  session=sess; sessionId=sess.id;
+
+  const r = await FB.create('races',{status:'waiting',track_length:TRACK_LENGTH});
+  race=r; raceId=r.id;
+
+  await FB.update('sessions',sessionId,{race_ids:[r.id],current_race_id:r.id});
+  attachSubscriptions(r.id);
+  render();
+}
 
 // ═══════════════════════════════════════════════════════════════
-//
-//       ██╗ ██████╗ ██╗███╗   ██╗
-//       ██║██╔═══██╗██║████╗  ██║
-//       ██║██║   ██║██║██╔██╗ ██║
-//  ██   ██║██║   ██║██║██║╚██╗██║
-//  ╚█████╔╝╚██████╔╝██║██║ ╚████║
-//
+//  JOIN
 // ═══════════════════════════════════════════════════════════════
-const Join = (() => {
+async function initJoin() {
   const SESSION_ID = SESSION_ID_PARAM;
   const LEGACY_RID = LEGACY_RACE_ID;
 
-  let step = 'setup';
-  let nameInput = '', colorInput = 'green';
-  let session = null, currentRaceId = LEGACY_RID || null;
-  let race = null, participants = [];
-  let participantId = null, myName = '', myColor = 'green';
+  let step='setup', nameInput='', colorInput='green';
+  let session=null, currentRaceId=LEGACY_RID||null;
+  let race=null, participants=[];
+  let participantId=null, myName='', myColor='green';
+  let volumeVal=0, positionVal=0, trackLengthVal=TRACK_LENGTH;
+  let displayPosition=0, finishFired=false;
+  let movRaf=null, saveInt=null, dispInt=null;
+  let micActive=false, micStream=null, micCtx=null, micAnalyser=null, micRaf=null, permDenied=false;
+  let unsubSess=null, unsubRace=null;
 
-  let volumeVal = 0, positionVal = 0, trackLengthVal = 5000;
-  let displayPosition = 0, finishFired = false;
-
-  let movementRafId = null, saveIntervalId = null, displayIntervalId = null;
-  let micActive = false, micStream = null, micAudioCtx = null, micAnalyser = null, micRafId = null, permDenied = false;
-  let unsubSess = null, unsubRace = null, unsubParts = null;
-
-  // ── RENDER ──────────────────────────────────────────────────
   function render() {
-    const app = document.getElementById('app');
-    const displayName = myName || nameInput;
-    const displayColor = myColor || colorInput;
-    const tl = race?.track_length || trackLengthVal;
-    const pct = Math.min((displayPosition / tl) * 100, 100);
-    const myScore = Math.round((displayPosition / tl) * 1000);
+    const appl=document.getElementById('app');
+    const displayName=myName||nameInput;
+    const displayColor=myColor||colorInput;
+    const tl=race?.track_length||trackLengthVal;
+    const pct=Math.min((displayPosition/tl)*100,100);
+    const myScore=Math.round((displayPosition/tl)*1000);
 
-    if (!SESSION_ID && !LEGACY_RID) {
-      app.innerHTML = `<div class="join-center fade-in"><div class="text-center">
+    if(!SESSION_ID&&!LEGACY_RID){
+      appl.innerHTML=`<div class="join-center fade-in"><div class="text-center">
         <div style="font-size:4rem;margin-bottom:1rem">🐌</div>
         <h2 class="fredoka" style="font-size:1.4rem;margin-bottom:0.5rem">Nessuna gara trovata</h2>
         <p class="muted">Scansiona il QR Code dello schermo dell'host per unirti a una gara.</p>
@@ -749,71 +591,43 @@ const Join = (() => {
       return;
     }
 
-    if (step === 'setup') {
-      app.innerHTML = `<div class="join-center fade-in"><div class="join-step">
-        <div class="text-center" style="margin-bottom:2rem">
-          <h2 class="fredoka" style="font-size:1.6rem">Crea la tua Lumaca!</h2>
-          <p class="muted text-sm mt-1">Scegli un nome e un colore</p>
-        </div>
+    if(step==='setup'){
+      appl.innerHTML=`<div class="join-center fade-in"><div class="join-step">
+        <div class="text-center" style="margin-bottom:2rem"><h2 class="fredoka" style="font-size:1.6rem">Crea la tua Lumaca!</h2><p class="muted text-sm mt-1">Scegli un nome e un colore</p></div>
         <div>
-          <div style="margin-bottom:1.5rem">
-            <label class="lbl">Nome della lumaca</label>
-            <input id="nameInp" class="input" placeholder="es. Turbo, Flash, Speedy..." maxlength="20" value="${esc(nameInput)}" />
+          <div style="margin-bottom:1.5rem"><label class="lbl">Nome della lumaca</label><input id="nameInp" class="input" placeholder="es. Turbo, Flash, Speedy..." maxlength="20" value="${esc(nameInput)}"/></div>
+          <div style="margin-bottom:1.5rem"><label class="lbl">Colore del vestito</label>
+            <div class="grid4">${COLORS.map(c=>`<button class="color-btn${colorInput===c?' selected':''}" data-color="${c}">${snailSVG(c,40)}<span>${c}</span></button>`).join('')}</div>
           </div>
-          <div style="margin-bottom:1.5rem">
-            <label class="lbl">Colore del vestito</label>
-            <div class="grid4">${COLORS.map(c=>`
-              <button class="color-btn${colorInput===c?' selected':''}" data-color="${c}">
-                ${snailSVG(c,40)}<span>${c}</span>
-              </button>`).join('')}
-            </div>
-          </div>
-          <div class="preview-box" style="margin-bottom:1.5rem">
-            ${snailSVG(colorInput,80)}
-            <p class="fredoka" style="font-size:1.1rem;margin-top:0.5rem" id="previewName">${esc(nameInput)||'???'}</p>
-          </div>
+          <div class="preview-box" style="margin-bottom:1.5rem">${snailSVG(colorInput,80)}<p class="fredoka" style="font-size:1.1rem;margin-top:0.5rem" id="prevName">${esc(nameInput)||'???'}</p></div>
           <button class="btn full lg" id="joinBtn" ${!nameInput.trim()?'disabled':''}>🐌 Unisciti alla Gara!</button>
         </div>
       </div></div>`;
-
-      document.getElementById('nameInp').addEventListener('input', e => {
-        nameInput = e.target.value;
-        document.getElementById('previewName').textContent = nameInput || '???';
-        document.getElementById('joinBtn').disabled = !nameInput.trim();
-      });
-      document.querySelectorAll('.color-btn').forEach(b => b.addEventListener('click', ()=>{ colorInput=b.dataset.color; render(); }));
-      document.getElementById('joinBtn').addEventListener('click', joinRace);
+      document.getElementById('nameInp').addEventListener('input',e=>{nameInput=e.target.value;document.getElementById('prevName').textContent=nameInput||'???';document.getElementById('joinBtn').disabled=!nameInput.trim();});
+      document.querySelectorAll('.color-btn').forEach(b=>b.addEventListener('click',()=>{colorInput=b.dataset.color;render();}));
+      document.getElementById('joinBtn').addEventListener('click',joinRace);
     }
-
-    else if (step === 'waiting') {
-      app.innerHTML = `<div class="join-center fade-in"><div class="join-step text-center" style="display:flex;flex-direction:column;align-items:center;gap:2rem">
+    else if(step==='waiting'){
+      appl.innerHTML=`<div class="join-center fade-in"><div class="join-step text-center" style="display:flex;flex-direction:column;align-items:center;gap:2rem">
         <div>${snailSVG(displayColor,100)}</div>
-        <div>
-          <h2 class="fredoka" style="font-size:1.5rem">${esc(displayName)}</h2>
-          <p class="muted mt-2">In attesa che l'host avvii la gara...</p>
-        </div>
+        <div><h2 class="fredoka" style="font-size:1.5rem">${esc(displayName)}</h2><p class="muted mt-2">In attesa che l'host avvii la gara...</p></div>
         <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
       </div></div>`;
     }
-
-    else if (step === 'racing') {
-      app.innerHTML = `<div class="join-center fade-in"><div class="join-step" style="display:flex;flex-direction:column;gap:1.5rem">
+    else if(step==='racing'){
+      appl.innerHTML=`<div class="join-center fade-in"><div class="join-step" style="display:flex;flex-direction:column;gap:1.5rem">
         <div class="text-center">
           <div style="display:flex;justify-content:center">${snailSVG(displayColor,80)}</div>
           <h2 class="fredoka" style="font-size:1.2rem;margin-top:0.5rem">${esc(displayName)}</h2>
           <div class="score-box mt-3"><div class="score-num" id="scoreNum">${myScore}</div><p class="muted text-sm">punti</p></div>
         </div>
         <div class="card">${trackHTML(pct,'player')}</div>
-        <div class="card" id="micCard">
-          ${micActive ? activeMicHTML() : inactiveMicHTML()}
-        </div>
+        <div class="card" id="micCard">${micActive?activeMicHTML():inactiveMicHTML()}</div>
       </div></div>`;
-
-      if (!micActive) document.getElementById('startMicBtn')?.addEventListener('click', startMic);
+      if(!micActive) document.getElementById('startMicBtn')?.addEventListener('click',startMic);
     }
-
-    else if (step === 'finished') {
-      app.innerHTML = `<div class="join-center fade-in"><div class="join-step text-center" style="display:flex;flex-direction:column;align-items:center;gap:1.5rem">
+    else if(step==='finished'){
+      appl.innerHTML=`<div class="join-center fade-in"><div class="join-step text-center" style="display:flex;flex-direction:column;align-items:center;gap:1.5rem">
         <div class="flag-anim">🏁</div>
         <div>${snailSVG(displayColor,80)}</div>
         <h2 class="fredoka" style="font-size:2rem">${esc(displayName)}</h2>
@@ -824,210 +638,112 @@ const Join = (() => {
     }
   }
 
-  function inactiveMicHTML() {
-    return `<div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem">
-      <div class="mic-icon-wrap">🎤</div>
-      <button class="btn lg" id="startMicBtn" style="max-width:16rem">🎤 Attiva Microfono</button>
-      ${permDenied?'<p style="color:var(--destructive);font-size:0.85rem">Accesso negato. Controlla i permessi.</p>':''}
-    </div>`;
-  }
-  function activeMicHTML() {
-    const bars = Array.from({length:12},(_,i)=>`<div class="bar" id="bar${i}"></div>`).join('');
-    return `<div class="text-center">
-      <p class="fredoka" style="font-size:1rem;margin-bottom:0.75rem">GRIDA PER FAR CORRERE LA TUA LUMACA! 🐌💨</p>
-      <div class="bars">${bars}</div>
-      <div class="mic-status"><div class="mic-dot active"></div><span class="muted text-sm" id="micLbl">In attesa...</span></div>
-    </div>`;
+  function inactiveMicHTML(){return`<div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem"><div class="mic-icon-wrap">🎤</div><button class="btn lg" id="startMicBtn" style="max-width:16rem">🎤 Attiva Microfono</button>${permDenied?'<p style="color:var(--destructive);font-size:0.85rem">Accesso negato.</p>':''}</div>`;}
+  function activeMicHTML(){return`<div class="text-center"><p class="fredoka" style="font-size:1rem;margin-bottom:0.75rem">GRIDA PER FAR CORRERE LA TUA LUMACA! 🐌💨</p><div class="bars">${Array.from({length:12},(_,i)=>`<div class="bar" id="bar${i}"></div>`).join('')}</div><div class="mic-status"><div class="mic-dot active"></div><span class="muted text-sm" id="micLbl">In attesa...</span></div></div>`;}
+
+  function updateRacingDOM(){
+    const tl=trackLengthVal, pct=Math.min((displayPosition/tl)*100,100), sl=Math.min(pct,94);
+    const fill=document.getElementById('tfplayer'); if(fill) fill.style.width=pct+'%';
+    const snail=document.getElementById('tsplayer'); if(snail) snail.style.left=`calc(${sl}% - 8px)`;
+    const sc=document.getElementById('scoreNum'); if(sc) sc.textContent=Math.round((displayPosition/tl)*1000);
   }
 
-  function updateRacingDOM() {
-    const tl = trackLengthVal;
-    const pct = Math.min((displayPosition/tl)*100,100);
-    const sl = Math.min(pct,94);
-    const fill = document.getElementById('tfplayer');
-    const snail = document.getElementById('tsplayer');
-    const score = document.getElementById('scoreNum');
-    if (fill) fill.style.width = pct+'%';
-    if (snail) snail.style.left = `calc(${sl}% - 8px)`;
-    if (score) score.textContent = Math.round((displayPosition/tl)*1000);
+  function updateBars(vol){
+    for(let i=0;i<12;i++){const el=document.getElementById('bar'+i);if(!el)continue;const a=vol>(i/12);el.style.height=(a?20+(i/12)*60:8)+'px';el.style.background=a?(vol>0.7?'hsl(0,80%,55%)':vol>0.4?'hsl(36,80%,55%)':'hsl(142,50%,42%)'):'hsl(120,15%,90%)';}
+    const l=document.getElementById('micLbl');if(l)l.textContent=vol<0.1?'In attesa...':vol<0.4?'Più forte!':vol<0.7?'Bene!':'FANTASTICO! 🔥';
   }
 
-  function updateBarsDOM(vol) {
-    for(let i=0;i<12;i++){
-      const el=document.getElementById('bar'+i);
-      if(!el) continue;
-      const active=vol>(i/12);
-      el.style.height=(active?20+(i/12)*60:8)+'px';
-      el.style.background=active?(vol>0.7?'hsl(0,80%,55%)':vol>0.4?'hsl(36,80%,55%)':'hsl(142,50%,42%)'):'hsl(120,15%,90%)';
-    }
-    const lbl=document.getElementById('micLbl');
-    if(lbl) lbl.textContent=vol<0.1?'In attesa...':vol<0.4?'Più forte!':vol<0.7?'Bene!':'FANTASTICO! 🔥';
+  async function startMic(){
+    try{
+      micStream=await navigator.mediaDevices.getUserMedia({audio:true});
+      micCtx=new(window.AudioContext||window.webkitAudioContext)();
+      const src=micCtx.createMediaStreamSource(micStream);
+      micAnalyser=micCtx.createAnalyser();micAnalyser.fftSize=256;micAnalyser.smoothingTimeConstant=0.3;
+      src.connect(micAnalyser);micActive=true;permDenied=false;
+      const data=new Uint8Array(micAnalyser.frequencyBinCount);
+      function read(){micAnalyser.getByteFrequencyData(data);let s=0;for(let i=0;i<data.length;i++)s+=data[i];volumeVal=Math.min(s/data.length/80,1);updateBars(volumeVal);micRaf=requestAnimationFrame(read);}
+      read();
+      const mc=document.getElementById('micCard');if(mc){mc.innerHTML=activeMicHTML();}
+    }catch{permDenied=true;const mc=document.getElementById('micCard');if(mc){mc.innerHTML=inactiveMicHTML();document.getElementById('startMicBtn')?.addEventListener('click',startMic);}}
   }
 
-  // ── MIC ─────────────────────────────────────────────────────
-  async function startMic() {
-    try {
-      micStream = await navigator.mediaDevices.getUserMedia({audio:true});
-      micAudioCtx = new (window.AudioContext||window.webkitAudioContext)();
-      const src = micAudioCtx.createMediaStreamSource(micStream);
-      micAnalyser = micAudioCtx.createAnalyser();
-      micAnalyser.fftSize = 256; micAnalyser.smoothingTimeConstant = 0.3;
-      src.connect(micAnalyser);
-      micActive = true; permDenied = false;
-      const data = new Uint8Array(micAnalyser.frequencyBinCount);
-      function readMic() {
-        micAnalyser.getByteFrequencyData(data);
-        let sum=0; for(let i=0;i<data.length;i++) sum+=data[i];
-        volumeVal = Math.min(sum/data.length/80,1);
-        updateBarsDOM(volumeVal);
-        micRafId = requestAnimationFrame(readMic);
-      }
-      readMic();
-      const mc=document.getElementById('micCard');
-      if(mc){ mc.innerHTML=activeMicHTML(); }
-    } catch {
-      permDenied=true;
-      const mc=document.getElementById('micCard');
-      if(mc){ mc.innerHTML=inactiveMicHTML(); document.getElementById('startMicBtn')?.addEventListener('click',startMic); }
-    }
-  }
-
-  function stopMic() {
-    if(micRafId) cancelAnimationFrame(micRafId);
-    micStream?.getTracks().forEach(t=>t.stop());
-    micAudioCtx?.close();
-    micActive=false; volumeVal=0;
-  }
-
-  // ── GAME LOOP ────────────────────────────────────────────────
-  function startLoop() {
-    stopLoop();
-    let lastTime=null;
-    function move(ts){
-      if(lastTime!==null){
-        const delta=(ts-lastTime)/1000;
-        if(volumeVal>=0.05) positionVal=Math.min(positionVal+volumeVal*300*delta,trackLengthVal);
-      }
-      lastTime=ts;
-      movementRafId=requestAnimationFrame(move);
-    }
-    movementRafId=requestAnimationFrame(move);
-
-    saveIntervalId=setInterval(()=>{
-      const pos=positionVal, fin=pos>=trackLengthVal;
-      if(!participantId||!currentRaceId) return;
-      db.update('RaceParticipant',participantId,{position:pos,finished:fin,...(fin?{finish_time:new Date().toISOString()}:{})});
-      if(fin&&!finishFired){ finishFired=true; db.update('Race',currentRaceId,{status:'finished',winner_id:participantId}); }
+  function startLoop(){
+    stopLoop();let lt=null;
+    function move(ts){if(lt!==null){const d=(ts-lt)/1000;if(volumeVal>=0.05)positionVal=Math.min(positionVal+volumeVal*300*d,trackLengthVal);}lt=ts;movRaf=requestAnimationFrame(move);}
+    movRaf=requestAnimationFrame(move);
+    saveInt=setInterval(async()=>{
+      const pos=positionVal,fin=pos>=trackLengthVal;
+      if(!participantId||!currentRaceId)return;
+      await FB.update('participants',participantId,{position:pos,finished:fin,...(fin?{finish_time:Date.now()}:{})});
+      if(fin&&!finishFired){finishFired=true;await FB.update('races',currentRaceId,{status:'finished',winner_id:participantId});}
     },200);
-
-    displayIntervalId=setInterval(()=>{ displayPosition=positionVal; updateRacingDOM(); },33);
+    dispInt=setInterval(()=>{displayPosition=positionVal;updateRacingDOM();},33);
   }
 
-  function stopLoop(){
-    if(movementRafId){cancelAnimationFrame(movementRafId);movementRafId=null;}
-    if(saveIntervalId){clearInterval(saveIntervalId);saveIntervalId=null;}
-    if(displayIntervalId){clearInterval(displayIntervalId);displayIntervalId=null;}
-  }
+  function stopLoop(){if(movRaf){cancelAnimationFrame(movRaf);movRaf=null;}if(saveInt){clearInterval(saveInt);saveInt=null;}if(dispInt){clearInterval(dispInt);dispInt=null;}}
 
-  // ── STEP ────────────────────────────────────────────────────
   function setStep(s){
-    if(step==='racing'&&s!=='racing') stopLoop();
-    if(step!=='racing'&&s==='racing'){ positionVal=0;displayPosition=0;startLoop(); }
-    step=s; render();
+    if(step==='racing'&&s!=='racing')stopLoop();
+    if(step!=='racing'&&s==='racing'){positionVal=0;displayPosition=0;startLoop();}
+    step=s;render();
   }
 
-  // ── JOIN ────────────────────────────────────────────────────
   async function joinRace(){
-    const n=nameInput.trim();
-    if(!n||!currentRaceId) return;
-    const p=await db.create('RaceParticipant',{race_id:currentRaceId,name:n,color:colorInput,position:0,finished:false});
-    participantId=p.id; myName=n; myColor=colorInput;
-    setStep('waiting');
+    const n=nameInput.trim();if(!n||!currentRaceId)return;
+    const p=await FB.create('participants',{race_id:currentRaceId,name:n,color:colorInput,position:0,finished:false});
+    participantId=p.id;myName=n;myColor=colorInput;setStep('waiting');
   }
 
-  // ── RACE SWITCH ──────────────────────────────────────────────
   function switchRace(newRaceId){
-    if(!newRaceId||newRaceId===currentRaceId) return;
-    currentRaceId=newRaceId; finishFired=false; positionVal=0; displayPosition=0;
-    race=null; participants=[]; participantId=null;
+    if(!newRaceId||newRaceId===currentRaceId)return;
+    currentRaceId=newRaceId;finishFired=false;positionVal=0;displayPosition=0;
+    race=null;participantId=null;
 
-    db.filter('Race',{id:newRaceId}).then(l=>{ if(l[0]){race=l[0];trackLengthVal=race.track_length||5000;} });
+    if(unsubRace)unsubRace();
+    unsubRace=FB.subscribe(`races/${newRaceId}`,data=>{
+      if(!data)return;
+      race=data;trackLengthVal=race.track_length||TRACK_LENGTH;
+      if(race.status==='racing'&&(step==='waiting'||step==='finished'))setStep('racing');
+      if(race.status==='finished'&&step==='racing')setStep('finished');
+    });
 
+    // Trova il nostro slot (l'host li copia)
     let poll=0;
-    function findSlot(){
-      db.filter('RaceParticipant',{race_id:newRaceId}).then(list=>{
-        participants=list;
-        if(myName){
-          const mine=list.find(p=>p.name===myName&&p.color===myColor);
-          if(mine){ participantId=mine.id; positionVal=0; if(step!=='setup') setStep('waiting'); }
-          else if(poll<10){ poll++; setTimeout(findSlot,500); }
-        }
-      });
+    async function findSlot(){
+      const list=await FB.filter('participants',{race_id:newRaceId});
+      participants=list;
+      if(myName){
+        const mine=list.find(p=>p.name===myName&&p.color===myColor);
+        if(mine){participantId=mine.id;positionVal=0;if(step!=='setup')setStep('waiting');}
+        else if(poll<10){poll++;setTimeout(findSlot,500);}
+      }
     }
     findSlot();
-
-    if(unsubRace) unsubRace();
-    if(unsubParts) unsubParts();
-
-    unsubRace=subscribe('Race',ev=>{
-      if(ev.id!==newRaceId) return;
-      if(ev.type==='update'){
-        race=ev.data; trackLengthVal=race.track_length||5000;
-        if(race.status==='racing'&&(step==='waiting'||step==='finished')) setStep('racing');
-        if(race.status==='finished'&&step==='racing') setStep('finished');
-      }
-    },1000);
-
-    unsubParts=subscribe('RaceParticipant',ev=>{
-      if(ev.data?.race_id!==newRaceId) return;
-      if(ev.type==='create'&&!participants.find(p=>p.id===ev.id)) participants.push(ev.data);
-      else if(ev.type==='update') participants=participants.map(p=>p.id===ev.id?ev.data:p);
-      else if(ev.type==='delete') participants=participants.filter(p=>p.id!==ev.id);
-    },1000);
   }
 
-  // ── INIT ────────────────────────────────────────────────────
-  async function init(){
-    render();
-    if(!SESSION_ID&&!LEGACY_RID) return;
+  // INIT JOIN
+  if(!SESSION_ID&&!LEGACY_RID){render();return;}
 
-    if(SESSION_ID){
-      const list=await db.filter('Session',{id:SESSION_ID}).catch(()=>[]);
-      if(list[0]){ session=list[0]; if(session.current_race_id) switchRace(session.current_race_id); }
-
-      unsubSess=subscribe('Session',ev=>{
-        if(ev.id!==SESSION_ID) return;
-        if(ev.type==='update'){
-          session=ev.data;
-          if(session.current_race_id&&session.current_race_id!==currentRaceId) switchRace(session.current_race_id);
-        }
-      },1500);
-    } else if(LEGACY_RID){
-      switchRace(LEGACY_RID);
-    }
+  if(SESSION_ID){
+    // Subscribe alla sessione
+    unsubSess=FB.subscribe(`sessions/${SESSION_ID}`,data=>{
+      if(!data)return;
+      session=data;
+      if(session.current_race_id&&session.current_race_id!==currentRaceId)switchRace(session.current_race_id);
+    });
+  } else if(LEGACY_RID){
+    switchRace(LEGACY_RID);
   }
-
-  return { init };
-})();
-
+  render();
+}
 
 // ═══════════════════════════════════════════════════════════════
 //  BOOTSTRAP
 // ═══════════════════════════════════════════════════════════════
-if (!API_BASE) {
-  document.getElementById('app').innerHTML = `<div style="padding:2rem;text-align:center;color:#c0392b">
-    <p style="font-size:1.1rem;font-weight:bold">⚠️ Impossibile determinare l'App ID.</p>
-    <p style="margin-top:0.5rem;font-size:0.9rem">Apri questo file dal link dell'app Base44, oppure inserisci l'App ID nell'URL: <code>?app_id=TUO_ID</code></p>
-  </div>`;
-  // Prova comunque se c'è app_id nel query string
-  const aid = urlParams.get('app_id');
-  if (aid) { localStorage.setItem('b44_app_id', aid); location.reload(); }
+if(MODE==='host'){
+  initHost();
 } else {
-  if (MODE === 'host') {
-    Host.init();
-  } else {
-    Join.init();
-  }
+  initJoin();
 }
 </script>
 </body>
