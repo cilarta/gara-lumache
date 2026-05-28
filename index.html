@@ -9,307 +9,209 @@
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
     :root {
-      --bg: #f4faf4;
-      --fg: #122a1c;
       --primary: hsl(142, 50%, 42%);
-      --primary-light: hsl(142, 50%, 90%);
+      --primary-light: hsl(142, 50%, 92%);
       --secondary: hsl(36, 80%, 55%);
-      --muted: #e8f3e8;
-      --muted-fg: #6b8f7a;
+      --bg: hsl(120, 20%, 97%);
+      --fg: hsl(150, 30%, 12%);
       --card: #ffffff;
-      --border: #cce0cc;
+      --muted: hsl(120, 15%, 92%);
+      --muted-fg: hsl(150, 10%, 45%);
+      --border: hsl(120, 15%, 85%);
       --radius: 1rem;
+      --destructive: hsl(0, 84%, 60%);
     }
 
-    body {
-      font-family: 'Nunito', sans-serif;
-      background: var(--bg);
-      color: var(--fg);
-      min-height: 100svh;
-      display: flex;
-      flex-direction: column;
-    }
+    body { font-family: 'Nunito', sans-serif; background: var(--bg); color: var(--fg); min-height: 100svh; display: flex; flex-direction: column; }
+    .fredoka { font-family: 'Fredoka', sans-serif; }
 
-    h1, h2, h3, .fredoka { font-family: 'Fredoka', sans-serif; }
-
-    /* ── HEADER ── */
-    .header {
-      background: linear-gradient(90deg, hsl(142,50%,42%,0.12), hsl(36,80%,55%,0.12));
-      border-bottom: 1px solid var(--border);
-      padding: 1rem;
-      text-align: center;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-    }
-    .header h1 { font-size: 1.25rem; font-family: 'Fredoka', sans-serif; }
-
-    /* ── MAIN ── */
-    .main {
-      flex: 1;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      padding: 1.5rem;
-      position: relative;
-    }
+    /* ── LAYOUT ── */
+    .header { background: linear-gradient(90deg, hsl(142,50%,42%,0.12), hsl(36,80%,55%,0.12)); border-bottom: 1px solid var(--border); padding: 1rem 1.5rem; display: flex; align-items: center; justify-content: space-between; gap: 1rem; flex-wrap: wrap; }
+    .header-left { display: flex; align-items: center; gap: 0.75rem; }
+    .header-right { display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap; }
+    .main { flex: 1; padding: 2rem 1.5rem; max-width: 1200px; margin: 0 auto; width: 100%; }
 
     /* ── CARD ── */
-    .card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 1.5rem;
-    }
-
-    /* ── STEP CONTAINER ── */
-    .step { width: 100%; max-width: 22rem; }
+    .card { background: var(--card); border: 1px solid var(--border); border-radius: var(--radius); padding: 1.5rem; }
 
     /* ── BUTTON ── */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0.5rem;
-      font-family: 'Fredoka', sans-serif;
-      font-size: 1.1rem;
-      font-weight: 600;
-      border: none;
-      border-radius: var(--radius);
-      cursor: pointer;
-      transition: opacity 0.15s, transform 0.1s;
-      padding: 0.9rem 1.5rem;
-      width: 100%;
-      background: var(--primary);
-      color: #fff;
-      box-shadow: 0 4px 12px rgba(39,174,96,0.3);
-    }
+    .btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; font-family: 'Fredoka', sans-serif; font-size: 1rem; font-weight: 600; border: none; border-radius: var(--radius); cursor: pointer; transition: opacity 0.15s, transform 0.1s; padding: 0.75rem 1.25rem; background: var(--primary); color: #fff; box-shadow: 0 3px 10px rgba(39,174,96,0.3); }
     .btn:hover { opacity: 0.88; }
     .btn:active { transform: scale(0.97); }
-    .btn:disabled { opacity: 0.45; cursor: not-allowed; }
-    .btn-outline {
-      background: transparent;
-      color: var(--primary);
-      border: 2px solid var(--primary);
-      box-shadow: none;
-    }
+    .btn:disabled { opacity: 0.4; cursor: not-allowed; }
+    .btn.lg { font-size: 1.15rem; padding: 0.9rem 1.6rem; }
+    .btn.outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); box-shadow: none; }
+    .btn.yellow-outline { background: transparent; color: #92400e; border: 2px solid #fbbf24; box-shadow: none; }
+    .btn.full { width: 100%; }
+    .badge-pill { display: inline-flex; align-items: center; gap: 0.5rem; background: var(--card); border: 1px solid var(--border); border-radius: 0.75rem; padding: 0.4rem 0.9rem; font-family: 'Fredoka', sans-serif; font-size: 1rem; }
 
     /* ── INPUT ── */
-    .input {
-      width: 100%;
-      padding: 0.75rem 1rem;
-      font-family: 'Nunito', sans-serif;
-      font-size: 1rem;
-      border: 1px solid var(--border);
-      border-radius: 0.75rem;
-      background: var(--bg);
-      color: var(--fg);
-      outline: none;
-      transition: border-color 0.2s;
-    }
+    .input { width: 100%; padding: 0.75rem 1rem; font-family: 'Nunito', sans-serif; font-size: 1rem; border: 1px solid var(--border); border-radius: 0.75rem; background: var(--bg); color: var(--fg); outline: none; transition: border-color 0.2s; }
     .input:focus { border-color: var(--primary); }
+    label.lbl { font-family: 'Fredoka', sans-serif; font-size: 0.9rem; display: block; margin-bottom: 0.4rem; }
 
-    /* ── LABEL ── */
-    .label {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 0.9rem;
-      margin-bottom: 0.4rem;
-      display: block;
-    }
+    /* ── UTILS ── */
+    .text-center { text-align: center; }
+    .muted { color: var(--muted-fg); }
+    .text-sm { font-size: 0.875rem; }
+    .text-xs { font-size: 0.75rem; }
+    .mt-1 { margin-top: 0.25rem; }
+    .mt-2 { margin-top: 0.5rem; }
+    .mt-3 { margin-top: 0.75rem; }
+    .mt-4 { margin-top: 1rem; }
+    .mt-6 { margin-top: 1.5rem; }
+    .mt-8 { margin-top: 2rem; }
+    .flex { display: flex; }
+    .flex-col { flex-direction: column; }
+    .items-center { align-items: center; }
+    .justify-center { justify-content: center; }
+    .gap-2 { gap: 0.5rem; }
+    .gap-3 { gap: 0.75rem; }
+    .gap-4 { gap: 1rem; }
+    .gap-6 { gap: 1.5rem; }
+    .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+    .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 0.75rem; }
+    .grid4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0.75rem; }
+    .full { width: 100%; }
 
-    /* ── COLOR GRID ── */
-    .color-grid {
-      display: grid;
-      grid-template-columns: repeat(4, 1fr);
-      gap: 0.75rem;
-    }
-    .color-btn {
-      background: none;
-      border: 2px solid transparent;
-      border-radius: 1rem;
-      padding: 0.4rem;
-      cursor: pointer;
-      transition: border-color 0.15s, transform 0.15s;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.25rem;
-    }
+    /* ── JOIN: STEP CONTAINER ── */
+    .join-step { width: 100%; max-width: 22rem; margin: 0 auto; }
+    .join-center { display: flex; flex-direction: column; align-items: center; justify-content: center; min-height: 60vh; }
+
+    /* ── COLOR SELECTOR ── */
+    .color-btn { background: none; border: 2px solid transparent; border-radius: 1rem; padding: 0.4rem; cursor: pointer; transition: border-color 0.15s, transform 0.15s; display: flex; flex-direction: column; align-items: center; gap: 0.25rem; }
     .color-btn.selected { border-color: var(--primary); transform: scale(1.07); box-shadow: 0 2px 8px rgba(39,174,96,0.25); }
     .color-btn span { font-size: 0.65rem; color: var(--muted-fg); text-transform: capitalize; }
 
     /* ── PREVIEW BOX ── */
-    .preview-box {
-      background: var(--card);
-      border: 1px solid var(--border);
-      border-radius: 1.5rem;
-      padding: 1.5rem;
-      text-align: center;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 0.5rem;
-    }
-
-    /* ── SPACE UTILS ── */
-    .space-y-2 > * + * { margin-top: 0.5rem; }
-    .space-y-3 > * + * { margin-top: 0.75rem; }
-    .space-y-6 > * + * { margin-top: 1.5rem; }
-    .space-y-8 > * + * { margin-top: 2rem; }
-    .mt-2 { margin-top: 0.5rem; }
-    .mt-3 { margin-top: 0.75rem; }
-    .text-center { text-align: center; }
-    .text-sm { font-size: 0.875rem; }
-    .muted { color: var(--muted-fg); }
-
-    /* ── WAITING DOTS ── */
-    .dots { display: flex; gap: 0.5rem; justify-content: center; }
-    .dot {
-      width: 0.5rem; height: 0.5rem;
-      background: var(--primary);
-      border-radius: 50%;
-      animation: bounce 0.8s infinite alternate;
-    }
-    .dot:nth-child(2) { animation-delay: 0.15s; }
-    .dot:nth-child(3) { animation-delay: 0.3s; }
-    @keyframes bounce { to { transform: translateY(-8px); } }
+    .preview-box { background: var(--card); border: 1px solid var(--border); border-radius: 1.5rem; padding: 1.5rem; text-align: center; display: flex; flex-direction: column; align-items: center; gap: 0.5rem; }
 
     /* ── TRACK ── */
-    .track-wrap { width: 100%; }
-    .track-labels {
-      display: flex;
-      justify-content: space-between;
-      font-size: 0.75rem;
-      color: var(--muted-fg);
-      margin-bottom: 0.25rem;
-    }
-    .track-bg {
-      position: relative;
-      height: 1.5rem;
-      background: var(--muted);
-      border-radius: 999px;
-      overflow: hidden;
-      border: 1px solid var(--border);
-    }
-    .track-fill {
-      position: absolute;
-      left: 0; top: 0; bottom: 0;
-      background: linear-gradient(90deg, var(--primary), hsl(142,50%,60%));
-      border-radius: 999px;
-      transition: width 0.08s linear;
-    }
-    .track-snail {
-      position: absolute;
-      top: 50%;
-      transform: translate(-50%, -50%);
-      font-size: 1.1rem;
-      transition: left 0.08s linear;
-    }
+    .track-labels { display: flex; justify-content: space-between; font-size: 0.75rem; color: var(--muted-fg); margin-bottom: 0.25rem; }
+    .track-bg { position: relative; height: 1.5rem; background: var(--muted); border-radius: 999px; overflow: hidden; border: 1px solid var(--border); }
+    .track-fill { position: absolute; left: 0; top: 0; bottom: 0; background: linear-gradient(90deg, var(--primary), hsl(142,50%,60%)); border-radius: 999px; transition: width 0.08s linear; }
+    .track-snail { position: absolute; top: 50%; transform: translate(-50%, -50%); font-size: 1.1rem; transition: left 0.08s linear; }
 
     /* ── SCORE BOX ── */
-    .score-box {
-      background: linear-gradient(135deg, hsl(142,50%,42%,0.1), hsl(36,80%,55%,0.1));
-      border: 1px solid hsl(142,50%,42%,0.2);
-      border-radius: 1rem;
-      padding: 1rem;
-      text-align: center;
-    }
-    .score-num {
-      font-family: 'Fredoka', sans-serif;
-      font-size: 3.5rem;
-      font-weight: 700;
-      color: var(--primary);
-      line-height: 1;
-    }
+    .score-box { background: linear-gradient(135deg, hsl(142,50%,42%,0.1), hsl(36,80%,55%,0.1)); border: 1px solid hsl(142,50%,42%,0.2); border-radius: 1rem; padding: 1rem; text-align: center; }
+    .score-num { font-family: 'Fredoka', sans-serif; font-size: 3.5rem; font-weight: 700; color: var(--primary); line-height: 1; }
 
     /* ── MIC ── */
-    .mic-wrap { text-align: center; }
-    .mic-icon-wrap {
-      width: 5rem; height: 5rem;
-      border-radius: 50%;
-      background: hsl(142,50%,42%,0.1);
-      display: flex; align-items: center; justify-content: center;
-      margin: 0 auto 1rem;
-    }
-    .mic-icon { font-size: 2.5rem; }
+    .mic-icon-wrap { width: 5rem; height: 5rem; border-radius: 50%; background: hsl(142,50%,42%,0.1); display: flex; align-items: center; justify-content: center; margin: 0 auto 1rem; font-size: 2.5rem; }
     .bars { display: flex; align-items: flex-end; justify-content: center; gap: 0.25rem; height: 5rem; }
-    .bar {
-      width: 1rem;
-      border-radius: 999px;
-      background: var(--muted);
-      transition: height 0.06s linear, background 0.06s linear;
-      min-height: 0.5rem;
-    }
-    .mic-status {
-      display: flex; align-items: center; justify-content: center; gap: 0.5rem;
-      margin-top: 0.5rem;
-    }
-    .mic-dot {
-      width: 0.75rem; height: 0.75rem;
-      border-radius: 50%;
-      background: var(--muted-fg);
-    }
+    .bar { width: 1rem; border-radius: 999px; background: var(--muted); transition: height 0.06s linear, background 0.06s linear; min-height: 0.5rem; }
+    .mic-status { display: flex; align-items: center; justify-content: center; gap: 0.5rem; margin-top: 0.5rem; }
+    .mic-dot { width: 0.75rem; height: 0.75rem; border-radius: 50%; background: var(--muted-fg); }
     .mic-dot.active { background: var(--primary); animation: pulse 1s infinite; }
+
+    /* ── DOTS ── */
+    .dots { display: flex; gap: 0.5rem; justify-content: center; }
+    .dot { width: 0.5rem; height: 0.5rem; background: var(--primary); border-radius: 50%; animation: bounce 0.8s infinite alternate; }
+    .dot:nth-child(2) { animation-delay: 0.15s; }
+    .dot:nth-child(3) { animation-delay: 0.3s; }
+
+    /* ── HOST: PARTICIPANTS GRID ── */
+    .participant-card { display: flex; align-items: center; gap: 0.75rem; background: var(--card); padding: 0.75rem 1rem; border-radius: 1rem; border: 1px solid var(--border); box-shadow: 0 1px 4px rgba(0,0,0,0.05); }
+    .participant-name { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; }
+    .participant-pts { font-size: 0.75rem; color: var(--primary); }
+
+    /* ── HOST: RACE TRACK (simple lanes for standalone) ── */
+    .race-lanes { display: flex; flex-direction: column; gap: 0.75rem; }
+    .race-lane { background: #fef9e7; border: 1px solid #f0d580; border-radius: 0.75rem; padding: 0.75rem 1rem; }
+    .lane-header { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.5rem; }
+    .lane-rank { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; min-width: 2rem; }
+    .lane-name { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; flex: 1; margin-left: 0.5rem; }
+    .lane-pct { font-size: 0.8rem; color: var(--muted-fg); }
+    .lane-track { position: relative; height: 1.25rem; background: var(--muted); border-radius: 999px; overflow: hidden; }
+    .lane-fill { position: absolute; left: 0; top: 0; bottom: 0; border-radius: 999px; transition: width 0.15s ease; }
+    .lane-snail { position: absolute; top: 50%; transform: translate(-50%, -50%); font-size: 1rem; transition: left 0.15s ease; }
+
+    /* ── HOST: LEADERBOARD ── */
+    .lb-row { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--muted); }
+    .lb-rank { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; min-width: 2rem; }
+    .lb-info { flex: 1; }
+    .lb-name { font-family: 'Fredoka', sans-serif; font-size: 1rem; }
+    .lb-pts { font-size: 0.75rem; color: var(--muted-fg); }
+    .lb-score { font-family: 'Fredoka', sans-serif; font-size: 1.1rem; color: var(--primary); }
+
+    /* ── HOST: WINNER BOX ── */
+    .winner-box { text-align: center; padding: 3rem 2rem; background: linear-gradient(135deg, hsl(36,80%,55%,0.15), var(--card), hsl(142,50%,42%,0.15)); border-radius: 1.5rem; border: 1px solid var(--border); }
+    .winner-trophy { font-size: 5rem; display: block; margin-bottom: 1rem; animation: wiggle 2s infinite; }
+    .winner-name { font-family: 'Fredoka', sans-serif; font-size: 2rem; }
+
+    /* ── HOST: QR ── */
+    .qr-wrap { display: flex; flex-direction: column; align-items: center; gap: 1rem; }
+    .qr-box { background: #fff; padding: 1rem; border-radius: 1rem; border: 2px solid var(--border); box-shadow: 0 4px 16px rgba(0,0,0,0.1); }
+    .qr-url { font-size: 0.7rem; color: var(--muted-fg); word-break: break-all; max-width: 20rem; text-align: center; }
+
+    /* ── REVEAL / FINAL ── */
+    .reveal-wrap { max-width: 40rem; margin: 0 auto; }
+    .reveal-item { display: flex; align-items: center; gap: 1rem; padding: 1rem; background: var(--card); border-radius: 1rem; border: 1px solid var(--border); margin-bottom: 0.75rem; opacity: 0; transform: translateY(16px); transition: opacity 0.4s, transform 0.4s; }
+    .reveal-item.shown { opacity: 1; transform: translateY(0); }
+    .reveal-rank { font-family: 'Fredoka', sans-serif; font-size: 1.8rem; min-width: 2.5rem; }
+    .reveal-info { flex: 1; }
+    .reveal-name { font-family: 'Fredoka', sans-serif; font-size: 1.2rem; }
+    .reveal-score { font-size: 0.85rem; color: var(--muted-fg); }
+    .reveal-total { font-family: 'Fredoka', sans-serif; font-size: 1.4rem; color: var(--primary); }
+
+    /* ── HOF ── */
+    .hof-entry { display: flex; align-items: center; gap: 0.75rem; padding: 0.6rem 0; border-bottom: 1px solid var(--muted); }
+
+    /* ── TWO COLUMN LAYOUT ── */
+    .two-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    @media(min-width: 900px) { .two-col { grid-template-columns: 1fr 1fr; } }
+    .three-col { display: grid; grid-template-columns: 1fr; gap: 2rem; }
+    @media(min-width: 1100px) { .three-col { grid-template-columns: 2fr 1fr; } }
+
+    /* ── ANIMATIONS ── */
+    @keyframes bounce { to { transform: translateY(-8px); } }
     @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:0.4} }
-
-    /* ── FINISHED FLAG ── */
-    .flag-anim { font-size: 4rem; display: inline-block; animation: wiggle 1s 3; }
-    @keyframes wiggle {
-      0%,100%{transform:rotate(0)} 25%{transform:rotate(10deg)} 75%{transform:rotate(-10deg)}
-    }
-
-    /* ── PULSE TEXT ── */
-    .pulse-text { animation: textpulse 2s infinite; }
+    @keyframes wiggle { 0%,100%{transform:rotate(0)} 25%{transform:rotate(8deg)} 75%{transform:rotate(-8deg)} }
+    @keyframes fadeIn { from { opacity:0; transform: translateY(10px); } to { opacity:1; transform: translateY(0); } }
     @keyframes textpulse { 0%,100%{opacity:1} 50%{opacity:0.5} }
-
-    /* ── NO SESSION ── */
-    .no-session { text-align: center; padding: 2rem; }
-    .no-session .big-icon { font-size: 4rem; margin-bottom: 1rem; }
-
-    /* ── RACING BG PARTICLES ── */
-    .particles { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 0; }
-    .particle {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.2;
-      animation: floatUp 3s ease-in-out infinite;
-    }
-    @keyframes floatUp {
-      0%,100%{ transform: translateY(0) scale(1); }
-      50%{ transform: translateY(-20px) scale(1.3); }
-    }
-    .main > * { position: relative; z-index: 1; }
-
-    /* ── RACING BG ── */
-    body.racing { background: linear-gradient(to bottom, hsl(142,50%,97%), hsl(36,80%,97%)); }
-
-    /* ── FADE IN ── */
-    @keyframes fadeIn { from { opacity:0; transform: translateY(12px); } to { opacity:1; transform: translateY(0); } }
+    @keyframes floatBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
     .fade-in { animation: fadeIn 0.35s ease both; }
+    .pulse-text { animation: textpulse 2s infinite; }
+    .flag-anim { font-size: 4rem; display: inline-block; animation: wiggle 1s 3; }
+    .bob { animation: floatBob 2s ease-in-out infinite; }
+
+    /* ── LANE COLORS ── */
+    .lane-fill-red    { background: linear-gradient(90deg, #c0392b, #e74c3c); }
+    .lane-fill-blue   { background: linear-gradient(90deg, #1a5276, #2980b9); }
+    .lane-fill-green  { background: linear-gradient(90deg, #1e8449, #27ae60); }
+    .lane-fill-purple { background: linear-gradient(90deg, #6c3483, #8e44ad); }
+    .lane-fill-orange { background: linear-gradient(90deg, #ba4a00, #e67e22); }
+    .lane-fill-pink   { background: linear-gradient(90deg, #a93226, #e91e8c); }
+    .lane-fill-yellow { background: linear-gradient(90deg, #9a7d0a, #d4ac0d); }
+    .lane-fill-cyan   { background: linear-gradient(90deg, #0e6655, #17a589); }
   </style>
 </head>
 <body>
 
-<!-- HEADER -->
 <div class="header">
-  <span style="font-size:1.5rem">🐌</span>
-  <h1>Corsa delle Lumache</h1>
+  <div class="header-left">
+    <span style="font-size:2rem">🐌</span>
+    <div>
+      <h1 class="fredoka" style="font-size:1.5rem" id="pageTitle">Corsa delle Lumache</h1>
+      <p class="text-xs muted" id="pageSubtitle"></p>
+    </div>
+  </div>
+  <div class="header-right" id="headerButtons"></div>
 </div>
 
-<!-- MAIN -->
-<main class="main" id="main">
-  <div id="app"></div>
-</main>
-
-<!-- PARTICLES (shown during racing) -->
-<div class="particles" id="particles" style="display:none"></div>
+<main class="main" id="app"></main>
 
 <script>
-// ─────────────────────────────────────────────
-//  CONFIG & STATE
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+//  DETERMINA MODALITÀ: host o join
+// ═══════════════════════════════════════════════════════════════
+const urlParams = new URLSearchParams(window.location.search);
+const MODE = urlParams.get('mode') || (window.location.pathname.includes('host') ? 'host' : 'join');
+// Parametri join
+const SESSION_ID_PARAM = urlParams.get('session');
+const LEGACY_RACE_ID   = urlParams.get('race');
+// Costanti
+const TRACK_LENGTH = 5000;
 const COLORS = ['red','blue','green','purple','orange','pink','yellow','cyan'];
 const SNAIL_COLORS = {
   red:    { shell1:'#c0392b', shell2:'#e74c3c', shell3:'#ff6b6b', body1:'#e67e22', body2:'#f39c12' },
@@ -322,164 +224,89 @@ const SNAIL_COLORS = {
   cyan:   { shell1:'#0e6655', shell2:'#17a589', shell3:'#76d7c4', body1:'#148f77', body2:'#1abc9c' },
 };
 
-const params = new URLSearchParams(window.location.search);
-const SESSION_ID = params.get('session');
-const LEGACY_RACE_ID = params.get('race');
-
-// App state
-let step = 'setup';           // setup | waiting | racing | finished
-let nameInput = '';
-let colorInput = 'green';
-let session = null;
-let currentRaceId = LEGACY_RACE_ID || null;
-let race = null;
-let participants = [];
-let participantId = null;
-let myName = '';
-let myColor = 'green';
-
-// Refs (mutable, not tied to re-render)
-let volumeVal = 0;
-let positionVal = 0;
-let lastSaveTime = 0;
-let raceStatusVal = 'waiting';
-let trackLengthVal = 5000;
-let finishFired = false;
-let displayPosition = 0;
-
-// Loop handles
-let movementRafId = null;
-let saveIntervalId = null;
-let displayIntervalId = null;
-
-// Subscriptions
-let unsubSession = null;
-let unsubRace = null;
-let unsubParticipants = null;
-
-// Mic
-let micActive = false;
-let micStream = null;
-let micAudioCtx = null;
-let micAnalyser = null;
-let micRafId = null;
-let permissionDenied = false;
-
-// ─────────────────────────────────────────────
-//  BASE44 SDK LOADER
-// ─────────────────────────────────────────────
-// We load Base44 SDK from the page's own context via a tiny bridge
-// Because this is a standalone HTML, we use fetch to call the Base44 REST API directly.
-// The app ID is extracted from the current URL.
-
-// ── Extract appId from the preview URL  ──────
-// Preview URLs are: https://preview-sandbox--<appId>.base44.app
-// or the published URL if custom domain. We grab it from meta or derive it.
+// ═══════════════════════════════════════════════════════════════
+//  API — chiama Base44 REST direttamente
+//  Richiede che l'utente sia già autenticato (cookie/localStorage)
+// ═══════════════════════════════════════════════════════════════
 function getAppId() {
-  // Try to read from a meta tag injected by Base44 (not always present in standalone)
   const meta = document.querySelector('meta[name="base44-app-id"]');
   if (meta) return meta.content;
-  // Try to derive from hostname: preview-sandbox--<appId>.base44.app
-  const match = window.location.hostname.match(/--([a-f0-9]+)\.base44\.app/);
-  if (match) return match[1];
-  return null;
+  const m = window.location.hostname.match(/--([a-f0-9]+)\.base44\.app/);
+  if (m) return m[1];
+  // fallback: prendi da localStorage se l'app l'ha salvato
+  return localStorage.getItem('b44_app_id') || null;
 }
 
 const APP_ID = getAppId();
-const API_BASE = `https://api.base44.com/api/apps/${APP_ID}`;
+const API_BASE = APP_ID ? `https://api.base44.com/api/apps/${APP_ID}` : null;
 
-// Simple in-memory entity cache keyed by entity+id
-const _cache = {};
-
-// Auth token (from cookie or localStorage – Base44 sets it automatically)
-function getAuthToken() {
-  // Base44 stores the token in a cookie named 'base44_token' or similar
-  const cookieMatch = document.cookie.match(/(?:^|;\s*)base44_token=([^;]+)/);
-  if (cookieMatch) return decodeURIComponent(cookieMatch[1]);
+function getToken() {
+  const m = document.cookie.match(/(?:^|;\s*)base44_token=([^;]+)/);
+  if (m) return decodeURIComponent(m[1]);
   return localStorage.getItem('base44_auth_token') || '';
 }
 
-async function apiRequest(method, path, body) {
-  const token = getAuthToken();
-  const res = await fetch(`${API_BASE}${path}`, {
+async function api(method, path, body) {
+  if (!API_BASE) throw new Error('APP_ID non trovato. Apri questa pagina dall\'app Base44.');
+  const token = getToken();
+  const r = await fetch(`${API_BASE}${path}`, {
     method,
-    headers: {
-      'Content-Type': 'application/json',
-      ...(token ? { Authorization: `Bearer ${token}` } : {}),
-    },
-    ...(body ? { body: JSON.stringify(body) } : {}),
+    headers: { 'Content-Type': 'application/json', ...(token ? { Authorization: `Bearer ${token}` } : {}) },
+    ...(body !== undefined ? { body: JSON.stringify(body) } : {}),
   });
-  if (!res.ok) throw new Error(`API ${method} ${path} failed: ${res.status}`);
-  return res.json();
+  if (!r.ok) throw new Error(`API ${method} ${path}: ${r.status}`);
+  return r.json();
 }
 
-// Entity helpers
-const entities = {
-  filter: (entity, query) => apiRequest('POST', `/entities/${entity}/query`, { filters: query }),
-  create: (entity, data) => apiRequest('POST', `/entities/${entity}`, data),
-  update: (entity, id, data) => apiRequest('PATCH', `/entities/${entity}/${id}`, data),
+const db = {
+  list:   (e)         => api('GET',   `/entities/${e}`),
+  filter: (e, q)      => api('POST',  `/entities/${e}/query`, { filters: q }),
+  create: (e, d)      => api('POST',  `/entities/${e}`, d),
+  update: (e, id, d)  => api('PATCH', `/entities/${e}/${id}`, d),
 };
 
-// Real-time subscribe via polling (since standalone HTML can't use SDK WebSocket)
-function subscribePolled(entity, callback, intervalMs = 1500) {
-  let lastSeen = {};
+// Polling subscriber — restituisce funzione unsub
+function subscribe(entity, cb, ms = 1200) {
   let stopped = false;
+  let lastSeen = {};
   async function poll() {
     if (stopped) return;
     try {
-      const list = await apiRequest('GET', `/entities/${entity}`);
+      const list = await db.list(entity);
       list.forEach(item => {
         const prev = lastSeen[item.id];
-        if (!prev) {
-          callback({ type: 'create', id: item.id, data: item });
-        } else if (prev.updated_date !== item.updated_date) {
-          callback({ type: 'update', id: item.id, data: item });
-        }
+        if (!prev) cb({ type: 'create', id: item.id, data: item });
+        else if (prev.updated_date !== item.updated_date) cb({ type: 'update', id: item.id, data: item });
         lastSeen[item.id] = item;
       });
-      // detect deletes
       Object.keys(lastSeen).forEach(id => {
-        if (!list.find(i => i.id === id)) {
-          callback({ type: 'delete', id, data: null });
-          delete lastSeen[id];
-        }
+        if (!list.find(i => i.id === id)) { cb({ type: 'delete', id, data: null }); delete lastSeen[id]; }
       });
-    } catch(e) { /* ignore */ }
-    if (!stopped) setTimeout(poll, intervalMs);
+    } catch {}
+    if (!stopped) setTimeout(poll, ms);
   }
   poll();
   return () => { stopped = true; };
 }
 
-// ─────────────────────────────────────────────
-//  SVG SNAIL
-// ─────────────────────────────────────────────
+// ═══════════════════════════════════════════════════════════════
+//  SVG LUMACA
+// ═══════════════════════════════════════════════════════════════
 function snailSVG(color, size) {
   const c = SNAIL_COLORS[color] || SNAIL_COLORS.green;
-  const w = size, h = size * 0.75;
-  return `<svg viewBox="0 0 100 75" width="${w}" height="${h}" style="overflow:visible">
+  return `<svg viewBox="0 0 100 75" width="${size}" height="${size*0.75}" style="overflow:visible;display:block">
     <defs>
-      <filter id="sh-${color}"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000044"/></filter>
-      <radialGradient id="sg-${color}" cx="35%" cy="30%" r="65%">
-        <stop offset="0%" stop-color="${c.shell3}"/>
-        <stop offset="50%" stop-color="${c.shell2}"/>
-        <stop offset="100%" stop-color="${c.shell1}"/>
-      </radialGradient>
-      <linearGradient id="bg-${color}" x1="0%" y1="0%" x2="0%" y2="100%">
-        <stop offset="0%" stop-color="${c.body2}"/>
-        <stop offset="100%" stop-color="${c.body1}"/>
-      </linearGradient>
-      <radialGradient id="sdw-${color}" cx="50%" cy="50%" r="50%">
-        <stop offset="0%" stop-color="#00000033"/>
-        <stop offset="100%" stop-color="#00000000"/>
-      </radialGradient>
+      <filter id="sh${color}"><feDropShadow dx="1" dy="2" stdDeviation="2" flood-color="#00000044"/></filter>
+      <radialGradient id="sg${color}" cx="35%" cy="30%" r="65%"><stop offset="0%" stop-color="${c.shell3}"/><stop offset="50%" stop-color="${c.shell2}"/><stop offset="100%" stop-color="${c.shell1}"/></radialGradient>
+      <linearGradient id="bg${color}" x1="0%" y1="0%" x2="0%" y2="100%"><stop offset="0%" stop-color="${c.body2}"/><stop offset="100%" stop-color="${c.body1}"/></linearGradient>
+      <radialGradient id="sdw${color}" cx="50%" cy="50%" r="50%"><stop offset="0%" stop-color="#00000033"/><stop offset="100%" stop-color="#00000000"/></radialGradient>
     </defs>
-    <ellipse cx="52" cy="72" rx="28" ry="5" fill="url(#sdw-${color})"/>
-    <ellipse cx="38" cy="58" rx="28" ry="10" fill="url(#bg-${color})" filter="url(#sh-${color})"/>
+    <ellipse cx="52" cy="72" rx="28" ry="5" fill="url(#sdw${color})"/>
+    <ellipse cx="38" cy="58" rx="28" ry="10" fill="url(#bg${color})" filter="url(#sh${color})"/>
     <ellipse cx="36" cy="55" rx="18" ry="5" fill="${c.body2}" opacity="0.35"/>
-    <ellipse cx="16" cy="54" rx="12" ry="10" fill="url(#bg-${color})"/>
+    <ellipse cx="16" cy="54" rx="12" ry="10" fill="url(#bg${color})"/>
     <ellipse cx="13" cy="51" rx="7" ry="5" fill="${c.body2}" opacity="0.4"/>
-    <ellipse cx="52" cy="44" rx="26" ry="24" fill="url(#sg-${color})" filter="url(#sh-${color})"/>
+    <ellipse cx="52" cy="44" rx="26" ry="24" fill="url(#sg${color})" filter="url(#sh${color})"/>
     <path d="M52,26 Q68,30 68,44 Q68,58 52,62 Q36,62 36,48 Q36,36 48,32" fill="none" stroke="${c.shell1}" stroke-width="2.5" stroke-linecap="round" opacity="0.7"/>
     <path d="M52,34 Q62,37 62,44 Q62,54 52,56 Q42,54 42,46 Q42,38 50,36" fill="none" stroke="${c.shell1}" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
     <circle cx="53" cy="44" r="5" fill="${c.shell2}" opacity="0.6"/>
@@ -500,470 +327,708 @@ function snailSVG(color, size) {
   </svg>`;
 }
 
-// ─────────────────────────────────────────────
-//  RENDER FUNCTIONS
-// ─────────────────────────────────────────────
-function render() {
-  const app = document.getElementById('app');
-  const particles = document.getElementById('particles');
+function esc(s) { return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
 
-  // Particles during racing
-  if (step === 'racing') {
-    document.body.classList.add('racing');
-    particles.style.display = 'block';
-    if (!particles.children.length) buildParticles(particles);
-  } else {
-    document.body.classList.remove('racing');
-    particles.style.display = 'none';
+// ═══════════════════════════════════════════════════════════════
+//  SHARED HELPERS
+// ═══════════════════════════════════════════════════════════════
+function trackHTML(pct, id = '') {
+  const sl = Math.min(pct, 94);
+  return `<div class="track-labels"><span>Partenza</span><span>${Math.round(pct)}%</span><span>🏁 Arrivo</span></div>
+  <div class="track-bg">
+    <div class="track-fill" id="tf${id}" style="width:${pct}%"></div>
+    <div class="track-snail" id="ts${id}" style="left:calc(${sl}% - 8px)">🐌</div>
+  </div>`;
+}
+
+function rankEmoji(i) { return ['🥇','🥈','🥉'][i] || `${i+1}.`; }
+
+// ═══════════════════════════════════════════════════════════════
+//
+//  ██╗  ██╗ ██████╗ ███████╗████████╗
+//  ██║  ██║██╔═══██╗██╔════╝╚══██╔══╝
+//  ███████║██║   ██║███████╗   ██║   
+//  ██╔══██║██║   ██║╚════██║   ██║   
+//  ██║  ██║╚██████╔╝███████║   ██║   
+//
+// ═══════════════════════════════════════════════════════════════
+const Host = (() => {
+  let sessionId = null, session = null;
+  let raceId = null, race = null;
+  let participants = [];
+  let hallOfFame = [];
+  let view = 'race'; // 'race' | 'reveal'
+  let revealIndex = 0;
+  let unsubRace = null, unsubParts = null, unsubSession = null;
+  let partsInterval = null;
+  let currentRaceIdRef = null;
+
+  function status() { return race?.status || 'waiting'; }
+  function sorted() { return [...participants].sort((a,b)=>(b.position||0)-(a.position||0)); }
+  function sessionScores() { return session?.scores || {}; }
+  function joinUrl() { return sessionId ? `${window.location.origin}${window.location.pathname.replace('host','join')}?session=${sessionId}` : ''; }
+
+  // ── RENDER ──────────────────────────────────────────────────
+  function render() {
+    // subtitle
+    const sub = document.getElementById('pageSubtitle');
+    if (sub && session) sub.textContent = `Gara #${(session.race_ids?.length||1)} · Sessione in corso`;
+
+    // header buttons
+    const hb = document.getElementById('headerButtons');
+    hb.innerHTML = '';
+    // participants badge
+    const badge = document.createElement('div');
+    badge.className = 'badge-pill';
+    badge.innerHTML = `<span>👥</span><span>${participants.length}</span><span class="muted text-sm">partecipanti</span>`;
+    hb.appendChild(badge);
+
+    if (status() === 'waiting' && participants.length >= 1) {
+      const b = document.createElement('button');
+      b.className = 'btn lg'; b.innerHTML = '▶ VIA!'; b.onclick = startRace;
+      hb.appendChild(b);
+    }
+    if (status() === 'finished') {
+      const b1 = document.createElement('button');
+      b1.className = 'btn lg'; b1.innerHTML = '→ Continua'; b1.onclick = continueRace;
+      hb.appendChild(b1);
+      const b2 = document.createElement('button');
+      b2.className = 'btn lg yellow-outline'; b2.innerHTML = '🏆 Fine: classifica finale'; b2.onclick = endSession;
+      hb.appendChild(b2);
+    }
+
+    const app = document.getElementById('app');
+    if (view === 'reveal') { renderReveal(app); return; }
+
+    if (status() === 'waiting') renderWaiting(app);
+    else if (status() === 'racing') renderRacing(app);
+    else if (status() === 'finished') renderFinished(app);
   }
 
-  if (!SESSION_ID && !LEGACY_RACE_ID) {
-    app.innerHTML = `
-      <div class="no-session fade-in">
-        <div class="big-icon">🐌</div>
-        <h2 class="fredoka" style="font-size:1.4rem;margin-bottom:0.5rem">Nessuna gara trovata</h2>
-        <p class="muted text-sm">Scansiona il QR Code dello schermo dell'host per unirti a una gara.</p>
-      </div>`;
-    return;
+  function renderWaiting(app) {
+    const url = joinUrl();
+    const qrSrc = url ? `https://api.qrserver.com/v1/create-qr-code/?size=240x240&data=${encodeURIComponent(url)}` : '';
+    app.innerHTML = `<div class="fade-in two-col">
+      <div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem">
+        <h2 class="fredoka" style="font-size:1.4rem">Inquadra il QR Code per unirti!</h2>
+        <p class="muted">Scansiona con la fotocamera del telefono</p>
+        ${url ? `<div class="qr-wrap"><div class="qr-box"><img src="${esc(qrSrc)}" width="240" height="240" alt="QR"></div><p class="qr-url">${esc(url)}</p></div>` : '<p class="muted">Caricamento...</p>'}
+      </div>
+      <div>
+        <h3 class="fredoka mt-2" style="font-size:1.2rem;margin-bottom:1rem">Partecipanti in attesa:</h3>
+        ${participants.length === 0
+          ? `<div class="card text-center" style="padding:3rem"><div class="bob" style="font-size:4rem;margin-bottom:1rem">🐌</div><p class="muted">In attesa di partecipanti...</p></div>`
+          : `<div class="grid2">${participants.map(p=>{
+              const key=`${p.name}__${p.color}`;
+              const score=Math.round(sessionScores()[key]||0);
+              return `<div class="participant-card">
+                ${snailSVG(p.color,40)}
+                <div><div class="participant-name">${esc(p.name)}</div>${score>0?`<div class="participant-pts">${score} pt</div>`:''}</div>
+              </div>`;
+            }).join('')}</div>`
+        }
+      </div>
+    </div>`;
   }
 
-  const displayName = myName || nameInput;
-  const displayColor = myColor || colorInput;
-  const tl = race?.track_length || trackLengthVal;
-  const progress = Math.min((displayPosition / tl) * 100, 100);
-  const myScore = Math.round((displayPosition / tl) * 1000);
-
-  if (step === 'setup') {
-    app.innerHTML = `
-      <div class="step fade-in">
-        <div class="text-center space-y-2" style="margin-bottom:2rem">
-          <h2 class="fredoka" style="font-size:1.6rem">Crea la tua Lumaca!</h2>
-          <p class="muted text-sm">Scegli un nome e un colore</p>
+  function renderRacing(app) {
+    const s = sorted();
+    const scores = sessionScores();
+    app.innerHTML = `<div class="fade-in three-col">
+      <div>
+        <div class="flex items-center gap-3 mt-2" style="margin-bottom:1rem">
+          <span style="font-size:2rem">🏁</span>
+          <h2 class="fredoka" style="font-size:1.4rem">Gara in Corso!</h2>
         </div>
-        <div class="space-y-6">
-          <div class="space-y-2">
-            <label class="label">Nome della lumaca</label>
-            <input id="nameInput" class="input" placeholder="es. Turbo, Flash, Speedy..." maxlength="20" value="${escHtml(nameInput)}" />
+        <div class="card">
+          <div class="race-lanes" id="raceLanes">${raceLanesHTML(s)}</div>
+        </div>
+      </div>
+      <div class="card" style="align-self:start">
+        <h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Live</h3>
+        <div id="lbRows">${lbHTML(s, scores)}</div>
+      </div>
+    </div>`;
+  }
+
+  function renderFinished(app) {
+    const s = sorted();
+    const winner = s[0];
+    const scores = sessionScores();
+    app.innerHTML = `<div class="fade-in">
+      ${winner ? `<div class="winner-box" style="margin-bottom:2rem">
+        <span class="winner-trophy">🏆</span>
+        <h2 class="fredoka" style="font-size:2rem;margin-bottom:0.5rem">Vincitore!</h2>
+        <div class="flex items-center justify-center gap-4 mt-4">
+          ${snailSVG(winner.color,80)}
+          <span class="winner-name">${esc(winner.name)}</span>
+        </div>
+        <p class="muted mt-3">Scegli come continuare ↑</p>
+      </div>` : ''}
+      <div class="three-col">
+        <div class="card">
+          <div class="race-lanes">${raceLanesHTML(s)}</div>
+        </div>
+        <div class="card" style="align-self:start">
+          <h3 class="fredoka" style="font-size:1.1rem;margin-bottom:1rem">🏆 Classifica Finale</h3>
+          <div>${lbHTML(s, scores)}</div>
+        </div>
+      </div>
+    </div>`;
+  }
+
+  function renderReveal(app) {
+    const s = sorted();
+    const scores = sessionScores();
+    app.innerHTML = `<div class="fade-in reveal-wrap">
+      <div class="text-center" style="margin-bottom:2rem">
+        <span style="font-size:4rem">🏁</span>
+        <h2 class="fredoka" style="font-size:2rem;margin-top:0.5rem">Risultati Finali</h2>
+      </div>
+      <div id="revealList">
+        ${s.map((p,i)=>{
+          const key=`${p.name}__${p.color}`;
+          const racePts = Math.round(((p.position||0)/TRACK_LENGTH)*1000);
+          const totalPts = Math.round(scores[key]||0);
+          return `<div class="reveal-item${i<revealIndex?' shown':''}" id="revealItem${i}">
+            <div class="reveal-rank">${rankEmoji(i)}</div>
+            ${snailSVG(p.color,48)}
+            <div class="reveal-info">
+              <div class="reveal-name">${esc(p.name)}</div>
+              <div class="reveal-score">Questa gara: ${racePts} pt · Totale: ${totalPts} pt</div>
+            </div>
+            <div class="reveal-total">${totalPts}</div>
+          </div>`;
+        }).join('')}
+      </div>
+      <div class="text-center mt-6">
+        ${revealIndex < s.length
+          ? `<button class="btn lg" id="revealBtn">Rivela prossimo 👁</button>`
+          : `<div>
+              ${hofHTML()}
+              <button class="btn lg mt-6" id="backBtn">← Nuova Gara</button>
+            </div>`
+        }
+      </div>
+    </div>`;
+
+    document.getElementById('revealBtn')?.addEventListener('click', () => {
+      revealIndex++;
+      renderReveal(app);
+    });
+    document.getElementById('backBtn')?.addEventListener('click', () => { view='race'; render(); });
+  }
+
+  function hofHTML() {
+    if (!hallOfFame.length) return '';
+    return `<div class="card mt-6">
+      <h3 class="fredoka" style="font-size:1.2rem;margin-bottom:1rem">⭐ Hall of Fame</h3>
+      ${hallOfFame.map(e=>`<div class="hof-entry">
+        ${snailSVG(e.color||'green',40)}
+        <div>
+          <div class="fredoka">${esc(e.name)}</div>
+          <div class="text-xs muted">${e.race_count} gare vinte · ${e.session_id?.slice(0,8)||''}</div>
+        </div>
+      </div>`).join('')}
+    </div>`;
+  }
+
+  function raceLanesHTML(sorted) {
+    return sorted.map((p,i)=>{
+      const pct = Math.min(((p.position||0)/TRACK_LENGTH)*100, 100);
+      const sl = Math.min(pct,94);
+      return `<div class="race-lane">
+        <div class="lane-header">
+          <span class="lane-rank">${rankEmoji(i)}</span>
+          ${snailSVG(p.color,28)}
+          <span class="lane-name">${esc(p.name)}</span>
+          <span class="lane-pct">${Math.round(pct)}%</span>
+        </div>
+        <div class="lane-track">
+          <div class="lane-fill lane-fill-${p.color}" style="width:${pct}%"></div>
+          <div class="lane-snail" style="left:calc(${sl}% - 8px)">🐌</div>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function lbHTML(sorted, scores) {
+    return sorted.map((p,i)=>{
+      const key=`${p.name}__${p.color}`;
+      const racePts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);
+      const totalPts=Math.round(scores[key]||0);
+      return `<div class="lb-row">
+        <div class="lb-rank">${rankEmoji(i)}</div>
+        ${snailSVG(p.color,32)}
+        <div class="lb-info">
+          <div class="lb-name">${esc(p.name)}</div>
+          <div class="lb-pts">gara: ${racePts}pt · tot: ${totalPts}pt</div>
+        </div>
+        <div class="lb-score">${racePts}</div>
+      </div>`;
+    }).join('');
+  }
+
+  // ── ACTIONS ─────────────────────────────────────────────────
+  async function startRace() {
+    const updated = await db.update('Race', raceId, { status: 'racing' });
+    race = updated;
+    render();
+  }
+
+  async function continueRace() {
+    const newRace = await db.create('Race', { status: 'waiting', track_length: TRACK_LENGTH });
+    const prev = [...participants];
+    participants = [];
+    raceId = newRace.id;
+    race = newRace;
+    currentRaceIdRef = newRace.id;
+
+    await Promise.all(prev.map(p => db.create('RaceParticipant', {
+      race_id: newRace.id, name: p.name, color: p.color, position: 0, finished: false,
+    })));
+    const fresh = await db.filter('RaceParticipant', { race_id: newRace.id });
+    participants = fresh;
+
+    const updSess = await db.update('Session', sessionId, {
+      race_ids: [...(session.race_ids||[]), newRace.id],
+      current_race_id: newRace.id,
+    });
+    session = updSess;
+    view = 'race';
+    attachRaceSubscriptions();
+    render();
+  }
+
+  async function endSession() {
+    const winnerNames = session?.winner_names || [];
+    if (winnerNames.length >= 3) {
+      const first = winnerNames[0];
+      if (winnerNames.every(n=>n===first) && first) {
+        const wp = participants.find(p=>p.name===first);
+        await db.create('HallOfFame', { name:first, color:wp?.color||'green', session_id:sessionId, race_count:winnerNames.length });
+        hallOfFame = await db.list('HallOfFame');
+      }
+    }
+    await db.update('Session', sessionId, { status: 'finished' });
+    view = 'reveal';
+    revealIndex = 0;
+    render();
+  }
+
+  // ── SUBSCRIPTIONS ────────────────────────────────────────────
+  function attachRaceSubscriptions() {
+    if (unsubRace) unsubRace();
+    if (unsubParts) unsubParts();
+    if (partsInterval) clearInterval(partsInterval);
+
+    unsubRace = subscribe('Race', ev => {
+      if (ev.id !== raceId) return;
+      if (ev.type === 'update') {
+        const wasFinished = race?.status === 'finished';
+        race = ev.data;
+        if (!wasFinished && race.status === 'finished') onRaceFinished();
+        render();
+      }
+    }, 1000);
+
+    unsubParts = subscribe('RaceParticipant', ev => {
+      if (ev.data?.race_id && ev.data.race_id !== currentRaceIdRef) return;
+      if (ev.type === 'create') { if (!participants.find(p=>p.id===ev.id)) participants.push(ev.data); }
+      else if (ev.type === 'update') participants = participants.map(p=>p.id===ev.id?ev.data:p);
+      else if (ev.type === 'delete') participants = participants.filter(p=>p.id!==ev.id);
+      // update just the lanes in DOM without full re-render during racing
+      if (race?.status === 'racing') updateRacingDOM();
+      else render();
+    }, 800);
+
+    // Fallback poll for participants
+    partsInterval = setInterval(async () => {
+      if (raceId === currentRaceIdRef) {
+        participants = await db.filter('RaceParticipant', { race_id: raceId });
+        if (race?.status === 'racing') updateRacingDOM();
+        else render();
+      }
+    }, 3000);
+  }
+
+  function updateRacingDOM() {
+    const lanes = document.getElementById('raceLanes');
+    const lb = document.getElementById('lbRows');
+    const s = sorted();
+    if (lanes) lanes.innerHTML = raceLanesHTML(s);
+    if (lb) lb.innerHTML = lbHTML(s, sessionScores());
+  }
+
+  async function onRaceFinished() {
+    if (!session || !raceId) return;
+    const s = sorted();
+    const winnerName = s[0]?.name || '';
+    const newScores = { ...(session.scores||{}) };
+    participants.forEach(p => {
+      const key=`${p.name}__${p.color}`;
+      const pts=Math.round(((p.position||0)/TRACK_LENGTH)*1000);
+      newScores[key]=(newScores[key]||0)+pts;
+    });
+    const updSess = await db.update('Session', sessionId, {
+      scores: newScores,
+      winner_names: [...(session.winner_names||[]), winnerName],
+      race_count: (session.race_count||0)+1,
+    });
+    session = updSess;
+    render();
+  }
+
+  // ── INIT ─────────────────────────────────────────────────────
+  async function init() {
+    document.getElementById('pageTitle').textContent = 'Corsa delle Lumache — Host';
+    render(); // mostra schermata vuota subito
+
+    hallOfFame = await db.list('HallOfFame').catch(()=>[]);
+
+    const sess = await db.create('Session', { status:'active', race_count:0, scores:{}, race_ids:[], winner_names:[] });
+    session = sess;
+    sessionId = sess.id;
+
+    const r = await db.create('Race', { status:'waiting', track_length:TRACK_LENGTH });
+    race = r;
+    raceId = r.id;
+    currentRaceIdRef = r.id;
+
+    await db.update('Session', sessionId, { race_ids:[r.id], current_race_id:r.id });
+
+    attachRaceSubscriptions();
+    render();
+  }
+
+  return { init };
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+//
+//       ██╗ ██████╗ ██╗███╗   ██╗
+//       ██║██╔═══██╗██║████╗  ██║
+//       ██║██║   ██║██║██╔██╗ ██║
+//  ██   ██║██║   ██║██║██║╚██╗██║
+//  ╚█████╔╝╚██████╔╝██║██║ ╚████║
+//
+// ═══════════════════════════════════════════════════════════════
+const Join = (() => {
+  const SESSION_ID = SESSION_ID_PARAM;
+  const LEGACY_RID = LEGACY_RACE_ID;
+
+  let step = 'setup';
+  let nameInput = '', colorInput = 'green';
+  let session = null, currentRaceId = LEGACY_RID || null;
+  let race = null, participants = [];
+  let participantId = null, myName = '', myColor = 'green';
+
+  let volumeVal = 0, positionVal = 0, trackLengthVal = 5000;
+  let displayPosition = 0, finishFired = false;
+
+  let movementRafId = null, saveIntervalId = null, displayIntervalId = null;
+  let micActive = false, micStream = null, micAudioCtx = null, micAnalyser = null, micRafId = null, permDenied = false;
+  let unsubSess = null, unsubRace = null, unsubParts = null;
+
+  // ── RENDER ──────────────────────────────────────────────────
+  function render() {
+    const app = document.getElementById('app');
+    const displayName = myName || nameInput;
+    const displayColor = myColor || colorInput;
+    const tl = race?.track_length || trackLengthVal;
+    const pct = Math.min((displayPosition / tl) * 100, 100);
+    const myScore = Math.round((displayPosition / tl) * 1000);
+
+    if (!SESSION_ID && !LEGACY_RID) {
+      app.innerHTML = `<div class="join-center fade-in"><div class="text-center">
+        <div style="font-size:4rem;margin-bottom:1rem">🐌</div>
+        <h2 class="fredoka" style="font-size:1.4rem;margin-bottom:0.5rem">Nessuna gara trovata</h2>
+        <p class="muted">Scansiona il QR Code dello schermo dell'host per unirti a una gara.</p>
+      </div></div>`;
+      return;
+    }
+
+    if (step === 'setup') {
+      app.innerHTML = `<div class="join-center fade-in"><div class="join-step">
+        <div class="text-center" style="margin-bottom:2rem">
+          <h2 class="fredoka" style="font-size:1.6rem">Crea la tua Lumaca!</h2>
+          <p class="muted text-sm mt-1">Scegli un nome e un colore</p>
+        </div>
+        <div>
+          <div style="margin-bottom:1.5rem">
+            <label class="lbl">Nome della lumaca</label>
+            <input id="nameInp" class="input" placeholder="es. Turbo, Flash, Speedy..." maxlength="20" value="${esc(nameInput)}" />
           </div>
-          <div class="space-y-3">
-            <label class="label">Colore del vestito</label>
-            <div class="color-grid">
-              ${COLORS.map(c => `
-                <button class="color-btn ${colorInput === c ? 'selected' : ''}" data-color="${c}">
-                  ${snailSVG(c, 40)}
-                  <span>${c}</span>
-                </button>`).join('')}
+          <div style="margin-bottom:1.5rem">
+            <label class="lbl">Colore del vestito</label>
+            <div class="grid4">${COLORS.map(c=>`
+              <button class="color-btn${colorInput===c?' selected':''}" data-color="${c}">
+                ${snailSVG(c,40)}<span>${c}</span>
+              </button>`).join('')}
             </div>
           </div>
-          <div class="preview-box">
-            ${snailSVG(colorInput, 80)}
-            <p class="fredoka" style="font-size:1.1rem;margin-top:0.5rem">${escHtml(nameInput) || '???'}</p>
+          <div class="preview-box" style="margin-bottom:1.5rem">
+            ${snailSVG(colorInput,80)}
+            <p class="fredoka" style="font-size:1.1rem;margin-top:0.5rem" id="previewName">${esc(nameInput)||'???'}</p>
           </div>
-          <button class="btn" id="joinBtn" ${!nameInput.trim() ? 'disabled' : ''}>🐌 Unisciti alla Gara!</button>
+          <button class="btn full lg" id="joinBtn" ${!nameInput.trim()?'disabled':''}>🐌 Unisciti alla Gara!</button>
         </div>
-      </div>`;
+      </div></div>`;
 
-    document.getElementById('nameInput').addEventListener('input', e => {
-      nameInput = e.target.value;
-      // live update preview & button
-      document.querySelector('.preview-box p').textContent = nameInput || '???';
-      document.getElementById('joinBtn').disabled = !nameInput.trim();
-    });
-    document.querySelectorAll('.color-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        colorInput = btn.dataset.color;
-        render();
+      document.getElementById('nameInp').addEventListener('input', e => {
+        nameInput = e.target.value;
+        document.getElementById('previewName').textContent = nameInput || '???';
+        document.getElementById('joinBtn').disabled = !nameInput.trim();
       });
-    });
-    document.getElementById('joinBtn').addEventListener('click', joinRace);
-  }
+      document.querySelectorAll('.color-btn').forEach(b => b.addEventListener('click', ()=>{ colorInput=b.dataset.color; render(); }));
+      document.getElementById('joinBtn').addEventListener('click', joinRace);
+    }
 
-  else if (step === 'waiting') {
-    app.innerHTML = `
-      <div class="step text-center fade-in" style="display:flex;flex-direction:column;align-items:center;gap:2rem">
-        <div>${snailSVG(displayColor, 100)}</div>
+    else if (step === 'waiting') {
+      app.innerHTML = `<div class="join-center fade-in"><div class="join-step text-center" style="display:flex;flex-direction:column;align-items:center;gap:2rem">
+        <div>${snailSVG(displayColor,100)}</div>
         <div>
-          <h2 class="fredoka" style="font-size:1.5rem">${escHtml(displayName)}</h2>
+          <h2 class="fredoka" style="font-size:1.5rem">${esc(displayName)}</h2>
           <p class="muted mt-2">In attesa che l'host avvii la gara...</p>
         </div>
         <div class="dots"><div class="dot"></div><div class="dot"></div><div class="dot"></div></div>
-      </div>`;
-  }
+      </div></div>`;
+    }
 
-  else if (step === 'racing') {
-    app.innerHTML = `
-      <div class="step fade-in space-y-6">
+    else if (step === 'racing') {
+      app.innerHTML = `<div class="join-center fade-in"><div class="join-step" style="display:flex;flex-direction:column;gap:1.5rem">
         <div class="text-center">
-          <div style="display:flex;justify-content:center">${snailSVG(displayColor, 80)}</div>
-          <h2 class="fredoka" style="font-size:1.2rem;margin-top:0.5rem">${escHtml(displayName)}</h2>
-          <div class="score-box mt-3">
-            <div class="score-num" id="scoreNum">${myScore}</div>
-            <p class="muted text-sm">punti</p>
-          </div>
+          <div style="display:flex;justify-content:center">${snailSVG(displayColor,80)}</div>
+          <h2 class="fredoka" style="font-size:1.2rem;margin-top:0.5rem">${esc(displayName)}</h2>
+          <div class="score-box mt-3"><div class="score-num" id="scoreNum">${myScore}</div><p class="muted text-sm">punti</p></div>
         </div>
-        <div class="card">
-          ${trackHTML(progress)}
+        <div class="card">${trackHTML(pct,'player')}</div>
+        <div class="card" id="micCard">
+          ${micActive ? activeMicHTML() : inactiveMicHTML()}
         </div>
-        <div class="card">
-          <div class="mic-wrap" id="micWrap">
-            ${micActive ? activeMicHTML() : inactiveMicHTML()}
-          </div>
-        </div>
-      </div>`;
+      </div></div>`;
 
-    if (!micActive) {
-      document.getElementById('startMicBtn')?.addEventListener('click', startMic);
+      if (!micActive) document.getElementById('startMicBtn')?.addEventListener('click', startMic);
+    }
+
+    else if (step === 'finished') {
+      app.innerHTML = `<div class="join-center fade-in"><div class="join-step text-center" style="display:flex;flex-direction:column;align-items:center;gap:1.5rem">
+        <div class="flag-anim">🏁</div>
+        <div>${snailSVG(displayColor,80)}</div>
+        <h2 class="fredoka" style="font-size:2rem">${esc(displayName)}</h2>
+        <div class="score-box full"><div class="score-num" style="font-size:4rem">${myScore}</div><p class="muted">punti questa gara</p></div>
+        <div class="card full">${trackHTML(pct,'fin')}</div>
+        <p class="muted text-sm pulse-text">In attesa della prossima gara... 👀</p>
+      </div></div>`;
     }
   }
 
-  else if (step === 'finished') {
-    app.innerHTML = `
-      <div class="step text-center fade-in space-y-6" style="display:flex;flex-direction:column;align-items:center">
-        <div class="flag-anim">🏁</div>
-        <div>${snailSVG(displayColor, 80)}</div>
-        <h2 class="fredoka" style="font-size:2rem;font-weight:700">${escHtml(displayName)}</h2>
-        <div class="score-box" style="width:100%">
-          <div class="score-num" style="font-size:4rem">${myScore}</div>
-          <p class="muted">punti questa gara</p>
-        </div>
-        <div class="card" style="width:100%">${trackHTML(progress)}</div>
-        <p class="muted text-sm pulse-text">In attesa della prossima gara... 👀</p>
-      </div>`;
+  function inactiveMicHTML() {
+    return `<div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem">
+      <div class="mic-icon-wrap">🎤</div>
+      <button class="btn lg" id="startMicBtn" style="max-width:16rem">🎤 Attiva Microfono</button>
+      ${permDenied?'<p style="color:var(--destructive);font-size:0.85rem">Accesso negato. Controlla i permessi.</p>':''}
+    </div>`;
   }
-}
-
-function trackHTML(progress) {
-  const pct = Math.min(progress, 100);
-  const snailLeft = Math.min(pct, 94);
-  return `
-    <div class="track-wrap">
-      <div class="track-labels">
-        <span>Partenza</span>
-        <span>${Math.round(pct)}%</span>
-        <span>🏁 Arrivo</span>
-      </div>
-      <div class="track-bg">
-        <div class="track-fill" id="trackFill" style="width:${pct}%"></div>
-        <div class="track-snail" id="trackSnail" style="left:calc(${snailLeft}% - 8px)">🐌</div>
-      </div>
-    </div>`;
-}
-
-function inactiveMicHTML() {
-  return `
-    <div class="text-center" style="display:flex;flex-direction:column;align-items:center;gap:1rem">
-      <div class="mic-icon-wrap"><div class="mic-icon">🎤</div></div>
-      <button class="btn" id="startMicBtn" style="max-width:16rem">🎤 Attiva Microfono</button>
-      ${permissionDenied ? '<p style="color:var(--destructive,#e74c3c);font-size:0.85rem">Accesso al microfono negato. Controlla i permessi del browser.</p>' : ''}
-    </div>`;
-}
-
-function activeMicHTML() {
-  const barCount = 12;
-  const bars = Array.from({length: barCount}, (_,i) => `<div class="bar" id="bar${i}" style="height:0.5rem"></div>`).join('');
-  return `
-    <div class="text-center">
+  function activeMicHTML() {
+    const bars = Array.from({length:12},(_,i)=>`<div class="bar" id="bar${i}"></div>`).join('');
+    return `<div class="text-center">
       <p class="fredoka" style="font-size:1rem;margin-bottom:0.75rem">GRIDA PER FAR CORRERE LA TUA LUMACA! 🐌💨</p>
       <div class="bars">${bars}</div>
-      <div class="mic-status">
-        <div class="mic-dot active" id="micDot"></div>
-        <span class="muted text-sm" id="micLabel">In attesa...</span>
-      </div>
+      <div class="mic-status"><div class="mic-dot active"></div><span class="muted text-sm" id="micLbl">In attesa...</span></div>
     </div>`;
-}
-
-function buildParticles(container) {
-  const colors = ['#27ae60','#f39c12','#9b59b6','#3498db','#e74c3c','#1abc9c','#e67e22','#e91e8c'];
-  colors.forEach((bg, i) => {
-    const size = 8 + (i % 3) * 6;
-    const div = document.createElement('div');
-    div.className = 'particle';
-    div.style.cssText = `
-      width:${size}px;height:${size}px;
-      left:${10+i*11}%;top:${20+(i%4)*15}%;
-      background:${bg};
-      animation-duration:${2+i*0.4}s;
-      animation-delay:${i*0.3}s;
-    `;
-    container.appendChild(div);
-  });
-}
-
-function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-// ─────────────────────────────────────────────
-//  TRACK UPDATE (no full re-render during racing)
-// ─────────────────────────────────────────────
-function updateTrackDOM() {
-  const tl = trackLengthVal;
-  const pct = Math.min((displayPosition / tl) * 100, 100);
-  const snailLeft = Math.min(pct, 94);
-  const fill = document.getElementById('trackFill');
-  const snail = document.getElementById('trackSnail');
-  const scoreEl = document.getElementById('scoreNum');
-  if (fill) fill.style.width = pct + '%';
-  if (snail) snail.style.left = `calc(${snailLeft}% - 8px)`;
-  if (scoreEl) scoreEl.textContent = Math.round((displayPosition / tl) * 1000);
-}
-
-function updateBarsDOM(vol) {
-  const barCount = 12;
-  for (let i = 0; i < barCount; i++) {
-    const el = document.getElementById('bar' + i);
-    if (!el) continue;
-    const threshold = i / barCount;
-    const active = vol > threshold;
-    const height = active ? 20 + (i / barCount) * 60 : 8;
-    el.style.height = height + 'px';
-    if (active) {
-      el.style.background = vol > 0.7 ? 'hsl(0,80%,55%)' : vol > 0.4 ? 'hsl(36,80%,55%)' : 'hsl(142,50%,42%)';
-    } else {
-      el.style.background = 'hsl(120,15%,90%)';
-    }
   }
-  const label = document.getElementById('micLabel');
-  if (label) {
-    label.textContent = vol < 0.1 ? 'In attesa...' : vol < 0.4 ? 'Più forte!' : vol < 0.7 ? 'Bene!' : 'FANTASTICO! 🔥';
+
+  function updateRacingDOM() {
+    const tl = trackLengthVal;
+    const pct = Math.min((displayPosition/tl)*100,100);
+    const sl = Math.min(pct,94);
+    const fill = document.getElementById('tfplayer');
+    const snail = document.getElementById('tsplayer');
+    const score = document.getElementById('scoreNum');
+    if (fill) fill.style.width = pct+'%';
+    if (snail) snail.style.left = `calc(${sl}% - 8px)`;
+    if (score) score.textContent = Math.round((displayPosition/tl)*1000);
   }
-}
 
-// ─────────────────────────────────────────────
-//  MIC
-// ─────────────────────────────────────────────
-async function startMic() {
-  try {
-    micStream = await navigator.mediaDevices.getUserMedia({ audio: true });
-    micAudioCtx = new (window.AudioContext || window.webkitAudioContext)();
-    const source = micAudioCtx.createMediaStreamSource(micStream);
-    micAnalyser = micAudioCtx.createAnalyser();
-    micAnalyser.fftSize = 256;
-    micAnalyser.smoothingTimeConstant = 0.3;
-    source.connect(micAnalyser);
-    micActive = true;
-    permissionDenied = false;
-
-    const data = new Uint8Array(micAnalyser.frequencyBinCount);
-    function readMic() {
-      micAnalyser.getByteFrequencyData(data);
-      let sum = 0;
-      for (let i = 0; i < data.length; i++) sum += data[i];
-      const normalized = Math.min(sum / data.length / 80, 1);
-      volumeVal = normalized;
-      updateBarsDOM(normalized);
-      micRafId = requestAnimationFrame(readMic);
+  function updateBarsDOM(vol) {
+    for(let i=0;i<12;i++){
+      const el=document.getElementById('bar'+i);
+      if(!el) continue;
+      const active=vol>(i/12);
+      el.style.height=(active?20+(i/12)*60:8)+'px';
+      el.style.background=active?(vol>0.7?'hsl(0,80%,55%)':vol>0.4?'hsl(36,80%,55%)':'hsl(142,50%,42%)'):'hsl(120,15%,90%)';
     }
-    readMic();
-    // Re-render the mic section only
-    const micWrap = document.getElementById('micWrap');
-    if (micWrap) {
-      micWrap.innerHTML = activeMicHTML();
-    }
-  } catch(err) {
-    permissionDenied = true;
-    const micWrap = document.getElementById('micWrap');
-    if (micWrap) micWrap.innerHTML = inactiveMicHTML();
-    document.getElementById('startMicBtn')?.addEventListener('click', startMic);
+    const lbl=document.getElementById('micLbl');
+    if(lbl) lbl.textContent=vol<0.1?'In attesa...':vol<0.4?'Più forte!':vol<0.7?'Bene!':'FANTASTICO! 🔥';
   }
-}
 
-function stopMic() {
-  if (micRafId) cancelAnimationFrame(micRafId);
-  micStream?.getTracks().forEach(t => t.stop());
-  micAudioCtx?.close();
-  micActive = false;
-  volumeVal = 0;
-}
-
-// ─────────────────────────────────────────────
-//  GAME LOOP
-// ─────────────────────────────────────────────
-function startGameLoop() {
-  stopGameLoop();
-  let lastTime = null;
-
-  function movementLoop(ts) {
-    if (lastTime !== null) {
-      const delta = (ts - lastTime) / 1000;
-      if (volumeVal >= 0.05) {
-        const speed = volumeVal * 300;
-        positionVal = Math.min(positionVal + speed * delta, trackLengthVal);
+  // ── MIC ─────────────────────────────────────────────────────
+  async function startMic() {
+    try {
+      micStream = await navigator.mediaDevices.getUserMedia({audio:true});
+      micAudioCtx = new (window.AudioContext||window.webkitAudioContext)();
+      const src = micAudioCtx.createMediaStreamSource(micStream);
+      micAnalyser = micAudioCtx.createAnalyser();
+      micAnalyser.fftSize = 256; micAnalyser.smoothingTimeConstant = 0.3;
+      src.connect(micAnalyser);
+      micActive = true; permDenied = false;
+      const data = new Uint8Array(micAnalyser.frequencyBinCount);
+      function readMic() {
+        micAnalyser.getByteFrequencyData(data);
+        let sum=0; for(let i=0;i<data.length;i++) sum+=data[i];
+        volumeVal = Math.min(sum/data.length/80,1);
+        updateBarsDOM(volumeVal);
+        micRafId = requestAnimationFrame(readMic);
       }
+      readMic();
+      const mc=document.getElementById('micCard');
+      if(mc){ mc.innerHTML=activeMicHTML(); }
+    } catch {
+      permDenied=true;
+      const mc=document.getElementById('micCard');
+      if(mc){ mc.innerHTML=inactiveMicHTML(); document.getElementById('startMicBtn')?.addEventListener('click',startMic); }
     }
-    lastTime = ts;
-    movementRafId = requestAnimationFrame(movementLoop);
   }
-  movementRafId = requestAnimationFrame(movementLoop);
 
-  saveIntervalId = setInterval(() => {
-    const newPos = positionVal;
-    const finished = newPos >= trackLengthVal;
-    if (!participantId || !currentRaceId) return;
-
-    entities.update('RaceParticipant', participantId, {
-      position: newPos,
-      finished,
-      ...(finished ? { finish_time: new Date().toISOString() } : {}),
-    });
-
-    if (finished && !finishFired) {
-      finishFired = true;
-      entities.update('Race', currentRaceId, { status: 'finished', winner_id: participantId });
-    }
-  }, 200);
-
-  displayIntervalId = setInterval(() => {
-    displayPosition = positionVal;
-    updateTrackDOM();
-  }, 33);
-}
-
-function stopGameLoop() {
-  if (movementRafId) { cancelAnimationFrame(movementRafId); movementRafId = null; }
-  if (saveIntervalId) { clearInterval(saveIntervalId); saveIntervalId = null; }
-  if (displayIntervalId) { clearInterval(displayIntervalId); displayIntervalId = null; }
-}
-
-// ─────────────────────────────────────────────
-//  JOIN RACE
-// ─────────────────────────────────────────────
-async function joinRace() {
-  const trimmed = nameInput.trim();
-  if (!trimmed || !currentRaceId) return;
-  const participant = await entities.create('RaceParticipant', {
-    race_id: currentRaceId,
-    name: trimmed,
-    color: colorInput,
-    position: 0,
-    finished: false,
-  });
-  participantId = participant.id;
-  myName = trimmed;
-  myColor = colorInput;
-  setStep('waiting');
-}
-
-// ─────────────────────────────────────────────
-//  STEP MANAGEMENT
-// ─────────────────────────────────────────────
-function setStep(newStep) {
-  if (step === 'racing' && newStep !== 'racing') {
-    stopGameLoop();
+  function stopMic() {
+    if(micRafId) cancelAnimationFrame(micRafId);
+    micStream?.getTracks().forEach(t=>t.stop());
+    micAudioCtx?.close();
+    micActive=false; volumeVal=0;
   }
-  if (step !== 'racing' && newStep === 'racing') {
-    positionVal = 0;
-    displayPosition = 0;
-    startGameLoop();
+
+  // ── GAME LOOP ────────────────────────────────────────────────
+  function startLoop() {
+    stopLoop();
+    let lastTime=null;
+    function move(ts){
+      if(lastTime!==null){
+        const delta=(ts-lastTime)/1000;
+        if(volumeVal>=0.05) positionVal=Math.min(positionVal+volumeVal*300*delta,trackLengthVal);
+      }
+      lastTime=ts;
+      movementRafId=requestAnimationFrame(move);
+    }
+    movementRafId=requestAnimationFrame(move);
+
+    saveIntervalId=setInterval(()=>{
+      const pos=positionVal, fin=pos>=trackLengthVal;
+      if(!participantId||!currentRaceId) return;
+      db.update('RaceParticipant',participantId,{position:pos,finished:fin,...(fin?{finish_time:new Date().toISOString()}:{})});
+      if(fin&&!finishFired){ finishFired=true; db.update('Race',currentRaceId,{status:'finished',winner_id:participantId}); }
+    },200);
+
+    displayIntervalId=setInterval(()=>{ displayPosition=positionVal; updateRacingDOM(); },33);
   }
-  step = newStep;
-  render();
-}
 
-// ─────────────────────────────────────────────
-//  SUBSCRIPTIONS
-// ─────────────────────────────────────────────
-function subscribeToRace(raceId) {
-  if (unsubRace) unsubRace();
-  if (unsubParticipants) unsubParticipants();
+  function stopLoop(){
+    if(movementRafId){cancelAnimationFrame(movementRafId);movementRafId=null;}
+    if(saveIntervalId){clearInterval(saveIntervalId);saveIntervalId=null;}
+    if(displayIntervalId){clearInterval(displayIntervalId);displayIntervalId=null;}
+  }
 
-  unsubRace = subscribePolled('Race', event => {
-    if (event.id !== raceId) return;
-    if (event.type === 'update') {
-      race = event.data;
-      trackLengthVal = race.track_length || 5000;
-      raceStatusVal = race.status;
+  // ── STEP ────────────────────────────────────────────────────
+  function setStep(s){
+    if(step==='racing'&&s!=='racing') stopLoop();
+    if(step!=='racing'&&s==='racing'){ positionVal=0;displayPosition=0;startLoop(); }
+    step=s; render();
+  }
 
-      if (race.status === 'racing' && (step === 'waiting' || step === 'finished')) setStep('racing');
-      if (race.status === 'finished' && step === 'racing') setStep('finished');
-    }
-  }, 1000);
+  // ── JOIN ────────────────────────────────────────────────────
+  async function joinRace(){
+    const n=nameInput.trim();
+    if(!n||!currentRaceId) return;
+    const p=await db.create('RaceParticipant',{race_id:currentRaceId,name:n,color:colorInput,position:0,finished:false});
+    participantId=p.id; myName=n; myColor=colorInput;
+    setStep('waiting');
+  }
 
-  unsubParticipants = subscribePolled('RaceParticipant', event => {
-    if (event.data?.race_id !== raceId) return;
-    if (event.type === 'create') {
-      if (!participants.find(p => p.id === event.id)) participants.push(event.data);
-    } else if (event.type === 'update') {
-      participants = participants.map(p => p.id === event.id ? event.data : p);
-    } else if (event.type === 'delete') {
-      participants = participants.filter(p => p.id !== event.id);
-    }
-  }, 1000);
-}
+  // ── RACE SWITCH ──────────────────────────────────────────────
+  function switchRace(newRaceId){
+    if(!newRaceId||newRaceId===currentRaceId) return;
+    currentRaceId=newRaceId; finishFired=false; positionVal=0; displayPosition=0;
+    race=null; participants=[]; participantId=null;
 
-function switchRace(newRaceId) {
-  if (!newRaceId || newRaceId === currentRaceId) return;
-  currentRaceId = newRaceId;
-  finishFired = false;
-  positionVal = 0;
-  displayPosition = 0;
-  raceStatusVal = 'waiting';
-  race = null;
-  participants = [];
-  participantId = null;
+    db.filter('Race',{id:newRaceId}).then(l=>{ if(l[0]){race=l[0];trackLengthVal=race.track_length||5000;} });
 
-  // Load race
-  entities.filter('Race', { id: newRaceId }).then(list => {
-    if (list[0]) {
-      race = list[0];
-      trackLengthVal = race.track_length || 5000;
-    }
-  });
-
-  // Find our slot (host copies participants between races)
-  let pollCount = 0;
-  function findMySlot() {
-    entities.filter('RaceParticipant', { race_id: newRaceId }).then(list => {
-      participants = list;
-      if (myName) {
-        const mine = list.find(p => p.name === myName && p.color === myColor);
-        if (mine) {
-          participantId = mine.id;
-          positionVal = 0;
-          if (step !== 'setup') setStep('waiting');
-        } else if (pollCount < 10) {
-          pollCount++;
-          setTimeout(findMySlot, 500);
+    let poll=0;
+    function findSlot(){
+      db.filter('RaceParticipant',{race_id:newRaceId}).then(list=>{
+        participants=list;
+        if(myName){
+          const mine=list.find(p=>p.name===myName&&p.color===myColor);
+          if(mine){ participantId=mine.id; positionVal=0; if(step!=='setup') setStep('waiting'); }
+          else if(poll<10){ poll++; setTimeout(findSlot,500); }
         }
-      }
-    });
-  }
-  findMySlot();
-  subscribeToRace(newRaceId);
-}
-
-// ─────────────────────────────────────────────
-//  INIT
-// ─────────────────────────────────────────────
-async function init() {
-  render();
-
-  if (!SESSION_ID && !LEGACY_RACE_ID) return;
-
-  if (SESSION_ID) {
-    // Load session
-    const sessions = await entities.filter('Session', { id: SESSION_ID });
-    if (sessions[0]) {
-      session = sessions[0];
-      if (session.current_race_id) switchRace(session.current_race_id);
+      });
     }
+    findSlot();
 
-    // Subscribe to session updates
-    unsubSession = subscribePolled('Session', event => {
-      if (event.id !== SESSION_ID) return;
-      if (event.type === 'update') {
-        session = event.data;
-        if (session.current_race_id && session.current_race_id !== currentRaceId) {
-          switchRace(session.current_race_id);
-        }
+    if(unsubRace) unsubRace();
+    if(unsubParts) unsubParts();
+
+    unsubRace=subscribe('Race',ev=>{
+      if(ev.id!==newRaceId) return;
+      if(ev.type==='update'){
+        race=ev.data; trackLengthVal=race.track_length||5000;
+        if(race.status==='racing'&&(step==='waiting'||step==='finished')) setStep('racing');
+        if(race.status==='finished'&&step==='racing') setStep('finished');
       }
-    }, 1500);
-  } else if (LEGACY_RACE_ID) {
-    switchRace(LEGACY_RACE_ID);
+    },1000);
+
+    unsubParts=subscribe('RaceParticipant',ev=>{
+      if(ev.data?.race_id!==newRaceId) return;
+      if(ev.type==='create'&&!participants.find(p=>p.id===ev.id)) participants.push(ev.data);
+      else if(ev.type==='update') participants=participants.map(p=>p.id===ev.id?ev.data:p);
+      else if(ev.type==='delete') participants=participants.filter(p=>p.id!==ev.id);
+    },1000);
+  }
+
+  // ── INIT ────────────────────────────────────────────────────
+  async function init(){
+    render();
+    if(!SESSION_ID&&!LEGACY_RID) return;
+
+    if(SESSION_ID){
+      const list=await db.filter('Session',{id:SESSION_ID}).catch(()=>[]);
+      if(list[0]){ session=list[0]; if(session.current_race_id) switchRace(session.current_race_id); }
+
+      unsubSess=subscribe('Session',ev=>{
+        if(ev.id!==SESSION_ID) return;
+        if(ev.type==='update'){
+          session=ev.data;
+          if(session.current_race_id&&session.current_race_id!==currentRaceId) switchRace(session.current_race_id);
+        }
+      },1500);
+    } else if(LEGACY_RID){
+      switchRace(LEGACY_RID);
+    }
+  }
+
+  return { init };
+})();
+
+
+// ═══════════════════════════════════════════════════════════════
+//  BOOTSTRAP
+// ═══════════════════════════════════════════════════════════════
+if (!API_BASE) {
+  document.getElementById('app').innerHTML = `<div style="padding:2rem;text-align:center;color:#c0392b">
+    <p style="font-size:1.1rem;font-weight:bold">⚠️ Impossibile determinare l'App ID.</p>
+    <p style="margin-top:0.5rem;font-size:0.9rem">Apri questo file dal link dell'app Base44, oppure inserisci l'App ID nell'URL: <code>?app_id=TUO_ID</code></p>
+  </div>`;
+  // Prova comunque se c'è app_id nel query string
+  const aid = urlParams.get('app_id');
+  if (aid) { localStorage.setItem('b44_app_id', aid); location.reload(); }
+} else {
+  if (MODE === 'host') {
+    Host.init();
+  } else {
+    Join.init();
   }
 }
-
-init();
 </script>
 </body>
 </html>
